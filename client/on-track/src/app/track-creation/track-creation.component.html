@@ -1,0 +1,13 @@
+<div class="track-creation">
+    <label>Source Point:</label>
+    <input type="number" [(ngModel)]="sourceLat" placeholder="Latitude">
+    <input type="number" [(ngModel)]="sourceLng" placeholder="Longitude">
+
+    <label>Target Point:</label>
+    <input type="number" [(ngModel)]="targetLat" placeholder="Latitude">
+    <input type="number" [(ngModel)]="targetLng" placeholder="Longitude">
+
+    <button (click)="onComposeTrack()" [disabled]="!(sourceLat && sourceLng && targetLat && targetLng)">Compose Track</button>
+    <button (click)="onClearAll()">Clear All</button>
+
+</div>

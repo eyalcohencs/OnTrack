@@ -1,0 +1,14 @@
+<div class="map-container">
+    <app-track-creation
+        (composeTrack)="onComposeTrack()"
+        (clearAll)="onClearAll()"
+        [sourceLat]="sourceLat"
+        [sourceLng]="sourceLng"
+        [targetLat]="targetLat"
+        [targetLng]="targetLng">
+    </app-track-creation>
+    <div class="map-frame">
+        <div id="map"></div>
+    </div>
+    <div>Bottom</div>
+</div>    
