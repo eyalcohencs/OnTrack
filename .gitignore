@@ -1,0 +1,9 @@
+.idea/.gitignore
+.idea/misc.xml
+.idea/modules.xml
+.idea/OnTrack.iml
+.idea/vcs.xml
+.idea/inspectionProfiles/profiles_settings.xml
+/client/on-track/.angular/
+/client/on-track/node_modules/
+OnTrack.code-workspace
