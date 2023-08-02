@@ -7,3 +7,4 @@
 /client/on-track/.angular/
 /client/on-track/node_modules/
 OnTrack.code-workspace
+client/on-track/dist/on-road/
