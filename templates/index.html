@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Map Route Creator</title>
+  <!-- Add Leaflet CSS and JavaScript links -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body>
+  <h1>Map Route Creator</h1>
+  <label for="point1">Point 1 (Latitude, Longitude):</label>
+  <input type="text" id="point1" />
+
+  <label for="point2">Point 2 (Latitude, Longitude):</label>
+  <input type="text" id="point2" />
+
+  <label for="toggle">Toggle Point:</label>
+  <input type="checkbox" id="toggle" />
+
+  <div id="map" style="width: 800px; height: 400px;"></div>
+
+  <button onclick="createRoute()">Create Route</button>
+
+  <div id="trackCoordinates"></div>
+
+  <div id="responseMap" style="width: 800px; height: 400px;"></div>
+
+  <script>
+    // Initialize leaflet maps
+    var map = L.map("map").setView([0, 0], 2);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+
+    var responseMap = L.map("responseMap").setView([0, 0], 2);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(responseMap);
+
+    var firstPoint = null;
+    var secondPoint = null;
+
+    // Function to set map coordinates from input
+    function setMapCoordinates(e) {
+      var isChecked = document.getElementById("toggle").checked;
+      var input = isChecked ? document.getElementById("point2") : document.getElementById("point1");
+      input.value = e.latlng.lat.toFixed(6) + ", " + e.latlng.lng.toFixed(6);
+    }
+
+    // Event listener for the map click to set coordinates
+    map.on("click", setMapCoordinates);
+    responseMap.on("click", setMapCoordinates);
+
+    // Function to create the route
+    function createRoute() {
+      var point1 = document.getElementById("point1").value;
+      var point2 = document.getElementById("point2").value;
+      point1 = point1.split(", ")
+      point2 = point2.split(", ")
+      // Sending GET request to the server with the two inputs
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "/get_route?lat1=" + point1[0] + "&lng1=" + point1[1] + "&lat2=" + point2[0] + "&lng2=" + point2[1], true);
+
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText);
+
+          // Create an array of route coordinates
+          var routeCoordinates = response.map(function (coord) {
+            return [coord.latitude, coord.longitude];
+          });
+
+          document.getElementById("trackCoordinates").innerText = routeCoordinates;
+
+          // Create the route polyline
+          var routePolyline = L.polyline(routeCoordinates, { color: "blue" });
+
+          // Add the route polyline to the responseMap
+          routePolyline.addTo(responseMap);
+
+          // Fit the view to the route
+          responseMap.fitBounds(routePolyline.getBounds());
+        } else {
+          console.error("Failed to fetch route from the server.");
+        }
+      };
+
+      xhr.send();
+    }
+  </script>
+</body>
+</html>
