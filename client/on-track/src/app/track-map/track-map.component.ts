@@ -84,6 +84,7 @@ export class TrackMapComponent {
 
   private clearMarkersData() {
     this.sourceMarker = this.targetMarker = null;
+    this.routeLine = null;
   }
 
   private clearUserSelectionFromMap() {

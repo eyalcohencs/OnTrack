@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Polyline } from 'leaflet';
+import { GpxCreatorService } from '../services/gpx-creator-service/gpx-creator.service';
 
 @Component({
   selector: 'app-track-creation',
@@ -6,10 +8,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./track-creation.component.less']
 })
 export class TrackCreationComponent {
-    @Input() sourceLat: number = 0;
-    @Input() sourceLng: number = 0;
-    @Input() targetLat: number = 0;
-    @Input() targetLng: number = 0;
+
+  constructor(private gpxCreatorService: GpxCreatorService) {}
+  @Input() sourceLat: number;
+  @Input() sourceLng: number;
+  @Input() targetLat: number;
+  @Input() targetLng: number;
+  @Input() createdRoute: Polyline; 
 
   @Output() composeTrack = new EventEmitter<{ source: number[], target: number[] }>();
   @Output() clearAll = new EventEmitter<void>();
@@ -23,6 +28,11 @@ export class TrackCreationComponent {
   onClearAll() {
     this.clearAll.emit();
     this.sourceLat = this.sourceLng = this.targetLat = this.targetLng = null;
+  }
+
+  onCreateGPXFile() {
+    this.gpxCreatorService.createGPXFile(this.createdRoute);
+
   }
 
 }

@@ -9,5 +9,6 @@
 
     <button (click)="onComposeTrack()" [disabled]="!(sourceLat && sourceLng && targetLat && targetLng)">Compose Track</button>
     <button (click)="onClearAll()">Clear All</button>
+    <button (click)="onCreateGPXFile()" [disabled]="!createdRoute">Create GPX File</button>
 
 </div>

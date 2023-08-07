@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LatLng } from 'leaflet';
+import { LatLng, Polyline } from 'leaflet';
 
 export interface GeoPoint {
   longitude: number;
@@ -25,5 +25,13 @@ export class GeopointService {
 
   convertGeoPointsToLatLng(track: GeoPoint[]): LatLng[] {
       return track.map((geoPoint: GeoPoint) => new LatLng(geoPoint.latitude, geoPoint.longitude, geoPoint.altitude));
+  }
+
+  convertPolylineToGeoPoints(polyline: Polyline): GeoPoint[] {
+     const latLngsPoints: LatLng[] = polyline.getLatLngs() as LatLng[];
+     const geoPoints = latLngsPoints.map(
+      (latLngPoint: LatLng) => {return {longitude: latLngPoint.lng, latitude: latLngPoint.lat, altitude: latLngPoint.alt}}
+      );
+      return geoPoints;
   }
 }
