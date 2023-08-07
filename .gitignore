@@ -9,3 +9,4 @@
 /client/on-track/dist/
 OnTrack.code-workspace
 client/on-track/dist/on-road/
+node_modules/
