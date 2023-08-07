@@ -6,5 +6,6 @@
 .idea/inspectionProfiles/profiles_settings.xml
 /client/on-track/.angular/
 /client/on-track/node_modules/
+/client/on-track/dist/
 OnTrack.code-workspace
 client/on-track/dist/on-road/
