@@ -8,13 +8,15 @@ import { TrackCreationComponent } from './track-creation/track-creation.componen
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AllDataMapComponent } from './all-data-map/all-data-map.component';
+import { OsmMapComponent } from './osm-map/osm-map.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TrackMapComponent,
     TrackCreationComponent,
-    AllDataMapComponent
+    AllDataMapComponent,
+    OsmMapComponent
   ],
   imports: [
     BrowserModule,

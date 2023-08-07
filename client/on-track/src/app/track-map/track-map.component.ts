@@ -1,7 +1,9 @@
-import { Component, OnInit, AfterViewInit} from '@angular/core';
-import { Map, map, tileLayer, Marker, LatLng, Polyline, LatLngExpression, Icon} from 'leaflet';
+import { Component, ViewChild} from '@angular/core';
+import { Marker, LatLng, Polyline} from 'leaflet';
 import * as _ from "lodash";
-import { ApiService, GeoPoint } from '../services/api-service/api-service.service';
+import { ApiService } from '../services/api-service/api-service.service';
+import { OsmMapComponent } from '../osm-map/osm-map.component';
+import { GeopointService } from '../services/geopoint-service/geopoint.service';
 
 
 @Component({
@@ -9,10 +11,14 @@ import { ApiService, GeoPoint } from '../services/api-service/api-service.servic
   templateUrl: './track-map.component.html',
   styleUrls: ['./track-map.component.less']
 })
-export class TrackMapComponent implements OnInit {
-  map: Map;
-  sourceMarker: Marker | null;
-  targetMarker: Marker | null;
+export class TrackMapComponent {
+
+  constructor(
+    private apiService: ApiService,
+    private geopointService: GeopointService) {}
+
+  sourceMarker: Marker;
+  targetMarker: Marker;
   routeLine: Polyline;
 
   sourceLat: number;
@@ -20,74 +26,37 @@ export class TrackMapComponent implements OnInit {
   targetLat: number;
   targetLng: number;
 
-  constructor(private apiService: ApiService) {}
-
-  ngOnInit() {}
-
-  ngAfterViewInit(): void { 
-    this.initMap();
-    this.map.on('click', (event) => this.onMapClick(event));
-  }
-
-  private initMap(): void {
-    this.map = map('map', {
-      center: [ 32.0000, 35.0000 ],
-      zoom: 9
-    });
-    const tiles = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      minZoom: 3,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    });
-
-    tiles.addTo(this.map);
-
-  }
+  @ViewChild('osmMapComponent', { static: false }) osmMapComponent!: OsmMapComponent;
 
   onMapClick(event: any) {
     const latlng: LatLng = event.latlng;
-
     if (!this.sourceMarker) {
-      this.sourceMarker = this.addMarker(latlng, 'S');
+      this.sourceMarker = this.osmMapComponent.addMarker(latlng, 'S');
       this.updateSourcePointInput(this.sourceMarker.getLatLng());
     } else if (!this.targetMarker) {
-      this.targetMarker = this.addMarker(latlng, 'T');
-      this.updateTargetPointInput(this.sourceMarker.getLatLng());
+      this.targetMarker = this.osmMapComponent.addMarker(latlng, 'T');
+      this.updateTargetPointInput(this.targetMarker.getLatLng());
     } else {
-      this.clearMapData();
-      this.sourceMarker = this.addMarker(latlng, 'S');
+      this.clearUserSelectionFromMap();
+      this.sourceMarker = this.osmMapComponent.addMarker(latlng, 'S');
       this.updateSourcePointInput(this.sourceMarker.getLatLng());
       this.updateTargetPointInput(null);
-
     }
   }
 
-  updateSourcePointInput(latlng: LatLng) {
-    this.sourceLat = latlng.lat;
-    this.sourceLng = latlng.lng;
+  private updateSourcePointInput(latlng: LatLng) {
+    this.sourceLat = !_.isNull(latlng) ? latlng.lat : null;
+    this.sourceLng = !_.isNull(latlng) ? latlng.lng : null;
   }
 
-  updateTargetPointInput(latlng: LatLng) {
+  private updateTargetPointInput(latlng: LatLng) {
     this.targetLat = !_.isNull(latlng) ? latlng.lat : null;
     this.targetLng = !_.isNull(latlng) ? latlng.lng : null;
   }
 
-
-  addMarker(latlng: LatLngExpression, label: string): Marker {
-    const customIcon: Icon = new Icon({
-      iconUrl: 'assets/marker-icon.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34]
-    });
-
-    const marker: Marker = new Marker(latlng, { icon: customIcon }).addTo(this.map);
-    marker.bindPopup(label).openPopup();
-
-    return marker;
-  }
-
   async onComposeTrack() {
+    this.osmMapComponent.removeLayersFromMap([this.routeLine]);
+    this.routeLine = null;
     if (this.sourceMarker && this.targetMarker) {
       const sourceLatLng: LatLng = this.sourceMarker.getLatLng();
       const targetLatLng: LatLng = this.targetMarker.getLatLng();
@@ -98,43 +67,28 @@ export class TrackMapComponent implements OnInit {
           end_lat: targetLatLng.lat,
           end_lng: targetLatLng.lng,
         });
-        let latLngTrack: LatLng[] = this.convertGeoPointsToLatLng(track);
-        this.displayRouteOnMap(latLngTrack);
+        let latLngTrack: LatLng[] = this.geopointService.convertGeoPointsToLatLng(track);
+        this.routeLine = this.osmMapComponent.addRouteOnMap(latLngTrack);
       } catch (error) {
         console.log(error);
       }
     }
   }
 
-  private convertGeoPointsToLatLng(track: GeoPoint[]): LatLng[] {
-      return track.map((geoPoint: GeoPoint) => new LatLng(geoPoint.latitude, geoPoint.longitude, geoPoint.altitude));
-  }
-
-  displayRouteOnMap(coordinates: LatLngExpression[]) {
-    if (this.routeLine) {
-      this.map.removeLayer(this.routeLine);
-    }
-
-    this.routeLine = new Polyline(coordinates, {
-      color: 'blue',
-      weight: 5
-    }).addTo(this.map);
-  }
-
   onClearAll() {
-    this.clearMapData();
-    this.map.removeLayer(this.routeLine);
+    this.osmMapComponent.clearAll();
+    this.clearMarkersData();
+    this.updateSourcePointInput(null)
+    this.updateTargetPointInput(null)
   }
 
-  clearMapData() {
-    if (this.sourceMarker) {
-      this.map.removeLayer(this.sourceMarker);
-      this.sourceMarker = null;
-    }
-
-    if (this.targetMarker) {
-      this.map.removeLayer(this.targetMarker);
-      this.targetMarker = null;
-    }
+  private clearMarkersData() {
+    this.sourceMarker = this.targetMarker = null;
   }
+
+  private clearUserSelectionFromMap() {
+    this.osmMapComponent.removeLayersFromMap([this.sourceMarker, this.targetMarker]);
+    this.clearMarkersData()
+  }
+
 }

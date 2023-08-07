@@ -1,22 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/enviroment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-
-export interface GeoPoint {
-    longitude: number;
-    latitude: number;
-    time?: Date
-    altitude?: number;
-    uuid?: string;
-}
-
-export interface BasePoints {
-  start_lat: number;
-  start_lng: number;
-  end_lat: number;
-  end_lng: number;
-}
+import { BasePoints, GeoPoint } from '../geopoint-service/geopoint.service';
 
 @Injectable({
   providedIn: 'root'
