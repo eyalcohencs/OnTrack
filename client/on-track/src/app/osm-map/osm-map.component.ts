@@ -12,9 +12,12 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
 
   constructor(private elRef: ElementRef, private renderer: Renderer2) {}
   
-  static readonly OPEN_STREET_MAP_TILES: string = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-  static readonly ISRAEL_CENTER: LatLngTuple = [ 32.0000, 35.0000 ];
-  static readonly MAP_ZOOM: number = 9;
+  // static readonly OPEN_STREET_MAP_TILES: string = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+  // static readonly OPEN_STREET_MAP_TILES: string = 'http://IsraelHiking.OSM.org.il/OverlayTiles/{z}/{x}/{y}.png';
+  // static readonly OPEN_STREET_MAP_TILES: string = `https://israelhiking.osm.org.il/Hebrew/mtbTiles/{z}/{x}/{y}.png`;
+  static readonly OPEN_STREET_MAP_TILES: string = `https://israelhiking.osm.org.il/Hebrew/Tiles/{z}/{x}/{y}.png`;
+  static readonly ISRAEL_CENTER: LatLngTuple = [ 32.6000, 35.0000 ];
+  static readonly MAP_ZOOM: number = 11;
   static readonly CIRCULAR_MARKER_CONFIG: CircleMarkerOptions = {radius: 4};
   
   @Input() mapId: string;
@@ -41,8 +44,8 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
       zoom: this.zoom
     });
     const tiles = tileLayer(OsmMapComponent.OPEN_STREET_MAP_TILES, {
-      maxZoom: 18,
-      minZoom: 3,
+      maxZoom: 16,
+      minZoom: 7,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' // todod - check if need to be removed
     });
 
@@ -76,10 +79,10 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
       return all_points;
   }
 
-  addRouteOnMap(coordinates: LatLngExpression[]): Polyline {
+  addRouteOnMap(coordinates: LatLngExpression[], color: string = 'blue', weight: number = 5): Polyline {
     const polyline = new Polyline(coordinates, {
-      color: 'blue',
-      weight: 5
+      color: color,
+      weight: weight
     }).addTo(this.map);
     this.addedLayers.push(polyline);
 

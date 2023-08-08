@@ -61,13 +61,16 @@ export class TrackMapComponent {
       const sourceLatLng: LatLng = this.sourceMarker.getLatLng();
       const targetLatLng: LatLng = this.targetMarker.getLatLng();
       try {
-        const track = await this.apiService.getRoute({
+        // TODO - create new type instead of any
+        const result: any = await this.apiService.getRoute({
           start_lat: sourceLatLng.lat,
           start_lng: sourceLatLng.lng,
           end_lat: targetLatLng.lat,
           end_lng: targetLatLng.lng,
         });
-        let latLngTrack: LatLng[] = this.geopointService.convertGeoPointsToLatLng(track);
+        const track_points = result['points'];
+        const track_roads = result['roads'];
+        let latLngTrack: LatLng[] = this.geopointService.convertGeoPointsToLatLng(track_points);
         this.routeLine = this.osmMapComponent.addRouteOnMap(latLngTrack);
       } catch (error) {
         console.log(error);

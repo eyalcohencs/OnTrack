@@ -23,12 +23,27 @@ export class AllDataMapComponent {
 
   private async initMap(): Promise<void> {
     try {
-      const track: GeoPoint[] = await this.apiService.getAllPoints();
-      const latLngTrack: LatLng[] = this.geopointService.convertGeoPointsToLatLng(track);
+      const points: GeoPoint[] = await this.apiService.getAllPoints();
+      const latLngTrack: LatLng[] = this.geopointService.convertGeoPointsToLatLng(points);
       this.osmMapComponent.addCircularMarkers(latLngTrack);
+
+      const roads = await this.apiService.getAllRelations();
+      roads.forEach(road => {
+        const segment = [road['source_geo_point'], road['target_geo_point']]
+        const latLngSegment: LatLng[] = this.geopointService.convertGeoPointsToLatLng(segment);
+        this.osmMapComponent.addRouteOnMap(latLngSegment, this.deterministicHexColor(road['color']['color']));
+      });
+      
+
     } catch (error) {
       console.log(error);
     }
+  }
+
+  private deterministicHexColor(number: number): string {
+    const hexColor = '#' + (number / 13).toString().replace('.', '').slice(0, 6)
+    console.log(hexColor);
+    return hexColor;
   }
 
 }

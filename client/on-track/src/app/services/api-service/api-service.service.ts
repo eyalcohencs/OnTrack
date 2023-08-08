@@ -32,4 +32,10 @@ export class ApiService {
     return response;
   }
 
+  public async getAllRelations(): Promise<any[]> {
+    const url: string = this.baseUrl + '/get_all_relations';
+    let response = await firstValueFrom(this.http.get<any[]>(url))
+    return response;
+  }
+
 }

@@ -4,7 +4,7 @@ import json
 import uuid as uuid
 from neo4j import GraphDatabase
 
-from utils import GeoPoint
+from utils import GeoPoint, GeoRoad
 
 
 class GraphDB(ABC):
@@ -17,7 +17,7 @@ class GraphDB(ABC):
         pass
 
     @abstractmethod
-    def add_edge_to_db(self, point1, point2):
+    def add_edge_to_db(self, point1, point2, data):
         pass
 
     @abstractmethod
@@ -67,14 +67,14 @@ class Neo4jDB(GraphDB):
                 node = result.single()[0]
                 return GeoPoint(node['longitude'], node['latitude'], node['altitude'], node['time'], node['uuid'])
 
-    def add_edge_to_db(self, point1, point2):
+    def add_edge_to_db(self, point1, point2, data):
         start_uuid = point1.uuid
         end_uuid = point2.uuid
         # print(f'adding edge {point1}-{point2}')
         with self._initial_db_client() as client:
             with client.session() as session:
                 session.run(f'''MATCH (point1:GeoPoint {{ uuid: '{start_uuid}' }}), (point2:GeoPoint {{ uuid: '{end_uuid}' }})
-                    MERGE (point1)-[:ROAD]->(point2)''')
+                    MERGE (point1)-[:ROAD {{ color: {data['color']} }} ]->(point2)''')
 
     def get_point_from_db(self, point1):
         pass
@@ -86,7 +86,17 @@ class Neo4jDB(GraphDB):
         with self._initial_db_client() as client:
             with client.session() as session:
                 result = session.run("MATCH (n:GeoPoint) RETURN n")
-                converted_result = self._convert_neo4j_db_result_to_geo_point_list(result)
+                converted_result = self._convert_neo4j_db_nodes_to_geo_point_list(result)
+                return converted_result
+
+    def get_all_relations_from_db(self):
+        with self._initial_db_client() as client:
+            with client.session() as session:
+                result = session.run('''
+                MATCH (source:GeoPoint)-[relation:ROAD]->(target:GeoPoint)
+                RETURN  relation.color, source.uuid, source.longitude, source.latitude, source.altitude, source.time,
+                target.uuid, target.longitude, target.latitude, target.altitude, target.time''')
+                converted_result = self._convert_neo4j_db_relations_to_geo_roads(result)
                 return converted_result
 
     def find_shortest_path(self, source_point, target_point):
@@ -100,7 +110,7 @@ class Neo4jDB(GraphDB):
                 return self._convert_neo4j_gds_result_to_geo_point_list(result)
 
     @staticmethod
-    def _convert_neo4j_db_result_to_geo_point_list(result):
+    def _convert_neo4j_db_nodes_to_geo_point_list(result):
         geo_points = []
         for record in result:
             point = record[0]
@@ -109,14 +119,38 @@ class Neo4jDB(GraphDB):
         return geo_points
 
     @staticmethod
-    def _convert_neo4j_gds_result_to_geo_point_list(result):
+    def _convert_neo4j_db_relations_to_geo_roads(result):
+        geo_roads = []
+        for record in result:
+            geo_road = GeoRoad(
+                GeoPoint(record['source.longitude'], record['source.latitude'], record['source.altitude'],
+                         record['source.time'], record['source.uuid']),
+                GeoPoint(record['target.longitude'], record['target.latitude'], record['target.altitude'],
+                         record['target.time'], record['target.uuid']),
+                {'color': record['relation.color']}
+            )
+            geo_roads.append(geo_road)
+        return geo_roads
+
+    def _convert_neo4j_gds_result_to_geo_point_list(self, result):
         gds_result = result.single()
         nodes_on_path = gds_result['nodes_on_path']
         relationships_on_path = gds_result['relationships_on_path']
-        points_on_path = [
+        geo_points_on_path = [
             GeoPoint(point['longitude'], point['latitude'], point['altitude'], point['time'], point['uuid'])
             for point in nodes_on_path]
         # todo - create 'Road' object and return it
-        roads_on_path = relationships_on_path
-        return points_on_path
+        geo_roads = self._convert_neo4j_relations_to_geo_roads(relationships_on_path)
+        return geo_points_on_path, geo_roads
     # todo - break cache - cache the all points from db unless add or delete were made, especially for path creation
+
+    @staticmethod
+    def _convert_neo4j_relations_to_geo_roads(relations):
+        geo_roads = []
+        for relation in relations:
+            source = relation.start_node
+            source_point = GeoPoint(source['longitude'], source['latitude'], source['altitude'], source['time'], source['uuid'])
+            target = relation.end_node
+            target_point = GeoPoint(target['longitude'], target['latitude'], target['altitude'], target['time'], target['uuid'])
+            geo_roads.append(GeoRoad(source_point, target_point))
+        return geo_roads

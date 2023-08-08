@@ -15,9 +15,10 @@ def add_point_to_graph(point_to_add):
     return point_to_add
 
 
-def add_edge_to_graph(source_point, target_point):
+def add_edge_to_graph(source_point, target_point, data=None):
+    data = data if data is not None else {'color': -1}
     if not are_the_same_point_by_coordinates(source_point, target_point):
-        graph_db.add_edge_to_db(source_point, target_point)
+        graph_db.add_edge_to_db(source_point, target_point, data)
 
 
 def find_nearest_point(source_point):
@@ -39,3 +40,7 @@ def find_shortest_path(source_point, target_point):
 
 def get_all_points_in_the_graph():
     return graph_db.get_all_points_from_db()
+
+
+def get_all_relations_in_the_graph():
+    return graph_db.get_all_relations_from_db()

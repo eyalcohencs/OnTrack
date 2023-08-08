@@ -15,6 +15,7 @@ class GeoPoint:
 
     def to_dict(self):
         return {
+            'uuid': self.uuid,
             'longitude': self.longitude,
             'latitude': self.latitude,
             'altitude': self.altitude,
@@ -23,6 +24,29 @@ class GeoPoint:
 
     def __str__(self):
         return f'{self.longitude} <> {self.latitude} | {self.altitude} | {self.time}'
+
+
+class GeoRoad:
+    def __init__(self, source_geo_point, target_geo_point, color=None):
+        self.uuid = (source_geo_point.uuid or 'None') + '::' + (target_geo_point.uuid or 'None')
+        self.source_geo_point = source_geo_point
+        self.target_geo_point = target_geo_point
+        self.color = color
+
+    def to_dict(self):
+        return {
+            'uuid': self.uuid,
+            'source_geo_point': self.source_geo_point.to_dict(),
+            'target_geo_point': self.target_geo_point.to_dict(),
+            'color': self.color
+        }
+
+    def to_list_of_coordinates(self):
+        return [[self.source_geo_point.latitude, self.source_geo_point.longitude],
+                [self.target_geo_point.latitude, self.target_geo_point.longitude]]
+
+    def __str__(self):
+        return f'{self.uuid} | {self.color}'
 
 
 def gpx2df(gpx):
@@ -77,3 +101,7 @@ def create_geo_point_list(points_to_convert):
 
 def jsonify_geo_points_list(geo_point_list):
     return [point.to_dict() for point in geo_point_list]
+
+
+def jsonify_geo_roads_list(geo_road_list):
+    return [road.to_dict() for road in geo_road_list]
