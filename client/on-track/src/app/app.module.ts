@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AllDataMapComponent } from './all-data-map/all-data-map.component';
 import { OsmMapComponent } from './osm-map/osm-map.component';
 import { FileSaverModule } from 'ngx-filesaver';
+import { ManagerPageComponent } from './manager-page/manager-page.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { FileSaverModule } from 'ngx-filesaver';
     TrackMapComponent,
     TrackCreationComponent,
     AllDataMapComponent,
-    OsmMapComponent
+    OsmMapComponent,
+    ManagerPageComponent
   ],
   imports: [
     BrowserModule,

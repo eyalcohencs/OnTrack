@@ -1,14 +1,15 @@
 <div class="track-creation">
-    <label>Source Point:</label>
-    <input type="number" [(ngModel)]="sourceLat" placeholder="Latitude">
-    <input type="number" [(ngModel)]="sourceLng" placeholder="Longitude">
-
-    <label>Target Point:</label>
-    <input type="number" [(ngModel)]="targetLat" placeholder="Latitude">
-    <input type="number" [(ngModel)]="targetLng" placeholder="Longitude">
-
+    <div class="source-point-input">
+        <label class="point-label">Source Point:</label>
+        <input type="number" [(ngModel)]="sourceLat" placeholder="Latitude" disabled>
+        <input type="number" [(ngModel)]="sourceLng" placeholder="Longitude" disabled>
+    </div>
+    <div class="target-point-input">
+        <label class="point-label">Target Point:</label>
+        <input type="number" [(ngModel)]="targetLat" placeholder="Latitude" disabled>
+        <input type="number" [(ngModel)]="targetLng" placeholder="Longitude" disabled>
+    </div>
     <button (click)="onComposeTrack()" [disabled]="!(sourceLat && sourceLng && targetLat && targetLng)">Compose Track</button>
     <button (click)="onClearAll()">Clear All</button>
     <button (click)="onCreateGPXFile()" [disabled]="!createdRoute">Create GPX File</button>
-
 </div>

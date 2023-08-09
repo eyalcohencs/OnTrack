@@ -26,7 +26,7 @@ export class AllDataMapComponent {
       const points: GeoPoint[] = await this.apiService.getAllPoints();
       const latLngTrack: LatLng[] = this.geopointService.convertGeoPointsToLatLng(points);
       this.osmMapComponent.addCircularMarkers(latLngTrack);
-
+      // TODO - add type
       const roads = await this.apiService.getAllRelations();
       roads.forEach(road => {
         const segment = [road['source_geo_point'], road['target_geo_point']]

@@ -11,8 +11,6 @@ import * as _ from "lodash";
 export class OsmMapComponent implements OnInit, AfterViewInit {
 
   constructor(private elRef: ElementRef, private renderer: Renderer2) {}
-  
-  // static readonly OPEN_STREET_MAP_TILES: string = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   // static readonly OPEN_STREET_MAP_TILES: string = 'http://IsraelHiking.OSM.org.il/OverlayTiles/{z}/{x}/{y}.png';
   // static readonly OPEN_STREET_MAP_TILES: string = `https://israelhiking.osm.org.il/Hebrew/mtbTiles/{z}/{x}/{y}.png`;
   static readonly OPEN_STREET_MAP_TILES: string = `https://israelhiking.osm.org.il/Hebrew/Tiles/{z}/{x}/{y}.png`;
