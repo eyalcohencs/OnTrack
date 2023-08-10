@@ -10,6 +10,8 @@ import { AllDataMapComponent } from './all-data-map/all-data-map.component';
 import { OsmMapComponent } from './osm-map/osm-map.component';
 import { FileSaverModule } from 'ngx-filesaver';
 import { ManagerPageComponent } from './manager-page/manager-page.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { ManagerPageComponent } from './manager-page/manager-page.component';
     TrackCreationComponent,
     AllDataMapComponent,
     OsmMapComponent,
-    ManagerPageComponent
+    ManagerPageComponent,
+    LoginPageComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
