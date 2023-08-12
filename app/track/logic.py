@@ -2,14 +2,14 @@ import geopandas as geopandas
 import gpxpy
 import gpxpy.gpx
 
-import graph_service
+# import app.track.graph_service
 # import folium
 # import matplotlib
 # import mapclassify
 
-from utils import gpx2df, extract_points_of_gpx_track, reduce_points_in_track_based_on_distance, GeoPoint, GeoRoad
+from app.track.utils import gpx2df, extract_points_of_gpx_track, GeoPoint, GeoRoad
 
-from graph_service import add_point_to_graph, add_edge_to_graph
+from app.track.graph_service import add_point_to_graph, add_edge_to_graph, find_nearest_point, find_shortest_path
 
 
 # TODO - support also wkt files
@@ -45,16 +45,16 @@ def convert_gpx_to_geo_df(gpx):
 
 def calculate_route(start_lng, start_lat, end_lng, end_lat):
     start_point = GeoPoint(start_lng, start_lat)
-    first_point_on_track = graph_service.find_nearest_point(start_point)
+    first_point_on_track = find_nearest_point(start_point)
     end_point = GeoPoint(end_lng, end_lat)
-    last_point_on_track = graph_service.find_nearest_point(end_point)
+    last_point_on_track = find_nearest_point(end_point)
     first_road_on_track = GeoRoad(start_point, first_point_on_track)
     last_road_on_track = GeoRoad(end_point, last_point_on_track)
 
     route = [start_point]
     relations = [first_road_on_track]
     if first_point_on_track.uuid != last_point_on_track.uuid:
-        points_on_track, relations_on_track = graph_service.find_shortest_path(first_point_on_track, last_point_on_track)
+        points_on_track, relations_on_track = find_shortest_path(first_point_on_track, last_point_on_track)
         route = route + points_on_track
         relations = relations + relations_on_track
     route.append(end_point)

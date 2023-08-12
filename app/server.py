@@ -1,21 +1,45 @@
 import os
 
-from flask import Flask, render_template, request, jsonify
+from datetime import datetime
+from flask import Flask, render_template, request
 from flask_cors import CORS
-
-from graph_service import get_all_points_in_the_graph, get_all_relations_in_the_graph
-from logic import load_track_from_gpx_file, add_track_to_graph, calculate_route
-from utils import jsonify_geo_points_list, jsonify_geo_roads_list
+from flask_sqlalchemy import SQLAlchemy
+from app.track.graph_service import get_all_points_in_the_graph, get_all_relations_in_the_graph
+from app.track.logic import load_track_from_gpx_file, add_track_to_graph, calculate_route
+from app.track.utils import jsonify_geo_points_list, jsonify_geo_roads_list
 
 app = Flask(__name__)
 CORS(app)  # todo - remove before deployment
+# todo - move configuration to separate file and add username and password
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://scott:tiger@localhost/on_track'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-TRACKS_DIRECTORY_PATH = 'data/tracks/'
+db = SQLAlchemy(app)
+TRACKS_DIRECTORY_PATH = '../data/tracks/'
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    email = db.Column(db.String(50), unique=True)
+    date_created = db.Column(db.Date, default=datetime.utcnow)
 
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
 
 
 @app.route('/get_route', methods=['GET'])

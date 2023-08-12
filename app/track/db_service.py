@@ -1,10 +1,12 @@
+import os
 from abc import ABC, abstractmethod
 import json
 
 import uuid as uuid
 from neo4j import GraphDatabase
 
-from utils import GeoPoint, GeoRoad
+from app.track.utils import GeoPoint, GeoRoad
+from flask import current_app
 
 
 class GraphDB(ABC):
@@ -33,23 +35,22 @@ class GraphDB(ABC):
         pass
 
     @abstractmethod
+    def get_all_relations_from_db(self):
+        pass
+
+    @abstractmethod
     def find_shortest_path(self, source_point, target_point):
         pass
 
 
 class Neo4jDB(GraphDB):
-    def __init__(self):
-        super().__init__()
-        details_file = "data/neo4j_locale_details"
-        with open(details_file, 'r') as file:
-            json_data = json.load(file)
-        self.uri = json_data['uri']
-        self.username = json_data['username']
-        self.password = json_data['password']
 
     def _initial_db_client(self):
+        uri = current_app.config['NEO4J_URI']
+        # username = current_app.config['NEO4J_USERNAME']
+        # password = current_app.config['NEO4J_USERNAME']
         # driver = GraphDatabase.driver(uri, auth=(username, password))
-        driver = GraphDatabase.driver(self.uri)
+        driver = GraphDatabase.driver(uri)
         return driver
 
     def add_point_to_db(self, new_point):
