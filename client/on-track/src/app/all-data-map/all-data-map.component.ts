@@ -4,6 +4,7 @@ import { ApiService } from '../services/api-service/api-service.service';
 import { OsmMapComponent } from '../osm-map/osm-map.component';
 import { GeoPoint, GeopointService } from '../services/geopoint-service/geopoint.service';
 
+// TODO - change name to manager-map
 @Component({
   selector: 'app-all-data-map',
   templateUrl: './all-data-map.component.html',

@@ -12,6 +12,7 @@ import { FileSaverModule } from 'ngx-filesaver';
 import { ManagerPageComponent } from './manager-page/manager-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     OsmMapComponent,
     ManagerPageComponent,
     LoginPageComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule,

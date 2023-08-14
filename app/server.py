@@ -14,59 +14,59 @@ CORS(app)  # todo - remove before deployment
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://scott:tiger@localhost/on_track'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
-TRACKS_DIRECTORY_PATH = '../data/tracks/'
-
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-    email = db.Column(db.String(50), unique=True)
-    date_created = db.Column(db.Date, default=datetime.utcnow)
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-
-@app.route('/register', methods=['POST'])
-def register():
-    data = request.get_json()
-
-
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
-
-
-@app.route('/get_route', methods=['GET'])
-def get_route():
-    start_lat = request.args.get('start_lat')
-    start_lng = request.args.get('start_lng')
-    end_lat = request.args.get('end_lat')
-    end_lng = request.args.get('end_lng')
-
-    points, relations = calculate_route(start_lng, start_lat, end_lng, end_lat)
-    jsonified_points = jsonify_geo_points_list(points)
-    jsonified_roads = jsonify_geo_roads_list(relations)
-    result = {'points': jsonified_points,
-              'roads': jsonified_roads}
-    return result
-
-
-@app.route('/get_all_points', methods=['GET'])
-def get_all_points():
-    all_points = get_all_points_in_the_graph()
-    return jsonify_geo_points_list(all_points)
-
-
-@app.route('/get_all_relations', methods=['GET'])
-def get_all_relations():
-    all_relations = get_all_relations_in_the_graph()
-    return jsonify_geo_roads_list(all_relations)
+# db = SQLAlchemy(app)
+# TRACKS_DIRECTORY_PATH = '../data/tracks/'
+#
+#
+# class User(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(50))
+#     email = db.Column(db.String(50), unique=True)
+#     date_created = db.Column(db.Date, default=datetime.utcnow)
+#
+#
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
+#
+#
+# @app.route('/register', methods=['POST'])
+# def register():
+#     data = request.get_json()
+#
+#
+# @app.route('/login', methods=['POST'])
+# def login():
+#     data = request.get_json()
+#     username = data.get('username')
+#     password = data.get('password')
+#
+#
+# @app.route('/get_route', methods=['GET'])
+# def get_route():
+#     start_lat = request.args.get('start_lat')
+#     start_lng = request.args.get('start_lng')
+#     end_lat = request.args.get('end_lat')
+#     end_lng = request.args.get('end_lng')
+#
+#     points, relations = calculate_route(start_lng, start_lat, end_lng, end_lat)
+#     jsonified_points = jsonify_geo_points_list(points)
+#     jsonified_roads = jsonify_geo_roads_list(relations)
+#     result = {'points': jsonified_points,
+#               'roads': jsonified_roads}
+#     return result
+#
+#
+# @app.route('/get_all_points', methods=['GET'])
+# def get_all_points():
+#     all_points = get_all_points_in_the_graph()
+#     return jsonify_geo_points_list(all_points)
+#
+#
+# @app.route('/get_all_relations', methods=['GET'])
+# def get_all_relations():
+#     all_relations = get_all_relations_in_the_graph()
+#     return jsonify_geo_roads_list(all_relations)
 
 
 # should be asynchronicity script, use bucket to get the gpx files
@@ -86,8 +86,8 @@ def update_graph_db():
 
 
 # LOAD TRACKS FROM FILES
-# update_graph_db()
+update_graph_db()
 
 # RUN SERVER
-if __name__ == '__main__':
-    app.run(port=8001)
+# if __name__ == '__main__':
+#     app.run(port=8001)

@@ -1,3 +1,4 @@
+from flask_login import login_required
 
 from app.main import bp
 from flask import request
@@ -7,7 +8,9 @@ from app.track.logic import calculate_route
 from app.track.utils import jsonify_geo_points_list, jsonify_geo_roads_list
 
 
+# TODO - guard with user login
 @bp.route('/get_route', methods=['GET'])
+@login_required
 def get_route():
     start_lat = request.args.get('start_lat')
     start_lng = request.args.get('start_lng')
@@ -23,6 +26,7 @@ def get_route():
 
 
 @bp.route('/get_all_points', methods=['GET'])
+@login_required
 def get_all_points():
     all_points = get_all_points_in_the_graph()
     return jsonify_geo_points_list(all_points)

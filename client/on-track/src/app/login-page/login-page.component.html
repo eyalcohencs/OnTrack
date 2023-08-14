@@ -5,12 +5,13 @@
     </div>
     <div class="login-form">
       <h1>Sign in</h1>
-      <form>
-        <input type="email" placeholder="Email" required>
-        <input type="password" placeholder="Password" required>
+      <!-- <form action="#" method="post"> -->
+      <form (ngSubmit)="login()">
+        <input type="username" name='username' placeholder="Username" [(ngModel)]="username" required>
+        <input type="password" name='password' placeholder="Password" [(ngModel)]="password" required>
         <button type="submit">Sign in</button>
         <div class="or-sign"> OR </div>
-        <button type="submit">Sign up</button>
+        <button class="alternate-choice">Sign up</button>
       </form>
       <div class="forgot-password">
         <a href="#">Forgot password?</a>

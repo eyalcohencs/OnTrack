@@ -17,6 +17,7 @@ class DevelopmentConfig(Config):
     NEO4J_URI = 'bolt://localhost:7687'
     NEO4J_USERNAME = 'OnRoadLocally'
     NEO4J_PASSWORD = '12345678'
+    SECRET_KEY = 'demosecretketfordevelopmentenviroment'
 
 
 class ProductionConfig(Config):
