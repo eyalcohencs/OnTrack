@@ -50,10 +50,7 @@ def login():
     if not is_same_password:
         return make_response({'name': 'LOGIN_FAILED', 'message': 'Invalid username or password'}, 403)
 
-    # TODO - remove - login_manager handle the session
     # Create session token
-    # secret_key = current_app.config['SECRET_KEY']
-    # token = jwt.encode({'username': username}, secret_key, algorithm='HS256')
     access_token = create_access_token(identity=username)
 
     # Mark user as logged in

@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 
 from config import DevelopmentConfig
-from app.extensions import db, login_manager
+from app.extensions import db, login_manager, jwt
 from app.main import bp as main_bp
 from app.authentication import bp as auth_bp
 from app.track import bp as track_bp
@@ -19,7 +19,7 @@ def create_app(config_class=DevelopmentConfig):
     with app.app_context():
         db.create_all()
     login_manager.init_app(app)
-    jwt = JWTManager(app)
+    jwt.init_app(app)
 
     # Register blueprints here
     app.register_blueprint(main_bp)

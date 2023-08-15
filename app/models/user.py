@@ -14,8 +14,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(50), unique=True, nullable=False)
     date_created = db.Column(db.Date, default=datetime.utcnow, nullable=False)
 
-    # def __repr__(self):
-    #     return f'id: {self.id}, username: {self.first_name}'
+    def __repr__(self):
+        return f'id: {self.id}, username: {self.username}, name: {self.first_name} {self.last_name}'
 
     def to_dict(self):
         return {'id': self.id,

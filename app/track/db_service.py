@@ -47,6 +47,7 @@ class Neo4jDB(GraphDB):
 
     def _initial_db_client(self):
         uri = current_app.config['NEO4J_URI']
+        # TODO - uncomment when handling neo4j credentials
         # username = current_app.config['NEO4J_USERNAME']
         # password = current_app.config['NEO4J_USERNAME']
         # driver = GraphDatabase.driver(uri, auth=(username, password))
