@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/enviroment';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { BasePoints, GeoPoint } from '../geopoint-service/geopoint.service';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { BasePoints, GeoClculatedRoute, GeoPoint } from '../geopoint-service/geopoint.service';
+import { CookieService } from 'ngx-cookie-service';
 
 export interface LoginDetails {
   username: string;
@@ -17,9 +18,10 @@ export interface User {
   password?: string;  // TOdo - remove password
 }
 
-export interface UserSession extends User {  // TODO - rename to UserSession?
-  id: string,
-  token: string
+export interface UserSession {
+  username: string,
+  token: string,
+  user_id: string
 }
 
 
@@ -28,46 +30,58 @@ export interface UserSession extends User {  // TODO - rename to UserSession?
 })
 export class ApiService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private cookieService: CookieService) { }
 
   private baseUrl = environment.apiBaseUrl;
 
-  public async getRoute(basePoint: BasePoints): Promise<GeoPoint[]> {
+  // TODO - fix any typing
+  public async getRoute(basePoint: BasePoints): Promise<GeoClculatedRoute> {
     const url: string = this.baseUrl + '/get_route';
-
-    let queryParams: HttpParams = new HttpParams().appendAll(
+    const queryParams: HttpParams = new HttpParams().appendAll(
       {start_lat: basePoint.start_lat,
         start_lng: basePoint.start_lng,
         end_lat: basePoint.end_lat,
         end_lng: basePoint.end_lng});
+    const options: any = { 'parmas': queryParams};
+    // options['withCredentials'] = true;
 
-    let response = await firstValueFrom(this.http.get<GeoPoint[]>(url,{params:queryParams}));
+    let response: any = await firstValueFrom(this.http.get<GeoClculatedRoute>(url, options));
     return response;
   }
 
   public async getAllPoints(): Promise<GeoPoint[]> {
     const url: string = this.baseUrl + '/get_all_points';
-    let response = await firstValueFrom(this.http.get<GeoPoint[]>(url))
+    // const options = {
+    //   headers: new HttpHeaders({Authorization: `Bearer ${this.cookieService.get('token')}`}),
+    //   withCredentials: true
+    // };
+    const options = {}; // todo - remove
+    let response = await firstValueFrom(this.http.get<GeoPoint[]>(url, options))
     return response;
   }
   // TODO - change type
   public async getAllRelations(): Promise<any[]> {
     const url: string = this.baseUrl + '/get_all_relations';
-    let response = await firstValueFrom(this.http.get<any[]>(url))
+    // const options = {withCredentials: true};
+    const options = {}; // todo - remove
+    let response = await firstValueFrom(this.http.get<any[]>(url, options));
     return response;
   }
 
   public async register(user: User): Promise<boolean> {
     const url: string = this.baseUrl + '/register';
     try {
-      const result: {is_created: boolean} = await firstValueFrom(this.http.post<any>(url, {
+      const data =  {
         username: user.username,
         password: user.password,
         first_name: user.first_name,
         last_name: user.last_name,
         email: user.email
-      }));
-      // TODO - change te way to know that 201 user was created - passing dict doesn't seems to be the right way
+      };
+      const result: {is_created: boolean} = await firstValueFrom(this.http.post<any>(url, data));
+      // TODO - change the way to know that 201 user was created - passing dict doesn't seems to be the right way
       console.log('register api' + result);
       return result['is_created'];
     } catch(e) {
@@ -80,16 +94,16 @@ export class ApiService {
 
   public async login(username: string, password: string): Promise<UserSession> {
     const url: string = this.baseUrl + '/login';
-    let response: UserSession = await firstValueFrom(this.http.post<any>(url, {
-      username: username,
-      password: password}))
+    const data: any = {username: username, password: password};
+    let response: UserSession = await firstValueFrom(this.http.post<any>(url, data));
     return response;
   }
 
 
   public async logout(): Promise<boolean> {
     const url: string = this.baseUrl + '/logout';
-    let response: boolean = await firstValueFrom(this.http.post<any>(url, {}))
+    const data = {};
+    let response: boolean = await firstValueFrom(this.http.post<any>(url, data))
     return response;
   }
 

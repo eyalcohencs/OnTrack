@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ApiService, User, UserSession } from '../services/api-service/api-service.service';
+import { ApiService, User } from '../services/api-service/api-service.service';
 import { Router } from '@angular/router';
 
 @Component({

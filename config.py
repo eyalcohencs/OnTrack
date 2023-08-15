@@ -5,6 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    PERMANENT_SESSION_LIFETIME = 168
 
 
 class DevelopmentConfig(Config):
@@ -18,6 +19,7 @@ class DevelopmentConfig(Config):
     NEO4J_USERNAME = 'OnRoadLocally'
     NEO4J_PASSWORD = '12345678'
     SECRET_KEY = 'demosecretketfordevelopmentenviroment'
+    JWT_SECRET_KEY = 'demojwtsecretkey'
 
 
 class ProductionConfig(Config):
