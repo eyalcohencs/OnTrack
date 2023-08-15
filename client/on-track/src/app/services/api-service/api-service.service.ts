@@ -15,7 +15,7 @@ export interface User {
   last_name: string,
   email: string,
   username: string;
-  password?: string;  // TOdo - remove password
+  password?: string;
 }
 
 export interface UserSession {
@@ -45,26 +45,20 @@ export class ApiService {
         end_lat: basePoint.end_lat,
         end_lng: basePoint.end_lng});
     const options: any = { 'parmas': queryParams};
-    // options['withCredentials'] = true;
-
     let response: any = await firstValueFrom(this.http.get<GeoClculatedRoute>(url, options));
     return response;
   }
 
   public async getAllPoints(): Promise<GeoPoint[]> {
     const url: string = this.baseUrl + '/get_all_points';
-    // const options = {
-    //   headers: new HttpHeaders({Authorization: `Bearer ${this.cookieService.get('token')}`}),
-    //   withCredentials: true
-    // };
     const options = {}; // todo - remove
     let response = await firstValueFrom(this.http.get<GeoPoint[]>(url, options))
     return response;
   }
+  
   // TODO - change type
   public async getAllRelations(): Promise<any[]> {
     const url: string = this.baseUrl + '/get_all_relations';
-    // const options = {withCredentials: true};
     const options = {}; // todo - remove
     let response = await firstValueFrom(this.http.get<any[]>(url, options));
     return response;

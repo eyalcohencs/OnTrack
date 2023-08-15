@@ -25,7 +25,7 @@ export class SignUpComponent {
     try {
       // TODO - Validate fields
       const result: any = await this.apiService.register(this.user);
-      console.log('register compunent' + result);
+      console.log('register component' + result);
       this.router.navigate(['/login'])
 
     } catch(e) {

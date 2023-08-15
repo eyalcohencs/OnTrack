@@ -31,7 +31,6 @@ export class LoginPageComponent implements OnInit{
       const user: UserSession = await this.apiService.login(this.username, this.password);
       // TODO - add session manager service with RXJS
       this.cookieService.set('username', user.username);
-      // this.cookieService.set('user_id', user.user_id);
       this.cookieService.set('token', user.token);
       this.router.navigate(['/track-map']);
     }
