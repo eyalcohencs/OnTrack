@@ -1,7 +1,10 @@
 <div class="site" >
     <header>
         <div class="site-title"> ON TRACK</div>
-        <div><a href="/logout">Logout</a></div>
+        <div class="site-commands">
+            <div class="name"> {{helloText}}</div>
+            <button class="logout-user" (click)="logout()">Logout</button>
+        </div>
     </header>
 
     <router-outlet></router-outlet>

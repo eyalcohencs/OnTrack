@@ -1,8 +1,8 @@
 from datetime import timedelta
 
 from flask import request, jsonify, make_response
-from flask_jwt_extended import create_access_token
-from flask_login import login_user, logout_user
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_login import login_user, logout_user, login_required
 import bcrypt
 
 from app import login_manager, db
@@ -58,13 +58,18 @@ def login():
     # Mark user as logged in
     login_user(user)
 
-    return make_response(jsonify({'username': user.username, 'token': access_token}), 200)
+    # Serialize data
+    serialized_data = jsonify({'username': user.username, 'token': access_token, 'user': user.to_dict()})
+
+    return make_response(serialized_data, 200)
 
 
-@bp.route("/logout")
+@bp.route("/logout", methods=['POST'])
+@login_required
+@jwt_required()
 def logout():
     logout_user()
-    return make_response(jsonify({'is_logged_out': True}), 201)
+    return make_response(jsonify({'is_logged_out': True}), 200)
 
 
 @login_manager.request_loader
@@ -73,3 +78,12 @@ def loader_request(client_request):
         username = client_request.cookies['username']
         return User.query.filter_by(username=username).first()
     return None
+
+
+@bp.route("/get_user_details", methods=['GET'])
+@login_required
+@jwt_required()
+def get_user_details():
+    username = get_jwt_identity()
+    user = User.query.filter_by(username=username).first()
+    return make_response(jsonify(user.to_dict()), 200)

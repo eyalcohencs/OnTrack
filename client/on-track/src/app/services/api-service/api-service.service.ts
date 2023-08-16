@@ -21,7 +21,7 @@ export interface User {
 export interface UserSession {
   username: string,
   token: string,
-  user_id: string
+  user: User
 }
 
 
@@ -55,7 +55,7 @@ export class ApiService {
     let response = await firstValueFrom(this.http.get<GeoPoint[]>(url, options))
     return response;
   }
-  
+
   // TODO - change type
   public async getAllRelations(): Promise<any[]> {
     const url: string = this.baseUrl + '/get_all_relations';
@@ -85,7 +85,6 @@ export class ApiService {
     
   }
   
-
   public async login(username: string, password: string): Promise<UserSession> {
     const url: string = this.baseUrl + '/login';
     const data: any = {username: username, password: password};
@@ -93,11 +92,18 @@ export class ApiService {
     return response;
   }
 
-
-  public async logout(): Promise<boolean> {
+  // TODO - handle typing
+  public async logout(): Promise<{is_logged_out: boolean}> {
     const url: string = this.baseUrl + '/logout';
     const data = {};
-    let response: boolean = await firstValueFrom(this.http.post<any>(url, data))
+    let response: {is_logged_out: boolean} = await firstValueFrom(this.http.post<any>(url, data))
+    return response;
+  }
+
+  public async getUserDetails(): Promise<User> {
+    const url: string = this.baseUrl + '/get_user_details';
+    const options = {}; // todo - remove
+    let response: any = await firstValueFrom(this.http.get<any[]>(url, options));
     return response;
   }
 
