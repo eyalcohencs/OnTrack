@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserStateService } from './services/user-state-service/user-state.service';
 import { Subscription } from 'rxjs';
-import { User } from './services/api-service/api-service.service';
+import { User } from './services/user-enum';
 import * as _ from 'lodash';
 import { AuthenticationService } from './services/authentication-service/authentication.service';
 import { Router } from '@angular/router';
@@ -21,6 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'on-track';
   
   helloText: string = '';
+  showLogoutButton: boolean = false;
 
   private userStateSubscription: Subscription;
 
@@ -29,7 +30,11 @@ export class AppComponent implements OnInit, OnDestroy {
       this.userStateSubscription = this.userStateService.user$.subscribe(
         (user: User) => {
           if (!_.isNull(user)) {
-            this.helloText = 'hello, ' + user.first_name + ' ' + user.last_name;
+            this.helloText = 'Hello, ' + user.first_name + ' ' + user.last_name;
+            this.showLogoutButton = true;
+          } else {
+            this.helloText = 'Hello';
+            this.showLogoutButton = false;
           }
         });
       this.userStateService.fetchUserData();

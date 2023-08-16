@@ -4,18 +4,11 @@ import { environment } from 'src/enviroment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BasePoints, GeoClculatedRoute, GeoPoint } from '../geopoint-service/geopoint.service';
 import { CookieService } from 'ngx-cookie-service';
+import { User } from '../user-enum';
 
 export interface LoginDetails {
   username: string;
   password: string;
-}
-
-export interface User {
-  first_name: string,
-  last_name: string,
-  email: string,
-  username: string;
-  password?: string;
 }
 
 export interface UserSession {
@@ -39,28 +32,24 @@ export class ApiService {
   // TODO - fix any typing
   public async getRoute(basePoint: BasePoints): Promise<GeoClculatedRoute> {
     const url: string = this.baseUrl + '/get_route';
-    const queryParams: HttpParams = new HttpParams().appendAll(
-      {start_lat: basePoint.start_lat,
-        start_lng: basePoint.start_lng,
-        end_lat: basePoint.end_lat,
-        end_lng: basePoint.end_lng});
-    const options: any = { 'parmas': queryParams};
-    let response: any = await firstValueFrom(this.http.get<GeoClculatedRoute>(url, options));
+    const queryParams = {start_lat: basePoint.start_lat,
+      start_lng: basePoint.start_lng,
+      end_lat: basePoint.end_lat,
+      end_lng: basePoint.end_lng};
+    let response: any = await firstValueFrom(this.http.get<GeoClculatedRoute>(url, {params: queryParams}));
     return response;
   }
 
   public async getAllPoints(): Promise<GeoPoint[]> {
     const url: string = this.baseUrl + '/get_all_points';
-    const options = {}; // todo - remove
-    let response = await firstValueFrom(this.http.get<GeoPoint[]>(url, options))
+    let response = await firstValueFrom(this.http.get<GeoPoint[]>(url))
     return response;
   }
 
   // TODO - change type
   public async getAllRelations(): Promise<any[]> {
     const url: string = this.baseUrl + '/get_all_relations';
-    const options = {}; // todo - remove
-    let response = await firstValueFrom(this.http.get<any[]>(url, options));
+    let response = await firstValueFrom(this.http.get<any[]>(url));
     return response;
   }
 
@@ -102,8 +91,7 @@ export class ApiService {
 
   public async getUserDetails(): Promise<User> {
     const url: string = this.baseUrl + '/get_user_details';
-    const options = {}; // todo - remove
-    let response: any = await firstValueFrom(this.http.get<any[]>(url, options));
+    let response: any = await firstValueFrom(this.http.get<any[]>(url));
     return response;
   }
 

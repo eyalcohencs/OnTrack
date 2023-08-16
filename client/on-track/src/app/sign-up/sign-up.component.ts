@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ApiService, User } from '../services/api-service/api-service.service';
+import { ApiService } from '../services/api-service/api-service.service';
+import { User } from '../services/user-enum';
 import { Router } from '@angular/router';
 
 @Component({
@@ -32,6 +33,10 @@ export class SignUpComponent {
       console.log(e)
 
     }
+  }
+
+  redirectToLoginPage() {
+    this.router.navigate(['/login']);
   }
 
 }

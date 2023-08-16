@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ApiService, User } from '../api-service/api-service.service';
+import { ApiService } from '../api-service/api-service.service';
+import { User } from '../user-enum';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,10 @@ export class UserStateService {
   async fetchUserData() {
     const user: User = await this.apiService.getUserDetails();
     this.setUser(user);
+  }
+
+  getUser(): User {
+    return this.userSubject.getValue();
   }
 
 }

@@ -5,13 +5,13 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { ManagerPageComponent } from './manager-page/manager-page.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
-import { authGuard, loginGuard } from './auth.guard';
+import { authGuard, loginGuard, managerGuard } from './auth.guard';
 
 const routes: Routes = [
   {path: 'track-map', component: TrackMapComponent, canActivate: [authGuard]},
   {path: 'login', component: LoginPageComponent, canActivate: [loginGuard]},
   {path: 'register', component: SignUpComponent, canActivate: [loginGuard]},
-  {path: 'manager-page', component: ManagerPageComponent, canActivate: [authGuard]},
+  {path: 'manager-page', component: ManagerPageComponent, canActivate: [authGuard, managerGuard]},
   {path: '',   redirectTo: '/track-map', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent},
 ];

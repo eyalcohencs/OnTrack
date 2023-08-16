@@ -3,7 +3,7 @@
         <div class="site-title"> ON TRACK</div>
         <div class="site-commands">
             <div class="name"> {{helloText}}</div>
-            <button class="logout-user" (click)="logout()">Logout</button>
+            <button class="logout-user" (click)="logout()" *ngIf="showLogoutButton">Logout</button>
         </div>
     </header>
 

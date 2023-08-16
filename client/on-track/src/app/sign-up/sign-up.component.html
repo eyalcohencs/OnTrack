@@ -5,16 +5,18 @@
     </div>
     <div class="sign-up-form">
       <h1>Sign up</h1>
-        <div class="form-container">
-            <input type="text" placeholder="First name" [(ngModel)]="user.first_name" required>
-            <input type="text" placeholder="Last name" [(ngModel)]="user.last_name" required>
-            <input type="email" placeholder="Email" [(ngModel)]="user.email" required>
-            <input type="username" placeholder="Username" [(ngModel)]="user.username" required>
-            <input type="password" placeholder="Password" [(ngModel)]="user.password" required>
-            <button type="submit" (click)="register()">Sign up</button>
+        <!-- <div class="form-container"> -->
+        <form class="form-container" (ngSubmit)="register()">
+            <input type="text" placeholder="First name" name='first_name' [(ngModel)]="user.first_name" required>
+            <input type="text" placeholder="Last name" name='last_name' [(ngModel)]="user.last_name" required>
+            <input type="email" placeholder="Email" name='email' [(ngModel)]="user.email" required>
+            <input type="username" placeholder="Username" name='username' [(ngModel)]="user.username" required>
+            <input type="password" placeholder="Password" name='password' [(ngModel)]="user.password" required>
+            <!-- <button type="submit" (click)="register()">Sign up</button> -->
+            <button type="submit">Sign up</button>
             <div class="or-sign"> OR </div>
-            <button class="alternate-choice">Sign in</button>
-        </div>
+            <button class="alternate-choice" (click)="redirectToLoginPage()">Sign in</button>
+        </form>
 
     </div>
   </div>
