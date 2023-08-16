@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from flask import request, jsonify, make_response
 from flask_jwt_extended import create_access_token
 from flask_login import login_user, logout_user
@@ -51,7 +53,7 @@ def login():
         return make_response({'name': 'LOGIN_FAILED', 'message': 'Invalid username or password'}, 403)
 
     # Create session token
-    access_token = create_access_token(identity=username)
+    access_token = create_access_token(identity=username, expires_delta=timedelta(days=1))
 
     # Mark user as logged in
     login_user(user)

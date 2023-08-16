@@ -15,7 +15,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { OnTrackInterceptor } from './on-track.interceptor';
 
-
 @NgModule({
   declarations: [
     AppComponent,
