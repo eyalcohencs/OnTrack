@@ -32,7 +32,7 @@ export class AllDataMapComponent {
         this.osmMapComponent.addRouteOnMap(latLngSegment, this.deterministicHexColor(road['color']['color']));
       });
 
-      const points: GeoPoint[] = await this.apiService.getAllPoints();
+      const points: GeoPoint[] = []; //await this.apiService.getAllPoints();
       const latLngTrack: LatLng[] = this.geopointService.convertGeoPointsToLatLng(points);
       this.osmMapComponent.addCircularMarkers(latLngTrack);
 
