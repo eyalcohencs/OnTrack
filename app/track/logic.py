@@ -59,10 +59,7 @@ def calculate_route(start_lng, start_lat, end_lng, end_lat):
     # Get the route from the graph service
     end_point = GeoPoint(end_lng, end_lat)
     last_point_on_track = find_nearest_point(end_point)
-    # first_road_on_track = GeoRoad(start_point, first_point_on_track)
-    # last_road_on_track = GeoRoad(end_point, last_point_on_track)
-    # route = [start_point]
-    # relations = [first_road_on_track]
+
     if first_point_on_track.uuid != last_point_on_track.uuid:
         points_on_track, relations_on_track = find_shortest_path(first_point_on_track, last_point_on_track)
         route = route + points_on_track
@@ -74,6 +71,5 @@ def calculate_route(start_lng, start_lat, end_lng, end_lat):
         convert_geo_point_list_to_geo_road_list(route_to_the_end_point_from_last_point_on_track)
     route = route + route_to_the_end_point_from_last_point_on_track
     relations.extend(relations_to_the_end_of_last_point_on_track)
-    # route.append(end_point)
-    # relations.append(last_road_on_track)
+
     return route, relations
