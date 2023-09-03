@@ -1,5 +1,5 @@
-from db_service import Neo4jDB
-from graph_logic import is_there_already_a_close_point_in_the_graph, distance_between_points, \
+from app.track.db_service import Neo4jDB
+from app.track.graph_logic import is_there_already_a_close_point_in_the_graph, distance_between_points, \
     are_the_same_point_by_coordinates
 
 graph_db = Neo4jDB()

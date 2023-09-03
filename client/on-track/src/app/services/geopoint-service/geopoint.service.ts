@@ -16,6 +16,18 @@ export interface BasePoints {
   end_lng: number;
 }
 
+export interface GeoClculatedRoute {
+  points: GeoPoint[];
+  roads: GeoRoad[];
+}
+
+export interface GeoRoad {
+  color: number;
+  source_geo_point: GeoPoint;
+  target_geo_point: GeoPoint;
+  uuid: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from graph_logic import are_the_same_point_by_coordinates, are_two_points_too_close
+from app.track.graph_logic import are_the_same_point_by_coordinates, are_two_points_too_close
 
 GAP_BETWEEN_POINTS_IN_METERS_FOR_REDUCTION = 50
 
