@@ -3,6 +3,7 @@ import pandas as pd
 from app.track.graph_logic import are_the_same_point_by_coordinates, are_two_points_too_close
 
 GAP_BETWEEN_POINTS_IN_METERS_FOR_REDUCTION = 50
+CALCULATED_ROAD = 'CALCULATED_ROAD'
 
 
 class GeoPoint:
@@ -31,6 +32,7 @@ class GeoRoad:
         self.uuid = (source_geo_point.uuid or 'None') + '::' + (target_geo_point.uuid or 'None')
         self.source_geo_point = source_geo_point
         self.target_geo_point = target_geo_point
+        # TODO - change color name to track_index
         self.color = color
 
     def to_dict(self):
@@ -69,7 +71,7 @@ def gpx2df(gpx):
 def extract_points_of_gpx_track(gpx_track_data):
     gpx_points = gpx_track_data.tracks[0].segments[0].points
     # Todo - This is the place to add additional data like track difficulty
-    return create_geo_point_list(gpx_points)
+    return convert_gpx_to_geo_point_list(gpx_points)
 
 
 def reduce_points_in_track_based_on_distance(geo_points):
@@ -91,12 +93,23 @@ def reduce_points_in_track_based_on_distance(geo_points):
     return reduced_points
 
 
-def create_geo_point_list(points_to_convert):
+def convert_gpx_to_geo_point_list(points_to_convert):
     geo_points = []
     for point in points_to_convert:
         altitude = point.elevation if hasattr(point, 'elevation') else point.altitude
         geo_points.append(GeoPoint(point.longitude, point.latitude, altitude, point.time, uuid=None))
     return geo_points
+
+
+def convert_coordinates_list_to_geo_point_list(coords_list):
+    return [GeoPoint(coord[0], coord[1]) for coord in coords_list]
+
+
+def convert_geo_point_list_to_geo_road_list(geo_point_list):
+    geo_road_list = []
+    for i in range(0, len(geo_point_list) - 1):
+        geo_road_list.append(GeoRoad(geo_point_list[i], geo_point_list[i+1], color=CALCULATED_ROAD))
+    return geo_road_list
 
 
 def jsonify_geo_points_list(geo_point_list):
