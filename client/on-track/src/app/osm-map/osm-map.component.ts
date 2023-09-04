@@ -77,7 +77,7 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
       return all_points;
   }
 
-  addRouteOnMap(coordinates: LatLngExpression[], color: string = 'blue', weight: number = 5): Polyline {
+  addRouteOnMap(coordinates: LatLngExpression[], color: string = 'blue', weight: number = 3): Polyline {
     const polyline = new Polyline(coordinates, {
       color: color,
       weight: weight

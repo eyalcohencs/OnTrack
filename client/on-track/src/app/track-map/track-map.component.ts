@@ -4,6 +4,7 @@ import * as _ from "lodash";
 import { ApiService } from '../services/api-service/api-service.service';
 import { OsmMapComponent } from '../osm-map/osm-map.component';
 import { GeopointService } from '../services/geopoint-service/geopoint.service';
+import { LoadingSpinnerService } from '../services/loading-spinner-service/loading-spinner.service';
 
 
 @Component({
@@ -15,7 +16,8 @@ export class TrackMapComponent {
 
   constructor(
     private apiService: ApiService,
-    private geopointService: GeopointService) {}
+    private geopointService: GeopointService,
+    private loadingSpinnerService: LoadingSpinnerService) {}
 
   sourceMarker: Marker;
   targetMarker: Marker;
@@ -55,6 +57,8 @@ export class TrackMapComponent {
   }
 
   async onComposeTrack() {
+    this.loadingSpinnerService.show();
+
     this.osmMapComponent.removeLayersFromMap([this.routeLine]);
     this.routeLine = null;
     if (this.sourceMarker && this.targetMarker) {
@@ -72,7 +76,9 @@ export class TrackMapComponent {
         const track_roads = result['roads'];
         let latLngTrack: LatLng[] = this.geopointService.convertGeoPointsToLatLng(track_points);
         this.routeLine = this.osmMapComponent.addRouteOnMap(latLngTrack);
+        this.loadingSpinnerService.hide();
       } catch (error) {
+        this.loadingSpinnerService.hide();
         console.log(error);
       }
     }

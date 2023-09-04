@@ -1,0 +1,36 @@
+table {
+    // border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+th {
+    background-color: #333;
+    color: white;
+    border-radius: 10px;
+}
+
+/* Add hover effect on table rows */
+tr:hover {
+    background-color: #ddd;
+}
+
+/* Add responsive design for smaller screens */
+@media screen and (max-width: 600px) {
+    table {
+        font-size: 14px;
+    }
+    th, td {
+        padding: 6px;
+    }
+}

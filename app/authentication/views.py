@@ -8,6 +8,7 @@ import bcrypt
 from app import login_manager, db
 from app.authentication import bp
 from app.models.user import User
+from app.user.logic import get_current_user_details
 
 
 @bp.route('/register', methods=['POST'])
@@ -84,6 +85,5 @@ def loader_request(client_request):
 @login_required
 @jwt_required()
 def get_user_details():
-    username = get_jwt_identity()
-    user = User.query.filter_by(username=username).first()
+    user = get_current_user_details()
     return make_response(jsonify(user.to_dict()), 200)

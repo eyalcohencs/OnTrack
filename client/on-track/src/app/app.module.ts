@@ -14,6 +14,8 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { OnTrackInterceptor } from './on-track.interceptor';
+import { LoadingSpinnerComponent } from './widgets/loading-spinner/loading-spinner.component';
+import { UsersDetailsComponent } from './users-details/users-details.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { OnTrackInterceptor } from './on-track.interceptor';
     ManagerPageComponent,
     LoginPageComponent,
     PageNotFoundComponent,
-    SignUpComponent
+    SignUpComponent,
+    LoadingSpinnerComponent,
+    UsersDetailsComponent
   ],
   imports: [
     BrowserModule,

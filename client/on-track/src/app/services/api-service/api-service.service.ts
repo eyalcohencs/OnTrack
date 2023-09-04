@@ -95,4 +95,10 @@ export class ApiService {
     return response;
   }
 
+  public async getAllUserDetails(): Promise<User[]> {
+    const url: string = this.baseUrl + '/get_all_users';
+    let response: any = await firstValueFrom(this.http.get<any[]>(url));
+    return response;
+  }
+
 }
