@@ -1,4 +1,6 @@
 import os
+import uuid
+
 from app.track.logic import load_track_from_gpx_file, add_track_to_graph
 
 TRACKS_DIRECTORY_PATH = '../data/tracks/'
@@ -16,7 +18,8 @@ def update_graph_db():
         print(f'load: {file_name}')  # debug
         file_path = TRACKS_DIRECTORY_PATH + file_name
         gpx = load_track_from_gpx_file(file_path)
-        add_track_to_graph(gpx, file_number)
+        track_id = uuid.uuid5(uuid.NAMESPACE_X500, gpx)
+        add_track_to_graph(gpx, track_id)
         file_number += 1
 
 

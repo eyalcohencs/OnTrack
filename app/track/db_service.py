@@ -73,7 +73,7 @@ class Neo4jDB(GraphDB):
         with self._initial_db_client() as client:
             with client.session() as session:
                 session.run(f'''MATCH (point1:GeoPoint {{ uuid: '{start_uuid}' }}), (point2:GeoPoint {{ uuid: '{end_uuid}' }})
-                    MERGE (point1)-[:ROAD {{ color: {data['color']} }} ]->(point2)''')
+                    MERGE (point1)-[:ROAD {{ track_id: {data['track_id']} }} ]->(point2)''')
 
     def get_point_from_db(self, point1):
         pass
