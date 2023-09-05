@@ -1,0 +1,63 @@
+@keyframes spin { 
+    100% { 
+        transform: rotate(-360deg);
+    } 
+}
+
+@keyframes bounce {
+  from, 20%, 53%, 80%, to {
+    transform: translate3d(0,0,0);
+  }
+
+  40%, 43% {
+    transform: translate3d(0, -30px, 0);
+  }
+
+  70% {
+    transform: translate3d(0, -15px, 0);
+  }
+
+  90% {
+    transform: translate3d(0,-4px,0);
+  }
+}
+
+
+body{
+	font-family: 'futura',sans-serif;
+    margin: 0;
+    color: #3C4B32;
+    background: #ebf0e4;
+    background-image: url(https://www.simmosoffroadtours.com/static/images/topography.svg);
+    background-size: 100% auto;
+    background-repeat: repeat-y;
+}
+
+.container {
+    z-index: 1001;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.7;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.loader {
+  width: 140px;
+  height: 140px;
+	margin: 120px auto;
+	text-align: center;
+	color: #427035;
+}
+
+.bounce {
+	margin-top: 30px;
+	animation: bounce 1.5s infinite;
+}
+
+.wheel {
+	fill: #427035;
+  animation: spin 2s linear infinite;
+}

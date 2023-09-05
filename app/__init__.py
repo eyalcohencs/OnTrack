@@ -6,6 +6,7 @@ from app.extensions import db, login_manager, jwt, migrate
 from app.main import bp as main_bp
 from app.authentication import bp as auth_bp
 from app.track import bp as track_bp
+from app.user import bp as user_bp
 
 
 def create_app(config_class=DevelopmentConfig):
@@ -25,5 +26,6 @@ def create_app(config_class=DevelopmentConfig):
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(track_bp)
+    app.register_blueprint(user_bp)
 
     return app

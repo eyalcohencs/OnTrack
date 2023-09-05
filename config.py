@@ -20,6 +20,7 @@ class DevelopmentConfig(Config):
     NEO4J_PASSWORD = '12345678'
     SECRET_KEY = 'demosecretketfordevelopmentenviroment'
     JWT_SECRET_KEY = 'demojwtsecretkey'
+    OSM_KEY_API = '5b3ce3597851110001cf62484b230adacdbc4955bb74ea0a0ee9cc05'
 
 
 class ProductionConfig(Config):

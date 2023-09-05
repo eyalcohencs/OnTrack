@@ -1,7 +1,4 @@
-import os
 from abc import ABC, abstractmethod
-import json
-
 import uuid as uuid
 from neo4j import GraphDatabase
 

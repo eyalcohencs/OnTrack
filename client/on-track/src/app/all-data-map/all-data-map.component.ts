@@ -1,8 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { LatLng} from 'leaflet';
 import { ApiService } from '../services/api-service/api-service.service';
 import { OsmMapComponent } from '../osm-map/osm-map.component';
 import { GeoPoint, GeopointService } from '../services/geopoint-service/geopoint.service';
+import { LoadingSpinnerService } from '../services/loading-spinner-service/loading-spinner.service';
 
 // TODO - change name to manager-map
 @Component({
@@ -14,7 +15,8 @@ export class AllDataMapComponent {
 
   constructor(
     private apiService: ApiService,
-    private geopointService: GeopointService) {}
+    private geopointService: GeopointService,
+    private loadingSpinnerService: LoadingSpinnerService) {}
   
   @ViewChild('osmAllMapComponent', { static: false }) osmMapComponent!: OsmMapComponent;
 
@@ -24,6 +26,7 @@ export class AllDataMapComponent {
 
   private async initMap(): Promise<void> {
     try {
+      this.loadingSpinnerService.show();
       // TODO - add type
       const roads: any[] = await this.apiService.getAllRelations();
       roads.forEach(road => {
@@ -36,7 +39,10 @@ export class AllDataMapComponent {
       const latLngTrack: LatLng[] = this.geopointService.convertGeoPointsToLatLng(points);
       this.osmMapComponent.addCircularMarkers(latLngTrack);
 
+      this.loadingSpinnerService.hide();
+
     } catch (error) {
+      this.loadingSpinnerService.hide();
       console.log(error);
     }
   }
