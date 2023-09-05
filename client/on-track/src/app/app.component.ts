@@ -28,7 +28,6 @@ export class AppComponent implements OnInit, OnDestroy {
   private userStateSubscription: Subscription;
 
   async ngOnInit(): Promise<void> {
-    // this.loadingSpinnerService.show();
 
     if (this.authService.isLoggedIn()) {  // TODO - make it observable
       this.userStateSubscription = this.userStateService.user$.subscribe(
@@ -43,7 +42,6 @@ export class AppComponent implements OnInit, OnDestroy {
         });
       await this.userStateService.fetchUserData();
 
-      // this.loadingSpinnerService.hide();
     }
     
   }
