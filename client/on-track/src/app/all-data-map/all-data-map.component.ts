@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { LatLng} from 'leaflet';
 import { ApiService } from '../services/api-service/api-service.service';
 import { OsmMapComponent } from '../osm-map/osm-map.component';

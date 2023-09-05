@@ -10,3 +10,4 @@
 OnTrack.code-workspace
 client/on-track/dist/on-road/
 node_modules/
+/data/tracks/
