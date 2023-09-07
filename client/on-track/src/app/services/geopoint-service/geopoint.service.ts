@@ -22,7 +22,7 @@ export interface GeoClculatedRoute {
 }
 
 export interface GeoRoad {
-  color: number;
+  track_id: string;
   source_geo_point: GeoPoint;
   target_geo_point: GeoPoint;
   uuid: string;

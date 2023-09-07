@@ -28,19 +28,19 @@ class GeoPoint:
 
 
 class GeoRoad:
-    def __init__(self, source_geo_point, target_geo_point, color=None):
+    def __init__(self, source_geo_point, target_geo_point, track_id=None):
         self.uuid = (source_geo_point.uuid or 'None') + '::' + (target_geo_point.uuid or 'None')
         self.source_geo_point = source_geo_point
         self.target_geo_point = target_geo_point
         # TODO - change color name to track_index
-        self.color = color
+        self.track_id = track_id
 
     def to_dict(self):
         return {
             'uuid': self.uuid,
             'source_geo_point': self.source_geo_point.to_dict(),
             'target_geo_point': self.target_geo_point.to_dict(),
-            'color': self.color
+            'track_id': self.track_id
         }
 
     def to_list_of_coordinates(self):
@@ -48,7 +48,7 @@ class GeoRoad:
                 [self.target_geo_point.latitude, self.target_geo_point.longitude]]
 
     def __str__(self):
-        return f'{self.uuid} | {self.color}'
+        return f'{self.uuid} | {self.track_id}'
 
 
 def gpx2df(gpx):
@@ -93,12 +93,12 @@ def reduce_points_in_track_based_on_distance(geo_points):
     return reduced_points
 
 
-def convert_gpx_to_geo_point_list(points_to_convert):
-    geo_points = []
-    for point in points_to_convert:
-        altitude = point.elevation if hasattr(point, 'elevation') else point.altitude
-        geo_points.append(GeoPoint(point.longitude, point.latitude, altitude, point.time, uuid=None))
-    return geo_points
+# def convert_gpx_to_geo_point_list(points_to_convert):
+#     geo_points = []
+#     for point in points_to_convert:
+#         altitude = point.elevation if hasattr(point, 'elevation') else point.altitude
+#         geo_points.append(GeoPoint(point.longitude, point.latitude, altitude, point.time, uuid=None))
+#     return geo_points
 
 
 def convert_coordinates_list_to_geo_point_list(coords_list):
@@ -108,7 +108,7 @@ def convert_coordinates_list_to_geo_point_list(coords_list):
 def convert_geo_point_list_to_geo_road_list(geo_point_list):
     geo_road_list = []
     for i in range(0, len(geo_point_list) - 1):
-        geo_road_list.append(GeoRoad(geo_point_list[i], geo_point_list[i+1], color=CALCULATED_ROAD))
+        geo_road_list.append(GeoRoad(geo_point_list[i], geo_point_list[i+1], track_id=CALCULATED_ROAD))
     return geo_road_list
 
 
@@ -118,3 +118,7 @@ def jsonify_geo_points_list(geo_point_list):
 
 def jsonify_geo_roads_list(geo_road_list):
     return [road.to_dict() for road in geo_road_list]
+
+
+def end_of_file_ends_with(file_name, suffix):
+    return file_name[-len(suffix):] == suffix

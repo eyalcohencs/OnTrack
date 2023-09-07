@@ -19,5 +19,4 @@ export class LoadingSpinnerService {
     this.isPresented.next(false);
   }
 
-  
 }

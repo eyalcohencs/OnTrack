@@ -1,9 +1,12 @@
+import os
 from abc import ABC, abstractmethod
 import uuid as uuid
 from neo4j import GraphDatabase
+import dotenv
+
 
 from app.track.utils import GeoPoint, GeoRoad
-from flask import current_app
+# from flask import current_app
 
 
 class GraphDB(ABC):
@@ -43,7 +46,9 @@ class GraphDB(ABC):
 class Neo4jDB(GraphDB):
 
     def _initial_db_client(self):
-        uri = current_app.config['NEO4J_URI']
+        # uri = current_app.config['NEO4J_URI']
+        dotenv.load_dotenv()
+        uri = os.environ['NEO4J_URI']
         # TODO - uncomment when handling neo4j credentials
         # username = current_app.config['NEO4J_USERNAME']
         # password = current_app.config['NEO4J_USERNAME']
@@ -73,7 +78,7 @@ class Neo4jDB(GraphDB):
         with self._initial_db_client() as client:
             with client.session() as session:
                 session.run(f'''MATCH (point1:GeoPoint {{ uuid: '{start_uuid}' }}), (point2:GeoPoint {{ uuid: '{end_uuid}' }})
-                    MERGE (point1)-[:ROAD {{ track_id: {data['track_id']} }} ]->(point2)''')
+                    MERGE (point1)-[:ROAD {{ track_id: '{str(data['track_id'])}' }} ]->(point2)''')
 
     def get_point_from_db(self, point1):
         pass
@@ -93,7 +98,7 @@ class Neo4jDB(GraphDB):
             with client.session() as session:
                 result = session.run('''
                 MATCH (source:GeoPoint)-[relation:ROAD]->(target:GeoPoint)
-                RETURN  relation.color, source.uuid, source.longitude, source.latitude, source.altitude, source.time,
+                RETURN  relation.track_id, source.uuid, source.longitude, source.latitude, source.altitude, source.time,
                 target.uuid, target.longitude, target.latitude, target.altitude, target.time''')
                 converted_result = self._convert_neo4j_db_relations_to_geo_roads(result)
                 return converted_result
@@ -126,7 +131,7 @@ class Neo4jDB(GraphDB):
                          record['source.time'], record['source.uuid']),
                 GeoPoint(record['target.longitude'], record['target.latitude'], record['target.altitude'],
                          record['target.time'], record['target.uuid']),
-                {'color': record['relation.color']}
+                record['relation.track_id']
             )
             geo_roads.append(geo_road)
         return geo_roads

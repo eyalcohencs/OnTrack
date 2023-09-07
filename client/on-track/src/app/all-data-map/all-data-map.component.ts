@@ -32,7 +32,9 @@ export class AllDataMapComponent {
       roads.forEach(road => {
         const segment = [road['source_geo_point'], road['target_geo_point']]
         const latLngSegment: LatLng[] = this.geopointService.convertGeoPointsToLatLng(segment);
-        this.osmMapComponent.addRouteOnMap(latLngSegment, this.deterministicHexColor(road['color']['color']));
+        // this.osmMapComponent.addRouteOnMap(latLngSegment, this.deterministicHexColor(road['track_id'].replace(/\D/g, '')));
+        // const colorNumber = Math.pow(road['track_id'].replace(/\D/g, '').slice(-5), 2);
+        this.osmMapComponent.addRouteOnMap(latLngSegment, this.deterministicHexColor(road['track_id'].replace(/\D/g, '')), 6);
       });
 
       const points: GeoPoint[] = []; //await this.apiService.getAllPoints();
@@ -47,8 +49,9 @@ export class AllDataMapComponent {
     }
   }
 
-  private deterministicHexColor(number: number): string {
-    const hexColor = '#' + (number / 13).toString().replace('.', '').slice(0, 6)
+  private deterministicHexColor(base_number: number): string {
+    // const hexColor = '#' + (number / 13).toString().replace('.', '').slice(0, 6)
+    const hexColor = '#' + (base_number).toString().slice(0, 6)
     return hexColor;
   }
 
