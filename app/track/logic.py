@@ -8,8 +8,7 @@ import app.track.osm_service as osm_service
 # import matplotlib
 # import mapclassify
 
-from app.track.utils import gpx2df, extract_points_of_gpx_track, GeoPoint, GeoRoad, CALCULATED_ROAD, \
-    convert_geo_point_list_to_geo_road_list
+from app.track.utils import GeoPoint, convert_geo_point_list_to_geo_road_list
 
 from app.track.graph_service import add_point_to_graph, add_edge_to_graph, find_nearest_point, find_shortest_path
 
