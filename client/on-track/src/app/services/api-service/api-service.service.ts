@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { environment } from 'src/enviroment';
+import { environment } from 'src/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BasePoints, GeoClculatedRoute, GeoPoint } from '../geopoint-service/geopoint.service';
 import { CookieService } from 'ngx-cookie-service';
