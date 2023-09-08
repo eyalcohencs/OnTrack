@@ -1,4 +1,4 @@
-import pandas as pd
+# import pandas as pd
 
 from app.track.graph_logic import are_the_same_point_by_coordinates, are_two_points_too_close
 
@@ -51,21 +51,21 @@ class GeoRoad:
         return f'{self.uuid} | {self.track_id}'
 
 
-def gpx2df(gpx):
-    data = gpx.tracks[0].segments[0].points
-
-    df = pd.DataFrame(columns=['longitude', 'latitude', 'altitude', 'time'])
-    for point in data:
-        df = pd.concat([df, pd.DataFrame([
-            {'longitude': point.longitude,
-             'latitude': point.latitude,
-             'altitude': point.altitude,
-             'time': point.time}])
-                        ], ignore_index=True)
-
-    # df['time'] = df['time'].astype(str)
-    df['time'] = pd.to_datetime(df['time'], dayfirst=True)
-    return df
+# def gpx2df(gpx):
+#     data = gpx.tracks[0].segments[0].points
+#
+#     df = pd.DataFrame(columns=['longitude', 'latitude', 'altitude', 'time'])
+#     for point in data:
+#         df = pd.concat([df, pd.DataFrame([
+#             {'longitude': point.longitude,
+#              'latitude': point.latitude,
+#              'altitude': point.altitude,
+#              'time': point.time}])
+#                         ], ignore_index=True)
+#
+#     # df['time'] = df['time'].astype(str)
+#     df['time'] = pd.to_datetime(df['time'], dayfirst=True)
+#     return df
 
 
 def extract_points_of_gpx_track(gpx_track_data):
