@@ -10,7 +10,7 @@ click-plugins==1.1.1
 cligj==0.7.2
 cryptography==41.0.3
 Fiona==1.9.4.post1
-Flask==2.3.2
+Flask==2.2.5
 Flask-Cors==4.0.0
 Flask-JWT==0.3.2
 Flask-JWT-Extended==4.5.2
