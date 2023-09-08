@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "engines": {
     "node": ">=14.20 <15"
-  }
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
