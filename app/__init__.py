@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 
-from config import DevelopmentConfig
+from app.config import DevelopmentConfig
 from app.extensions import db, login_manager, jwt, migrate
 from app.main import bp as main_bp
 from app.authentication import bp as auth_bp
