@@ -34,7 +34,6 @@ neo4j==5.11.0
 openrouteservice==2.3.3
 packaging==23.1
 passlib==1.7.4
-pipdeptree==2.13.0
 psycopg2-binary==2.9.7
 pycparser==2.21
 PyJWT==2.8.0
