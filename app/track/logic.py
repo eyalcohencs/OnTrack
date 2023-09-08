@@ -1,4 +1,4 @@
-import geopandas as geopandas
+# import geopandas as geopandas
 import gpxpy
 import gpxpy.gpx
 
@@ -54,11 +54,11 @@ def add_track_to_graph(file_loader):
         i += 1  # debug
 
 
-def convert_gpx_to_geo_df(gpx):
-    df = gpx2df(gpx)
-    # todo - add extra data here
-    gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.longitude, df.latitude), crs='EPSG:2039')
-    return gdf
+# def convert_gpx_to_geo_df(gpx):
+#     df = gpx2df(gpx)
+#     # todo - add extra data here
+#     gdf = geopandas.GeoDataFrame(df, geometry=geopandas.points_from_xy(df.longitude, df.latitude), crs='EPSG:2039')
+#     return gdf
 
 
 # TODO - change naming of variables and functions - too long
