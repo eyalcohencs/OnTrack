@@ -16,7 +16,7 @@ def add_point_to_graph(point_to_add):
 
 
 def add_edge_to_graph(source_point, target_point, data=None):
-    data = data if data is not None else {'color': -1}
+    data = data if data is not None else {'track_id': None}
     if not are_the_same_point_by_coordinates(source_point, target_point):
         graph_db.add_edge_to_db(source_point, target_point, data)
 

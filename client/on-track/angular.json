@@ -40,7 +40,7 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "lodash", "leaflet"
+              "lodash", "leaflet", "file-saver"
            ]
           },
           "configurations": {

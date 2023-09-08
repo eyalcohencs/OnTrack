@@ -21,8 +21,24 @@ def load_track_from_gpx_file(file_path):
     return gpx
 
 
-def add_track_to_graph(gpx, track_id):
-    points = extract_points_of_gpx_track(gpx)
+# def add_track_to_graph(gpx, track_id):
+#     points = extract_points_of_gpx_track(gpx)
+#     print(f'original number of points of the file: {len(points)}')  # debug
+#     # reduced_points = reduce_points_in_track_based_on_distance(points)
+#     reduced_points = points
+#     print(f'after reduction number of points: {len(reduced_points)}')  # debug
+#     prev_point = None
+#     i = 1  # debug
+#     for point_to_add in reduced_points:
+#         print(f'{i}/{len(reduced_points)}')  # debug
+#         new_point = add_point_to_graph(point_to_add)
+#         if prev_point:
+#             add_edge_to_graph(prev_point, new_point, {'track_id': track_id})
+#         prev_point = new_point
+#         i += 1  # debug
+
+def add_track_to_graph(file_loader):
+    points = file_loader.get_geo_points_from_file()
     print(f'original number of points of the file: {len(points)}')  # debug
     # reduced_points = reduce_points_in_track_based_on_distance(points)
     reduced_points = points
@@ -33,7 +49,7 @@ def add_track_to_graph(gpx, track_id):
         print(f'{i}/{len(reduced_points)}')  # debug
         new_point = add_point_to_graph(point_to_add)
         if prev_point:
-            add_edge_to_graph(prev_point, new_point, {'track_id': track_id})
+            add_edge_to_graph(prev_point, new_point, {'track_id': str(file_loader.track_id)})
         prev_point = new_point
         i += 1  # debug
 
