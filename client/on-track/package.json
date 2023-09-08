@@ -2,7 +2,7 @@
   "name": "on-road",
   "version": "0.0.1",
   "engines": {
-    "node": ">=16.13 <18"
+    "node": "=18.17.0"
   },
   "scripts": {
     "ng": "ng",
@@ -10,7 +10,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build-prod": "npm run build --prod --aot"
+    "build-prod": "ng build --prod --aot"
   },
   "private": true,
   "dependencies": {
