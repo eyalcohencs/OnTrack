@@ -28,4 +28,11 @@ def create_app(config_class=DevelopmentConfig):
     app.register_blueprint(track_bp)
     app.register_blueprint(user_bp)
 
+    # Run migrations
+    from alembic.config import Config
+    from alembic import command
+
+    alembic_cfg = Config("alembic/alembic.ini")  # Path to your Alembic configuration file
+    command.upgrade(alembic_cfg, "head")
+
     return app
