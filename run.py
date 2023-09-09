@@ -5,5 +5,5 @@ from alembic import command
 app = create_app()
 # Run migrations
 
-alembic_cfg = Config("../migrations/alembic.ini")  # Path to your Alembic configuration file
+alembic_cfg = Config("migrations/alembic.ini")  # Path to your Alembic configuration file
 command.upgrade(alembic_cfg, "head")
