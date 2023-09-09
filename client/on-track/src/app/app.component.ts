@@ -51,6 +51,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.navigate(['/login'])
   }
 
+  redirectToManagerPage() {
+    this.router.navigate(['/manager-page'])
+  }
+
   ngOnDestroy() {
     this.userStateSubscription.unsubscribe();
   }
