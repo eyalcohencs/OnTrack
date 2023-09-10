@@ -15,7 +15,7 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
   // static readonly OPEN_STREET_MAP_TILES: string = `https://israelhiking.osm.org.il/Hebrew/mtbTiles/{z}/{x}/{y}.png`;
   static readonly OPEN_STREET_MAP_TILES: string = `https://israelhiking.osm.org.il/Hebrew/Tiles/{z}/{x}/{y}.png`;
   static readonly ISRAEL_CENTER: LatLngTuple = [ 32.6000, 35.0000 ];
-  static readonly MAP_ZOOM: number = 11;
+  static readonly MAP_ZOOM: number = 13;
   static readonly CIRCULAR_MARKER_CONFIG: CircleMarkerOptions = {radius: 4};
   
   @Input() mapId: string;
@@ -77,10 +77,11 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
       return all_points;
   }
 
-  addRouteOnMap(coordinates: LatLngExpression[], color: string = 'blue', weight: number = 3): Polyline {
+  addRouteOnMap(coordinates: LatLngExpression[], color: string = 'blue', weight: number = 4): Polyline {
     const polyline = new Polyline(coordinates, {
       color: color,
-      weight: weight
+      weight: weight,
+      dashArray: '4 4'
     }).addTo(this.map);
     this.addedLayers.push(polyline);
 

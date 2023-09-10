@@ -28,6 +28,9 @@ export class TrackMapComponent {
   targetLat: number;
   targetLng: number;
 
+  // trackColor: string = '#234522';
+  trackColor: string = '#312249';
+
   @ViewChild('osmMapComponent', { static: false }) osmMapComponent!: OsmMapComponent;
 
   onMapClick(event: any) {
@@ -47,13 +50,13 @@ export class TrackMapComponent {
   }
 
   private updateSourcePointInput(latlng: LatLng) {
-    this.sourceLat = !_.isNull(latlng) ? latlng.lat : null;
-    this.sourceLng = !_.isNull(latlng) ? latlng.lng : null;
+    this.sourceLat = !_.isNull(latlng) ? Number(latlng.lat.toFixed(3)) : null;
+    this.sourceLng = !_.isNull(latlng) ? Number(latlng.lng.toFixed(3)) : null;
   }
 
   private updateTargetPointInput(latlng: LatLng) {
-    this.targetLat = !_.isNull(latlng) ? latlng.lat : null;
-    this.targetLng = !_.isNull(latlng) ? latlng.lng : null;
+    this.targetLat = !_.isNull(latlng) ? Number(latlng.lat.toFixed(3)) : null;
+    this.targetLng = !_.isNull(latlng) ? Number(latlng.lng.toFixed(3)) : null;
   }
 
   async onComposeTrack() {
@@ -75,7 +78,7 @@ export class TrackMapComponent {
         const track_points = result['points'];
         const track_roads = result['roads'];
         let latLngTrack: LatLng[] = this.geopointService.convertGeoPointsToLatLng(track_points);
-        this.routeLine = this.osmMapComponent.addRouteOnMap(latLngTrack);
+        this.routeLine = this.osmMapComponent.addRouteOnMap(latLngTrack, this.trackColor);
         this.loadingSpinnerService.hide();
       } catch (error) {
         this.loadingSpinnerService.hide();
