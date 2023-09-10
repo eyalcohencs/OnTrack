@@ -44,6 +44,8 @@ def get_all_relations():
 
         current_app.logger.info('get_all_relations')
         current_app.logger.error('error get_all_relations')
+        logger = logging.getLogger()
+        logger.info('with logger')
         all_relations = get_all_relations_in_the_graph()
         return make_response(jsonify_geo_roads_list(all_relations), 200)
     except Exception as e:
