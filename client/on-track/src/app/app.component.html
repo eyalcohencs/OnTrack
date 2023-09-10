@@ -1,11 +1,11 @@
 <app-loading-spinner *ngIf="loadingSpinnerService.isPresented$ | async"></app-loading-spinner>
 <div class="site" >
-    <header>
+    <nav>
         <div class="site-title"> ON TRACK</div>
         <div class="site-commands">
             <button class="name" (click)="redirectToManagerPage()"> {{helloText}}</button>
             <button class="logout-user" (click)="logout()" *ngIf="showLogoutButton">Logout</button>
         </div>
-    </header>
+    </nav>
     <router-outlet></router-outlet>
 </div>
