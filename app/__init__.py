@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
+import logging
 
 from app.config import DevelopmentConfig
 from app.extensions import db, login_manager, jwt, migrate
@@ -12,6 +13,9 @@ from app.user import bp as user_bp
 def create_app(config_class=DevelopmentConfig):
     app = Flask(__name__, static_url_path='', static_folder='static', template_folder='static')
     app.config.from_object(config_class)
+    logging.basicConfig()
+    app.logger.setLevel(logging.INFO)
+    # logging.getLogger().setLevel(logging.INFO)
 
     # Handle CORS # todo - remove before deployment
     CORS(app, supports_credentials=True, origins=['http://localhost:4200'])
