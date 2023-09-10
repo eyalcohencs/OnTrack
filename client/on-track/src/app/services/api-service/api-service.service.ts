@@ -48,9 +48,14 @@ export class ApiService {
 
   // TODO - change type
   public async getAllRelations(): Promise<any[]> {
-    const url: string = this.baseUrl + '/get_all_relations';
-    let response = await firstValueFrom(this.http.get<any[]>(url));
-    return response;
+    try {
+      const url: string = this.baseUrl + '/get_all_relations';
+      let response = await firstValueFrom(this.http.get<any[]>(url));
+      return response;
+    } catch (error) {
+      console.error('Error' + error);
+      return null;
+    }
   }
 
   public async register(user: User): Promise<boolean> {

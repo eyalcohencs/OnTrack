@@ -2,7 +2,7 @@ from flask_jwt_extended import jwt_required
 from flask_login import login_required
 
 from app.main import bp
-from flask import request, make_response
+from flask import request, make_response, jsonify
 
 from app.track.graph_service import get_all_points_in_the_graph, get_all_relations_in_the_graph
 from app.track.logic import calculate_route
@@ -39,5 +39,10 @@ def get_all_points():
 @login_required
 @jwt_required()
 def get_all_relations():
-    all_relations = get_all_relations_in_the_graph()
-    return make_response(jsonify_geo_roads_list(all_relations), 200)
+    try:
+        all_relations = get_all_relations_in_the_graph()
+        return make_response(jsonify_geo_roads_list(all_relations), 200)
+    except Exception as e:
+        return make_response(jsonify(e), 405)
+
+
