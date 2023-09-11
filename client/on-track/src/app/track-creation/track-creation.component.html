@@ -1,13 +1,13 @@
 <div class="track-creation">
     <div class="source-point-input point-input">
-        <label class="point-label">Start</label>
+        <label class="point-label" [ngClass]="{'bold-text': (!sourceLat && !sourceLng) || (sourceLat && sourceLng && targetLat && targetLng)}">Start</label>
         <div class="user-inputs">
             <input type="number" [(ngModel)]="sourceLat" placeholder="Latitude" disabled>
             <input type="number" [(ngModel)]="sourceLng" placeholder="Longitude" disabled>
         </div>
     </div>
     <div class="target-point-input point-input">
-        <label class="point-label">Finish</label>
+        <label class="point-label" [ngClass]="{'bold-text': sourceLat && sourceLng && !targetLat && !targetLng}">Finish</label>
         <div class="user-inputs">
             <input type="number" [(ngModel)]="targetLat" placeholder="Latitude" disabled>
             <input type="number" [(ngModel)]="targetLng" placeholder="Longitude" disabled>

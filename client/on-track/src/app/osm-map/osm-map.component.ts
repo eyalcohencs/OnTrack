@@ -1,7 +1,8 @@
 import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ElementRef, Renderer2 } from '@angular/core';
-import { Map, map, tileLayer, Marker, Polyline, LatLngExpression, Icon, Layer, LatLngTuple, CircleMarkerOptions, LatLng, circleMarker, CircleMarker} from 'leaflet';
+import { Map, map, tileLayer, Marker, Polyline, LatLngExpression, Icon, Layer, LatLngTuple, CircleMarkerOptions, LatLng, circleMarker, CircleMarker, divIcon} from 'leaflet';
 
 import * as _ from "lodash";
+import { MarkerTypeUrl } from '../services/osm-map-enum';
 
 @Component({
   selector: 'app-osm-map',
@@ -54,15 +55,24 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
       this.clickOnMap.emit(event);
   }
 
-  addMarker(latlng: LatLngExpression, label: string): Marker {
+  addMarker(latlng: LatLngExpression, markerTypeUrl=MarkerTypeUrl.WHITE, label: string = null): Marker {
     const customIcon: Icon = new Icon({
-      iconUrl: 'assets/marker-icon.png',
-      iconSize: [25, 41],
+      iconUrl: markerTypeUrl,
+      iconSize: [30, 41],
       iconAnchor: [12, 41],
       popupAnchor: [1, -34]
     });
+
+    // let customIcon = divIcon({
+    //   className: 'custom-icon',
+    //   html: '<div>S</div>',
+    //   iconSize: [30, 30] // Adjust the size as needed
+    // });
+
     const marker: Marker = new Marker(latlng, { icon: customIcon }).addTo(this.map);
-    marker.bindPopup(label).openPopup();
+    if (!_.isNull(label)) {
+      marker.bindPopup(label).openPopup();
+    }
     this.addedLayers.push(marker);
     return marker;
   }

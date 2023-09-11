@@ -6,16 +6,17 @@
     <div class="sign-up-form">
       <h1>Sign up</h1>
         <!-- <div class="form-container"> -->
-        <form class="form-container" (ngSubmit)="register()">
+        <form (ngSubmit)="register()">
             <input type="text" placeholder="First name" name='first_name' [(ngModel)]="user.first_name" required>
             <input type="text" placeholder="Last name" name='last_name' [(ngModel)]="user.last_name" required>
             <input type="email" placeholder="Email" name='email' [(ngModel)]="user.email" required>
             <input type="username" placeholder="Username" name='username' [(ngModel)]="user.username" required>
             <input type="password" placeholder="Password" name='password' [(ngModel)]="user.password" required>
             <!-- <button type="submit" (click)="register()">Sign up</button> -->
-            <button type="submit">Sign up</button>
+            <button type="submit" [disabled]="!user.first_name || !user.last_name || !user.email || !user.username || !user.password">Sign up</button>
             <div class="or-sign"> OR </div>
-            <button class="alternate-choice" (click)="redirectToLoginPage()">Sign in</button>
+            <!-- <button class="alternate-choice" (click)="redirectToLoginPage()">Sign in</button> -->
+            <a href='register'on class="alternate-choice">Already have account? sign in</a>
         </form>
 
     </div>

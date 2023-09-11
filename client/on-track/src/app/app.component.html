@@ -5,12 +5,11 @@
             <div class="site-logo"></div>
             <div class="site-title"> On…TracK…</div>
         </div>
-        <div class="right-nav">
+        
             <div class="site-commands">
                 <button class="name" (click)="redirectToManagerPage()"> {{helloText}}</button>
                 <button class="logout-user" (click)="logout()" *ngIf="showLogoutButton">Logout</button>
             </div>
-        </div>
     </nav>
     <router-outlet></router-outlet>
 </div>

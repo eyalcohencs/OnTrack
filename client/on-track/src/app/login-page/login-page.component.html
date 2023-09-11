@@ -9,9 +9,10 @@
         <input type="username" name='username' placeholder="Username" [(ngModel)]="username" required>
         <input type="password" name='password' placeholder="Password" [(ngModel)]="password" required>
         <div class= "login-failed-warning" *ngIf="loginFailedWarning">"Invalid Username or Password!"</div>
-        <button type="submit">Sign in</button>
+        <button type="submit" [disabled]="!username || !password">Sign in</button>
         <div class="or-sign"> OR </div>
-        <button class="alternate-choice" (click)="redirectToRegistration()">Sign up</button>
+        <!-- <button class="alternate-choice" (click)="redirectToRegistration()">Sign up</button> -->
+        <a href='register' class="alternate-choice">Create new account</a>
       </form>
       <!-- <div class="forgot-password">
         <a href="#">Forgot password?</a>

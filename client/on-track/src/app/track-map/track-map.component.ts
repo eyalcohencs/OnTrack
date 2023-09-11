@@ -5,6 +5,7 @@ import { ApiService } from '../services/api-service/api-service.service';
 import { OsmMapComponent } from '../osm-map/osm-map.component';
 import { GeopointService } from '../services/geopoint-service/geopoint.service';
 import { LoadingSpinnerService } from '../services/loading-spinner-service/loading-spinner.service';
+import { MarkerTypeUrl } from '../services/osm-map-enum';
 
 
 @Component({
@@ -36,14 +37,14 @@ export class TrackMapComponent {
   onMapClick(event: any) {
     const latlng: LatLng = event.latlng;
     if (!this.sourceMarker) {
-      this.sourceMarker = this.osmMapComponent.addMarker(latlng, 'S');
+      this.sourceMarker = this.osmMapComponent.addMarker(latlng, MarkerTypeUrl.WHITE);
       this.updateSourcePointInput(this.sourceMarker.getLatLng());
     } else if (!this.targetMarker) {
-      this.targetMarker = this.osmMapComponent.addMarker(latlng, 'T');
+      this.targetMarker = this.osmMapComponent.addMarker(latlng, MarkerTypeUrl.BLACK);
       this.updateTargetPointInput(this.targetMarker.getLatLng());
     } else {
       this.clearUserSelectionFromMap();
-      this.sourceMarker = this.osmMapComponent.addMarker(latlng, 'S');
+      this.sourceMarker = this.osmMapComponent.addMarker(latlng,  MarkerTypeUrl.WHITE);
       this.updateSourcePointInput(this.sourceMarker.getLatLng());
       this.updateTargetPointInput(null);
     }
