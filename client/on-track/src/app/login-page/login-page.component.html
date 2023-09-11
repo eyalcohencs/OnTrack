@@ -1,7 +1,6 @@
 <div class="login-page">
     <div class="login-container">
     <div class="logo">
-      <!-- <img src="google-logo.png" alt="Google Logo"> -->
     </div>
     <div class="login-form">
       <h1>Sign in</h1>
@@ -11,12 +10,11 @@
         <div class= "login-failed-warning" *ngIf="loginFailedWarning">"Invalid Username or Password!"</div>
         <button type="submit" [disabled]="!username || !password">Sign in</button>
         <div class="or-sign"> OR </div>
-        <!-- <button class="alternate-choice" (click)="redirectToRegistration()">Sign up</button> -->
         <a href='register' class="alternate-choice">Create new account</a>
       </form>
-      <!-- <div class="forgot-password">
-        <a href="#">Forgot password?</a>
-      </div> -->
+      <div class="forgot-password">
+        <a href="mailto:support@on-track.com?subject=Password was has been forgotten&body=Please help me reset my password, my username is: ">Forgot password? send us an Email</a>
+      </div>
     </div>
   </div>
 </div>
