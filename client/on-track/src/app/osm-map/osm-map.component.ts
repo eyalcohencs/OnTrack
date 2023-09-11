@@ -63,12 +63,6 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
       popupAnchor: [1, -34]
     });
 
-    // let customIcon = divIcon({
-    //   className: 'custom-icon',
-    //   html: '<div>S</div>',
-    //   iconSize: [30, 30] // Adjust the size as needed
-    // });
-
     const marker: Marker = new Marker(latlng, { icon: customIcon }).addTo(this.map);
     if (!_.isNull(label)) {
       marker.bindPopup(label).openPopup();
