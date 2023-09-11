@@ -1,15 +1,19 @@
 <div class="track-creation">
-    <div class="source-point-input">
-        <label class="point-label">Source Point:</label>
-        <input type="number" [(ngModel)]="sourceLat" placeholder="Latitude" disabled>
-        <input type="number" [(ngModel)]="sourceLng" placeholder="Longitude" disabled>
+    <div class="source-point-input point-input">
+        <label class="point-label" [ngClass]="{'bold-text': (!sourceLat && !sourceLng) || (sourceLat && sourceLng && targetLat && targetLng)}">Start</label>
+        <div class="user-inputs">
+            <input type="number" [(ngModel)]="sourceLat" placeholder="Latitude" disabled>
+            <input type="number" [(ngModel)]="sourceLng" placeholder="Longitude" disabled>
+        </div>
     </div>
-    <div class="target-point-input">
-        <label class="point-label">Target Point:</label>
-        <input type="number" [(ngModel)]="targetLat" placeholder="Latitude" disabled>
-        <input type="number" [(ngModel)]="targetLng" placeholder="Longitude" disabled>
+    <div class="target-point-input point-input">
+        <label class="point-label" [ngClass]="{'bold-text': sourceLat && sourceLng && !targetLat && !targetLng}">Finish</label>
+        <div class="user-inputs">
+            <input type="number" [(ngModel)]="targetLat" placeholder="Latitude" disabled>
+            <input type="number" [(ngModel)]="targetLng" placeholder="Longitude" disabled>
+        </div>
     </div>
-    <button (click)="onComposeTrack()" [disabled]="!(sourceLat && sourceLng && targetLat && targetLng)">Compose Track</button>
+    <button (click)="onComposeTrack()" [disabled]="!(sourceLat && sourceLng && targetLat && targetLng)">Create Track</button>
     <button (click)="onClearAll()">Clear All</button>
     <button (click)="onCreateGPXFile()" [disabled]="!createdRoute">Create GPX File</button>
 </div>

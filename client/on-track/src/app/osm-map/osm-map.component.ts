@@ -1,7 +1,8 @@
 import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ElementRef, Renderer2 } from '@angular/core';
-import { Map, map, tileLayer, Marker, Polyline, LatLngExpression, Icon, Layer, LatLngTuple, CircleMarkerOptions, LatLng, circleMarker, CircleMarker} from 'leaflet';
+import { Map, map, tileLayer, Marker, Polyline, LatLngExpression, Icon, Layer, LatLngTuple, CircleMarkerOptions, LatLng, circleMarker, CircleMarker, divIcon} from 'leaflet';
 
 import * as _ from "lodash";
+import { MarkerTypeUrl } from '../services/osm-map-enum';
 
 @Component({
   selector: 'app-osm-map',
@@ -15,7 +16,7 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
   // static readonly OPEN_STREET_MAP_TILES: string = `https://israelhiking.osm.org.il/Hebrew/mtbTiles/{z}/{x}/{y}.png`;
   static readonly OPEN_STREET_MAP_TILES: string = `https://israelhiking.osm.org.il/Hebrew/Tiles/{z}/{x}/{y}.png`;
   static readonly ISRAEL_CENTER: LatLngTuple = [ 32.6000, 35.0000 ];
-  static readonly MAP_ZOOM: number = 11;
+  static readonly MAP_ZOOM: number = 13;
   static readonly CIRCULAR_MARKER_CONFIG: CircleMarkerOptions = {radius: 4};
   
   @Input() mapId: string;
@@ -54,15 +55,18 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
       this.clickOnMap.emit(event);
   }
 
-  addMarker(latlng: LatLngExpression, label: string): Marker {
+  addMarker(latlng: LatLngExpression, markerTypeUrl=MarkerTypeUrl.WHITE, label: string = null): Marker {
     const customIcon: Icon = new Icon({
-      iconUrl: 'assets/marker-icon.png',
-      iconSize: [25, 41],
+      iconUrl: markerTypeUrl,
+      iconSize: [30, 41],
       iconAnchor: [12, 41],
       popupAnchor: [1, -34]
     });
+
     const marker: Marker = new Marker(latlng, { icon: customIcon }).addTo(this.map);
-    marker.bindPopup(label).openPopup();
+    if (!_.isNull(label)) {
+      marker.bindPopup(label).openPopup();
+    }
     this.addedLayers.push(marker);
     return marker;
   }
@@ -77,10 +81,11 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
       return all_points;
   }
 
-  addRouteOnMap(coordinates: LatLngExpression[], color: string = 'blue', weight: number = 3): Polyline {
+  addRouteOnMap(coordinates: LatLngExpression[], color: string = 'blue', weight: number = 4): Polyline {
     const polyline = new Polyline(coordinates, {
       color: color,
-      weight: weight
+      weight: weight,
+      dashArray: '4 4'
     }).addTo(this.map);
     this.addedLayers.push(polyline);
 

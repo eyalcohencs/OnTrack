@@ -1,23 +1,30 @@
 <div class="sign-up-page">
     <div class="sign-up-container">
-    <div class="logo">
-      <!-- <img src="google-logo.png" alt="Google Logo"> -->
-    </div>
-    <div class="sign-up-form">
-      <h1>Sign up</h1>
-        <!-- <div class="form-container"> -->
-        <form class="form-container" (ngSubmit)="register()">
-            <input type="text" placeholder="First name" name='first_name' [(ngModel)]="user.first_name" required>
-            <input type="text" placeholder="Last name" name='last_name' [(ngModel)]="user.last_name" required>
-            <input type="email" placeholder="Email" name='email' [(ngModel)]="user.email" required>
-            <input type="username" placeholder="Username" name='username' [(ngModel)]="user.username" required>
-            <input type="password" placeholder="Password" name='password' [(ngModel)]="user.password" required>
-            <!-- <button type="submit" (click)="register()">Sign up</button> -->
-            <button type="submit">Sign up</button>
-            <div class="or-sign"> OR </div>
-            <button class="alternate-choice" (click)="redirectToLoginPage()">Sign in</button>
-        </form>
-
+      <div class="logo">
+      </div>
+      <div class="sign-up-form">
+        <h1>Sign up</h1>
+          <form [formGroup]="registrationForm" (ngSubmit)="register()">
+              <input type="text" placeholder="First name" name='first_name' formControlName="first_name" maxlength="16">
+              <input type="text" placeholder="Last name" name='last_name' formControlName="last_name" maxlength="16">
+              <input type="email" placeholder="Email" name='email' formControlName="email">
+              <input type="username" placeholder="Username" name='username' formControlName="username" maxlength="32">
+              <input type="password" placeholder="Password" name='password' formControlName="password" maxlength="16">
+              <div class= "sign-up-failed-warning" *ngIf="registerFailedWarning">"Oops... there was problem with the registration, please try again."</div>
+              <button type="submit" [disabled]="registrationForm.invalid">Sign up</button>
+              <div class="or-sign"> OR </div>
+              <a href='login' class="alternate-choice">Already have account? sign in</a>
+          </form>
+      </div>
+      <div class="validators-list-container">
+        <div class="validator-item"><div  *ngIf="registrationForm.get('first_name').hasError('required'); then VSignOFF else VSignON"></div> First name was filled </div>
+        <div class="validator-item"><div  *ngIf="registrationForm.get('last_name').hasError('required'); then VSignOFF else VSignON"></div> Last name was filled</div>
+        <div class="validator-item"><div  *ngIf="registrationForm.get('email').hasError('required') || registrationForm.get('email').hasError('email'); then VSignOFF else VSignON"></div> Email is valid</div>
+        <div class="validator-item"><div  *ngIf="registrationForm.get('username').hasError('required') || registrationForm.get('username').hasError('minlength') || registrationForm.get('username').hasError('pattern'); then VSignOFF else VSignON "></div>  Username has at least 4 charecters and no special ones</div>
+        <div class="validator-item"><div  *ngIf="registrationForm.get('password').hasError('required') || registrationForm.get('password').hasError('minlength') || registrationForm.get('password').hasError('pattern'); then VSignOFF else VSignON "></div> Password must contain at least 4 characters, one lowercase letter, one uppercase letter, one digit, and one special character.</div>
     </div>
   </div>
 </div>
+
+<ng-template #VSignON><fa-icon class="check-sign-on" [icon]="['far', 'square-check']"></fa-icon></ng-template>
+<ng-template #VSignOFF><fa-icon class="check-sign-off" [icon]="['far', 'square']"></fa-icon></ng-template>

@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TrackMapComponent } from './track-map/track-map.component';
 import { TrackCreationComponent } from './track-creation/track-creation.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AllDataMapComponent } from './all-data-map/all-data-map.component';
 import { OsmMapComponent } from './osm-map/osm-map.component';
@@ -16,6 +16,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { OnTrackInterceptor } from './on-track.interceptor';
 import { LoadingSpinnerComponent } from './widgets/loading-spinner/loading-spinner.component';
 import { UsersDetailsComponent } from './users-details/users-details.component';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { far } from '@fortawesome/free-regular-svg-icons';
 
 @NgModule({
   declarations: [
@@ -35,8 +37,10 @@ import { UsersDetailsComponent } from './users-details/users-details.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
-    FileSaverModule
+    FileSaverModule,
+    FontAwesomeModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
@@ -45,4 +49,8 @@ import { UsersDetailsComponent } from './users-details/users-details.component';
   }],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor(library: FaIconLibrary) {
+    library.addIconPacks(far)
+  }
+}

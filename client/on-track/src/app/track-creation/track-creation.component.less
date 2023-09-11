@@ -1,9 +1,48 @@
 .track-creation {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    margin: 10px 0px 10px 0;
+    align-items: center;
+    margin: 10px;
+    position: absolute;
+    z-index: 401;
+    background-color: rgba(255,255,255,0.75);
+    left: 50px;
+    border-radius: 10px;
+    height: 60px;
+
+    .point-input {
+        display: grid;
+
+        .user-inputs {
+            display: flex;
+            margin: 0px 10px 0 10px;
+
+            input {
+                text-align: center;
+                height: 20px;
+                width: 80px;
+            }
+        }
+
+        
+    }
+
+    button {
+        height: 50px;
+        width: 50px;
+        font-size: x-small;
+        border-radius: 10px;
+        border-color: darkseagreen;
+        margin: 0px 10px 0 10px;
+    }
 }
 
 .point-label {
-    margin-right: 10px
+    text-align: center;
+    font-size: small;
+}
+
+.bold-text {
+    font-weight: 600;
 }
