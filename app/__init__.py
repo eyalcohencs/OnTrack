@@ -14,13 +14,8 @@ def create_app(config_class=DevelopmentConfig):
     app = Flask(__name__, static_url_path='', static_folder='static', template_folder='static')
     app.config.from_object(config_class)
 
-    # TODO - refactor the login section
-    # app.logger.setLevel(logging.INFO)
-    # # logging.basicConfig(handlers=logging.StreamHandler)
+    # Set logging level to INFO
     logging.getLogger().setLevel(logging.INFO)
-    # logger = logging.getLogger()
-    # console_handler = logging.StreamHandler()
-    # logger.addHandler(console_handler)
 
     # Handle CORS # todo - remove before deployment
     CORS(app, supports_credentials=True, origins=['http://localhost:4200'])
