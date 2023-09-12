@@ -15,9 +15,9 @@ def create_app(config_class=DevelopmentConfig):
     app.config.from_object(config_class)
 
     # TODO - refactor the login section
+    # app.logger.setLevel(logging.INFO)
     # # logging.basicConfig(handlers=logging.StreamHandler)
-    app.logger.setLevel(logging.INFO)
-    # logging.getLogger().setLevel(logging.INFO)
+    logging.getLogger().setLevel(logging.INFO)
     # logger = logging.getLogger()
     # console_handler = logging.StreamHandler()
     # logger.addHandler(console_handler)

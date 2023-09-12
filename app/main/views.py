@@ -45,5 +45,5 @@ def status():
     logger = logging.getLogger()
     console_handler = logging.StreamHandler()
     logger.addHandler(console_handler)
-    current_app.logger.info('2 Site status: OK')
+    current_app.logger.info('3 Site status: OK')
     return make_response('Status: OK', 200)
