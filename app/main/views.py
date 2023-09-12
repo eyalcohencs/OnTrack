@@ -41,9 +41,9 @@ def status():
     # logger.info('Site status: INFO check - DEBUG level - logger with stream handler')
     # logger.error('Site status: ERROR check - DEBUG level - logger with stream handler')
 
-    current_app.logger.setLevel(logging.INFO)
+    # current_app.logger.setLevel(logging.INFO)
     logger = logging.getLogger()
     console_handler = logging.StreamHandler()
     logger.addHandler(console_handler)
-    current_app.logger.info('1 Site status: OK')
+    current_app.logger.info('2 Site status: OK')
     return make_response('Status: OK', 200)
