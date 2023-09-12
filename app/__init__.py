@@ -15,12 +15,12 @@ def create_app(config_class=DevelopmentConfig):
     app.config.from_object(config_class)
 
     # TODO - refactor the login section
-    # logging.basicConfig(handlers=logging.StreamHandler)
-    app.logger.setLevel(logging.INFO)
-    # logging.getLogger().setLevel(logging.INFO)
-    logger = logging.getLogger()
-    console_handler = logging.StreamHandler()
-    logger.addHandler(console_handler)
+    # # logging.basicConfig(handlers=logging.StreamHandler)
+    # app.logger.setLevel(logging.INFO)
+    # # logging.getLogger().setLevel(logging.INFO)
+    # logger = logging.getLogger()
+    # console_handler = logging.StreamHandler()
+    # logger.addHandler(console_handler)
 
     # Handle CORS # todo - remove before deployment
     CORS(app, supports_credentials=True, origins=['http://localhost:4200'])
