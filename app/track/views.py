@@ -2,7 +2,7 @@ from flask_jwt_extended import jwt_required
 from flask_login import login_required
 import logging
 
-from app.main import bp
+from app.track import bp
 from flask import request, make_response, jsonify, current_app
 
 from app.track.graph_service import get_all_points_in_the_graph, get_all_relations_in_the_graph

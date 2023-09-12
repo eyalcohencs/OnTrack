@@ -17,7 +17,7 @@ import { OnTrackInterceptor } from './on-track.interceptor';
 import { LoadingSpinnerComponent } from './widgets/loading-spinner/loading-spinner.component';
 import { UsersDetailsComponent } from './users-details/users-details.component';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { far } from '@fortawesome/free-regular-svg-icons';
+import { faSquare, faSquareCheck} from '@fortawesome/free-regular-svg-icons'
 
 @NgModule({
   declarations: [
@@ -51,6 +51,6 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 })
 export class AppModule { 
   constructor(library: FaIconLibrary) {
-    library.addIconPacks(far)
+    library.addIcons(faSquare, faSquareCheck)
   }
 }
