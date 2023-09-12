@@ -13,6 +13,8 @@ from app.user import bp as user_bp
 def create_app(config_class=DevelopmentConfig):
     app = Flask(__name__, static_url_path='', static_folder='static', template_folder='static')
     app.config.from_object(config_class)
+
+    # TODO - refactor the login section
     # logging.basicConfig(handlers=logging.StreamHandler)
     app.logger.setLevel(logging.INFO)
     # logging.getLogger().setLevel(logging.INFO)
