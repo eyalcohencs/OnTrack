@@ -52,8 +52,10 @@ class Neo4jDB(GraphDB):
         # TODO - uncomment when handling neo4j credentials
         # username = current_app.config['NEO4J_USERNAME']
         # password = current_app.config['NEO4J_USERNAME']
-        # driver = GraphDatabase.driver(uri, auth=(username, password))
-        driver = GraphDatabase.driver(uri)
+        username = os.environ['NEO4J_USERNAME']
+        password = os.environ['NEO4J_PASSWORD']
+        driver = GraphDatabase.driver(uri, auth=(username, password))
+        # driver = GraphDatabase.driver(uri)
         return driver
 
     def add_point_to_db(self, new_point):
