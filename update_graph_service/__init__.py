@@ -12,7 +12,7 @@ from update_graph_service.main import bp as main_bp
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-    CORS(app, supports_credentials=True, origins=['http://localhost:4200'])
+    CORS(app, supports_credentials=True, origins=['http://localhost:4200', 'https://on-track-backend-app.onrender.com'])
 
     # Set logger level
     logging.getLogger().setLevel(logging.INFO)
