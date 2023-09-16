@@ -40,7 +40,6 @@ def get_all_points():
 @jwt_required()
 def get_all_relations():
     try:
-        current_app.logger.info('Enter get_all_relations')
         all_relations = get_all_relations_in_the_graph()
         return make_response(jsonify_geo_roads_list(all_relations), 200)
     except Exception as e:

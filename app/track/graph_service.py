@@ -6,6 +6,9 @@ graph_db = Neo4jDB()
 
 
 def add_point_to_graph(point_to_add):
+    # TODO - call graph_db.get_all_points_from_db() once and update it in memory with the new point_to_add,
+    #  reduce db hit for each point, and do it for each file
+
     points = graph_db.get_all_points_from_db()
     collided_point = is_there_already_a_close_point_in_the_graph(point_to_add, points)
     if collided_point:

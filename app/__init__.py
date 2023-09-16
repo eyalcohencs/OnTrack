@@ -2,7 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 import logging
 
-from app.config import DevelopmentConfig
+from app.config import Config
 from app.extensions import db, login_manager, jwt, migrate
 from app.main import bp as main_bp
 from app.authentication import bp as auth_bp
@@ -10,7 +10,7 @@ from app.track import bp as track_bp
 from app.user import bp as user_bp
 
 
-def create_app(config_class=DevelopmentConfig):
+def create_app(config_class=Config):
     app = Flask(__name__, static_url_path='', static_folder='static', template_folder='static')
     app.config.from_object(config_class)
 

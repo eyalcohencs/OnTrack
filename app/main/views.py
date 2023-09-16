@@ -1,5 +1,3 @@
-import logging
-
 from flask import render_template, make_response, current_app
 
 from app.main import bp
