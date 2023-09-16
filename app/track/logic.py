@@ -1,6 +1,6 @@
 # import geopandas as geopandas
-import gpxpy
-import gpxpy.gpx
+# import gpxpy
+# import gpxpy.gpx
 
 import app.track.osm_service as osm_service
 # import app.track.graph_service
@@ -14,11 +14,6 @@ from app.track.graph_service import add_point_to_graph, add_edge_to_graph, find_
 
 
 # TODO - support also wkt files
-def load_track_from_gpx_file(file_path):
-    with open(file_path, 'r') as gpx_file:
-        gpx = gpxpy.parse(gpx_file)
-    return gpx
-
 
 # def add_track_to_graph(gpx, track_id):
 #     points = extract_points_of_gpx_track(gpx)
@@ -36,6 +31,7 @@ def load_track_from_gpx_file(file_path):
 #         prev_point = new_point
 #         i += 1  # debug
 
+
 def add_track_to_graph(file_loader):
     points = file_loader.get_geo_points_from_file()
     print(f'original number of points of the file: {len(points)}')  # debug
@@ -52,6 +48,22 @@ def add_track_to_graph(file_loader):
         prev_point = new_point
         i += 1  # debug
 
+
+def add_track_to_graph_v2(file_loader):
+    points = file_loader.get_geo_points_from_file()
+    print(f'original number of points of the file: {len(points)}')  # debug
+    # reduced_points = reduce_points_in_track_based_on_distance(points)
+    reduced_points = points
+    print(f'after reduction number of points: {len(reduced_points)}')  # debug
+    prev_point = None
+    i = 1  # debug
+    for point_to_add in reduced_points:
+        print(f'{i}/{len(reduced_points)}')  # debug
+        new_point = add_point_to_graph(point_to_add)
+        if prev_point:
+            add_edge_to_graph(prev_point, new_point, {'track_id': str(file_loader.track_id)})
+        prev_point = new_point
+        i += 1  # debug
 
 # def convert_gpx_to_geo_df(gpx):
 #     df = gpx2df(gpx)

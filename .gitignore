@@ -16,3 +16,4 @@ app/.env
 instance/
 __pycache__/
 app/app.log
+/update_graph_service/.env

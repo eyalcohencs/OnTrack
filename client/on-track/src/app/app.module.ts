@@ -17,7 +17,8 @@ import { OnTrackInterceptor } from './on-track.interceptor';
 import { LoadingSpinnerComponent } from './widgets/loading-spinner/loading-spinner.component';
 import { UsersDetailsComponent } from './users-details/users-details.component';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faSquare, faSquareCheck} from '@fortawesome/free-regular-svg-icons'
+import { faSquare, faSquareCheck} from '@fortawesome/free-regular-svg-icons';
+import { ManagerOperationsComponent } from './manager-page/manager-operations/manager-operations.component'
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { faSquare, faSquareCheck} from '@fortawesome/free-regular-svg-icons'
     PageNotFoundComponent,
     SignUpComponent,
     LoadingSpinnerComponent,
-    UsersDetailsComponent
+    UsersDetailsComponent,
+    ManagerOperationsComponent
   ],
   imports: [
     BrowserModule,

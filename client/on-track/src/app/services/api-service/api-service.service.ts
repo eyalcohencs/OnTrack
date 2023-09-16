@@ -28,6 +28,7 @@ export class ApiService {
     private cookieService: CookieService) { }
 
   private baseUrl = environment.apiBaseUrl;
+  private baseUrlUpdateGraphService = environment.apiBaseUrlUpdateGraphService;
 
   // TODO - fix any typing
   public async getRoute(basePoint: BasePoints): Promise<GeoClculatedRoute> {
@@ -103,6 +104,13 @@ export class ApiService {
   public async getAllUserDetails(): Promise<User[]> {
     const url: string = this.baseUrl + '/get_all_users';
     let response: any = await firstValueFrom(this.http.get<any[]>(url));
+    return response;
+  }
+
+  public async updateTracks(): Promise<void> {
+    const url: string = this.baseUrlUpdateGraphService + '/start_update_graph_db';
+    const data = {};
+    let response: void = await firstValueFrom(this.http.post<any>(url, data))
     return response;
   }
 

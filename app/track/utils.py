@@ -120,5 +120,10 @@ def jsonify_geo_roads_list(geo_road_list):
     return [road.to_dict() for road in geo_road_list]
 
 
-def end_of_file_ends_with(file_name, suffix):
-    return file_name[-len(suffix):] == suffix
+def get_file_extension(file_name):
+    parts = file_name.split(".")
+    if len(parts) > 1:
+        extension = parts[-1]
+        return extension
+    else:
+        return None

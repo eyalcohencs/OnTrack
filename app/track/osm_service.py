@@ -7,7 +7,6 @@ from app.track.utils import convert_coordinates_list_to_geo_point_list
 
 
 def get_osm_client():
-    # key_api = current_app.config['OSM_KEY_API']
     key_api = os.environ.get('OSM_KEY_API')
     return openrouteservice.Client(key=key_api)
 
