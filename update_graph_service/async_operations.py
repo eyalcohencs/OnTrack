@@ -18,6 +18,7 @@ from flask_mail import Message
 
 class TrackFileLoader(ABC):
     def __init__(self, path_to_file, s3_client, file_type, is_locale_file=True):
+        print(f'Start file loader creation: {path_to_file}')
         self.file_type = file_type
         self.path_to_file = path_to_file
         self._validate_file_type()
@@ -145,17 +146,31 @@ def send_mail(recipients, sender, subject, message):
     mail.send(msg)
 
 
-def create_file_loader_from_files(files_list, s3, is_locale_file, parallel_workers=10,):
+def create_file_loader_from_files_old(files_list, s3, is_locale_file, parallel_workers=10,):
     file_loaders = []
     with ThreadPoolExecutor(max_workers=parallel_workers) as executor:
         futures = [executor.submit(create_file_loader, file_name, s3, is_locale_file)
-                   for file_name in files_list[0:3]]
+                   for file_name in files_list]
+        number = 0
         for future in concurrent.futures.as_completed(futures):
             try:
+                print(f'number {number}')
                 result = future.result()
                 file_loaders.append(result)
             except Exception as e:
+                print(f'number exception {number}')
+
                 logging.error(f'File loader worker ERROR: {e}')
+            number = number + 1
+    return file_loaders
+
+
+def create_file_loader_from_files(files_list, s3, is_locale_file, parallel_workers=10,):
+    file_loaders = []
+    for file_name in files_list:
+        print(f'create file loader for: {file_name}')
+        file_loader = create_file_loader(file_name, s3, is_locale_file)
+        file_loaders.append(file_loader)
     return file_loaders
 
 
@@ -175,7 +190,7 @@ def update_graph_db(app_context, load_tracks_from_bucket=True):
                 files_list = get_list_of_tracks_from_local_directory()
             logging.info(f'update-graph: {len(files_list)} candidate track files were found')
 
-            file_loaders = create_file_loader_from_files(files_list, s3, is_locale_file)
+            file_loaders = create_file_loader_from_files(files_list, s3, is_locale_file, parallel_workers=10)
 
             file_number = 1
             valid_files_loaders = [file_loader for file_loader in file_loaders if file_loader is not None]

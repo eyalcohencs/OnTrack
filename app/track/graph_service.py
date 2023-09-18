@@ -5,16 +5,14 @@ from app.track.graph_logic import is_there_already_a_close_point_in_the_graph, d
 graph_db = Neo4jDB()
 
 
-def add_point_to_graph(point_to_add):
-    # TODO - call graph_db.get_all_points_from_db() once and update it in memory with the new point_to_add,
-    #  reduce db hit for each point, and do it for each file
-
-    points = graph_db.get_all_points_from_db()
+def add_point_to_graph(point_to_add, all_points=None):
+    points = all_points if all_points else graph_db.get_all_points_from_db()
     collided_point = is_there_already_a_close_point_in_the_graph(point_to_add, points)
     if collided_point:
         point_to_add = collided_point
     else:
         point_to_add = graph_db.add_point_to_db(point_to_add)
+        all_points.append(point_to_add)
     return point_to_add
 
 
@@ -25,7 +23,7 @@ def add_edge_to_graph(source_point, target_point, data=None):
 
 
 def find_nearest_point(source_point):
-    all_points = graph_db.get_all_points_from_db()
+    all_points = get_all_points_in_the_graph()
     first_point = all_points.pop(0)
     min_distance = distance_between_points(source_point, first_point)
     nearset_point = first_point
