@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { BasePoints, GeoClculatedRoute, GeoPoint } from '../geopoint-service/geopoint.service';
+import { BasePoints, GeoCalculatedRoute, GeoPoint } from '../geopoint-service/geopoint.service';
 import { CookieService } from 'ngx-cookie-service';
 import { User } from '../user-enum';
 
@@ -31,13 +31,13 @@ export class ApiService {
   private baseUrlUpdateGraphService = environment.apiBaseUrlUpdateGraphService;
 
   // TODO - fix any typing
-  public async getRoute(basePoint: BasePoints): Promise<GeoClculatedRoute> {
+  public async getRoute(basePoint: BasePoints): Promise<GeoCalculatedRoute> {
     const url: string = this.baseUrl + '/get_route';
     const queryParams = {start_lat: basePoint.start_lat,
       start_lng: basePoint.start_lng,
       end_lat: basePoint.end_lat,
       end_lng: basePoint.end_lng};
-    let response: any = await firstValueFrom(this.http.get<GeoClculatedRoute>(url, {params: queryParams}));
+    let response: any = await firstValueFrom(this.http.get<GeoCalculatedRoute>(url, {params: queryParams}));
     return response;
   }
 

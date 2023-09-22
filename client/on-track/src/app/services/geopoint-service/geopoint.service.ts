@@ -16,7 +16,7 @@ export interface BasePoints {
   end_lng: number;
 }
 
-export interface GeoClculatedRoute {
+export interface GeoCalculatedRoute {
   points: GeoPoint[];
   roads: GeoRoad[];
 }

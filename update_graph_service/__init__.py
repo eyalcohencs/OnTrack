@@ -2,7 +2,7 @@ import logging
 
 from flask import Flask
 
-from update_graph_service.extensions import mail
+from update_graph_service.extensions import mail, jwt
 from update_graph_service.config import Config
 from flask_cors import CORS
 
@@ -18,6 +18,7 @@ def create_app(config_class=Config):
     logging.getLogger().setLevel(logging.INFO)
 
     # Extensions
+    jwt.init_app(app)
     mail.init_app(app)
 
     # Register blueprints

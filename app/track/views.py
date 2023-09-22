@@ -1,6 +1,5 @@
 from flask_jwt_extended import jwt_required
 from flask_login import login_required
-import logging
 
 from app.track import bp
 from flask import request, make_response, jsonify, current_app

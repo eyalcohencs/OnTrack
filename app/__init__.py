@@ -17,13 +17,13 @@ def create_app(config_class=Config):
     # Set logging level to INFO
     logging.getLogger().setLevel(logging.INFO)
 
-    # Handle CORS # todo - remove before deployment
+    # Handle CORS
     CORS(app, supports_credentials=True, origins=['http://localhost:4200'])
 
     # Initialize Flask extensions
     db.init_app(app)
     migrate.init_app(app, db)
-    login_manager.init_app(app)
+    login_manager.init_app(app)  # TODO - do I need login manager
     jwt.init_app(app)
 
     # Register blueprints

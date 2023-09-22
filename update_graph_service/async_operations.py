@@ -86,6 +86,7 @@ class GPXTrackLoader(TrackFileLoader):
         return geo_points
 
 
+# TODO - implement TWL file loader
 class TWLTrackLoader(TrackFileLoader):
     FILE_TYPE = 'twl'
 
