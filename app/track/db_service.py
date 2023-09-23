@@ -23,6 +23,10 @@ class GraphDB(ABC):
         pass
 
     @abstractmethod
+    def add_point_and_relation_to_exist_point_db(self, existed_point, new_point, relation_data):
+        pass
+
+    @abstractmethod
     def get_point_from_db(self, point1):
         pass
 
@@ -78,6 +82,23 @@ class Neo4jDB(GraphDB):
                 session.run(f'''MATCH (point1:GeoPoint {{ uuid: '{start_uuid}' }}), (point2:GeoPoint {{ uuid: '{end_uuid}' }})
                     MERGE (point1)-[:ROAD {{ track_id: '{str(data['track_id'])}' }} ]->(point2)''')
 
+    def add_point_and_relation_to_exist_point_db(self, existed_point, new_point, relation_data):
+        with self._initial_db_client() as client:
+            with client.session() as session:
+                result = session.run(f'''
+                MATCH(existed_point: GeoPoint {{uuid: "{existed_point.uuid}"}})
+                CREATE (new_point:GeoPoint {{ point_data: "{new_point}", 
+                uuid: "{uuid.uuid4()}",
+                longitude:"{new_point.longitude}", 
+                latitude:"{new_point.latitude}", 
+                altitude:"{new_point.altitude}", 
+                time:"{new_point.time}" }} )
+                MERGE (existed_point)-[:ROAD {{ track_id: '{str(relation_data['track_id'])}' }} ]->(point2)
+                RETURN new_point''')
+
+                node = result.single()[0]
+                return GeoPoint(node['longitude'], node['latitude'], node['altitude'], node['time'], node['uuid'])
+            
     def get_point_from_db(self, point1):
         pass
 

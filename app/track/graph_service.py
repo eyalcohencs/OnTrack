@@ -22,6 +22,20 @@ def add_edge_to_graph(source_point, target_point, data=None):
         graph_db.add_edge_to_db(source_point, target_point, data)
 
 
+def add_point_and_relation_to_exist_point_to_graph(existed_point, point_to_add, data=None, all_points=None):
+    data = data if data is not None else {'track_id': None}
+    points = all_points if all_points else graph_db.get_all_points_from_db()
+    collided_point = is_there_already_a_close_point_in_the_graph(point_to_add, points)
+    if collided_point:
+        point_to_add = collided_point
+        if not are_the_same_point_by_coordinates(existed_point, point_to_add):
+            graph_db.add_edge_to_db(existed_point, point_to_add, data)
+    else:
+        graph_db.add_point_and_relation_to_exist_point_db(existed_point, point_to_add, data)
+        all_points.append(point_to_add)
+    return point_to_add
+
+
 def find_nearest_point(source_point):
     all_points = get_all_points_in_the_graph()
     first_point = all_points.pop(0)

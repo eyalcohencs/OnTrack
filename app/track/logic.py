@@ -3,10 +3,10 @@ import app.track.osm_service as osm_service
 from app.track.utils import GeoPoint, convert_geo_point_list_to_geo_road_list
 
 from app.track.graph_service import add_point_to_graph, add_edge_to_graph, find_nearest_point, find_shortest_path, \
-    get_all_points_in_the_graph
+    get_all_points_in_the_graph, add_point_and_relation_to_exist_point_to_graph
 
 
-def add_track_to_graph(file_loader):
+def add_track_to_graph_old(file_loader):
     points = file_loader.get_geo_points_from_file()
     print(f'original number of points of the file: {len(points)}')  # debug
     # reduced_points = reduce_points_in_track_based_on_distance(points)
@@ -20,6 +20,29 @@ def add_track_to_graph(file_loader):
         new_point = add_point_to_graph(point_to_add, all_points)
         if prev_point:
             add_edge_to_graph(prev_point, new_point, {'track_id': str(file_loader.track_id)})
+        prev_point = new_point
+        i += 1  # debug
+
+
+def add_track_to_graph(file_loader):
+    points = file_loader.get_geo_points_from_file()
+    print(f'original number of points of the file: {len(points)}')  # debug
+    # reduced_points = reduce_points_in_track_based_on_distance(points)
+    reduced_points = points
+    print(f'after reduction number of points: {len(reduced_points)}')  # debug
+    prev_point = None
+    i = 1  # debug
+    all_points = get_all_points_in_the_graph()
+    for point_to_add in reduced_points:
+        print(f'{i}/{len(reduced_points)}')  # debug
+        if not prev_point:
+            new_point = add_point_to_graph(point_to_add, all_points)
+        else:
+            new_point = add_point_and_relation_to_exist_point_to_graph(
+                existed_point=prev_point,
+                point_to_add=point_to_add,
+                data={'track_id': str(file_loader.track_id)},
+                all_points=all_points)
         prev_point = new_point
         i += 1  # debug
 
