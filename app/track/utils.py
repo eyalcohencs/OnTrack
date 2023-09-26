@@ -97,3 +97,8 @@ def get_file_extension(file_name):
         return extension
     else:
         return None
+
+
+def create_key_for_point_grouping(element, attribute='longitude'):
+    """ function that is given for grouping points """
+    return str(getattr(element, attribute))[0:5]

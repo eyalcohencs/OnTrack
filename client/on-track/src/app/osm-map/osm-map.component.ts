@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ElementRef, Renderer2 } from '@angular/core';
-import { Map, map, tileLayer, Marker, Polyline, LatLngExpression, Icon, Layer, LatLngTuple, CircleMarkerOptions, LatLng, circleMarker, CircleMarker, divIcon} from 'leaflet';
+import { Map, map, tileLayer, Marker, Polyline, LatLngExpression, Icon, Layer, LatLngTuple, CircleMarkerOptions, LatLng, circleMarker, CircleMarker, divIcon, PointTuple} from 'leaflet';
 
 import * as _ from "lodash";
 import { MarkerTypeUrl } from '../services/osm-map-enum';
@@ -49,16 +49,21 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
     });
 
     tiles.addTo(this.map);
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      const userMarker: Marker = this.addMarker([position.coords.latitude, position.coords.longitude], MarkerTypeUrl.CAR, null, [41, 41])
+      this.map.panTo(userMarker.getLatLng());
+    });
   }
 
   private onMapClick(event: any) {
       this.clickOnMap.emit(event);
   }
 
-  addMarker(latlng: LatLngExpression, markerTypeUrl=MarkerTypeUrl.WHITE, label: string = null): Marker {
+  addMarker(latlng: LatLngExpression, markerTypeUrl=MarkerTypeUrl.WHITE, label: string = null, iconSize: PointTuple=[30, 41]): Marker {
     const customIcon: Icon = new Icon({
       iconUrl: markerTypeUrl,
-      iconSize: [30, 41],
+      iconSize: iconSize,
       iconAnchor: [12, 41],
       popupAnchor: [1, -34]
     });

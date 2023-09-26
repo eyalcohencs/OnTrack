@@ -7,7 +7,7 @@ import logging
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from app.config import Config
-from app.extensions import db, login_manager, jwt, migrate
+from app.extensions import db, login_manager, jwt, migrate, cache
 from app.main import bp as main_bp
 from app.authentication import bp as auth_bp
 from app.track import bp as track_bp
@@ -36,6 +36,7 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     login_manager.init_app(app)  # TODO - do I need login manager
     jwt.init_app(app)
+    cache.init_app(app)
 
     # Register blueprints
     app.register_blueprint(main_bp)
@@ -43,9 +44,10 @@ def create_app(config_class=Config):
     app.register_blueprint(track_bp)
     app.register_blueprint(user_bp)
 
+    # TODO - check if this solve the problem of Render limitations
     # Initial background scheduler
     scheduler = BackgroundScheduler()
-    scheduler.add_job(keep_alive, 'interval', minutes=1)
+    scheduler.add_job(keep_alive, 'interval', minutes=10)
     scheduler.start()
 
     return app

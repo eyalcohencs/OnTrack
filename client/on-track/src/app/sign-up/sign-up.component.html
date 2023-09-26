@@ -10,18 +10,19 @@
               <input type="email" placeholder="Email" name='email' formControlName="email">
               <input type="username" placeholder="Username" name='username' formControlName="username" maxlength="32">
               <input type="password" placeholder="Password" name='password' formControlName="password" maxlength="16">
-              <div class= "sign-up-failed-warning" *ngIf="registerFailedWarning">"Oops... there was problem with the registration, please try again."</div>
+              <div class= "sign-up-failed-warning" *ngIf="registerFailedWarning">"Oops... there was a problem with the registration, please try again."</div>
               <button type="submit" [disabled]="registrationForm.invalid">Sign up</button>
+              <a href="privacy-and-terms-of-use" class="redirect-to-terms-of-use">By register and using this website, you agree to the following terms and conditions</a>
               <div class="or-sign"> OR </div>
-              <a href='login' class="alternate-choice">Already have account? sign in</a>
+              <a href='login' class="alternate-choice">Already have an account? sign in</a>
           </form>
       </div>
       <div class="validators-list-container">
-        <div class="validator-item"><div  *ngIf="registrationForm.get('first_name').hasError('required'); then VSignOFF else VSignON"></div> First name was filled </div>
-        <div class="validator-item"><div  *ngIf="registrationForm.get('last_name').hasError('required'); then VSignOFF else VSignON"></div> Last name was filled</div>
+        <div class="validator-item"><div  *ngIf="registrationForm.get('first_name').hasError('required'); then VSignOFF else VSignON"></div> First name has been filled </div>
+        <div class="validator-item"><div  *ngIf="registrationForm.get('last_name').hasError('required'); then VSignOFF else VSignON"></div> Last name has been filled</div>
         <div class="validator-item"><div  *ngIf="registrationForm.get('email').hasError('required') || registrationForm.get('email').hasError('email'); then VSignOFF else VSignON"></div> Email is valid</div>
-        <div class="validator-item"><div  *ngIf="registrationForm.get('username').hasError('required') || registrationForm.get('username').hasError('minlength') || registrationForm.get('username').hasError('pattern'); then VSignOFF else VSignON "></div>  Username has at least 4 charecters and no special ones</div>
-        <div class="validator-item"><div  *ngIf="registrationForm.get('password').hasError('required') || registrationForm.get('password').hasError('minlength') || registrationForm.get('password').hasError('pattern'); then VSignOFF else VSignON "></div> Password must contain at least 4 characters, one lowercase letter, one uppercase letter, one digit, and one special character.</div>
+        <div class="validator-item"><div  *ngIf="registrationForm.get('username').hasError('required') || registrationForm.get('username').hasError('minlength') || registrationForm.get('username').hasError('pattern'); then VSignOFF else VSignON "></div> Username must have at least 4 characters and no special ones</div>
+        <div class="validator-item"><div  *ngIf="registrationForm.get('password').hasError('required') || registrationForm.get('password').hasError('minlength') || registrationForm.get('password').hasError('pattern'); then VSignOFF else VSignON "></div> Password must contain at least 4 characters, one lowercase letter, one uppercase letter, one digit, and one special character</div>
     </div>
   </div>
 </div>

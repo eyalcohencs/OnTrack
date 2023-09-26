@@ -18,7 +18,8 @@ import { LoadingSpinnerComponent } from './widgets/loading-spinner/loading-spinn
 import { UsersDetailsComponent } from './users-details/users-details.component';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSquare, faSquareCheck} from '@fortawesome/free-regular-svg-icons';
-import { ManagerOperationsComponent } from './manager-page/manager-operations/manager-operations.component'
+import { ManagerOperationsComponent } from './manager-page/manager-operations/manager-operations.component';
+import { PrivacyTermOfUsePageComponent } from './privacy-term-of-use-page/privacy-term-of-use-page.component'
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ManagerOperationsComponent } from './manager-page/manager-operations/ma
     SignUpComponent,
     LoadingSpinnerComponent,
     UsersDetailsComponent,
-    ManagerOperationsComponent
+    ManagerOperationsComponent,
+    PrivacyTermOfUsePageComponent
   ],
   imports: [
     BrowserModule,
