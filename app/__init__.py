@@ -18,7 +18,7 @@ def keep_alive():
     # Keep update graph service alive, prevent the machine to be suspended due to Render limitations
     update_graph_service_url = os.environ.get('UPDATE_GRAPH_SERVICE_URL') + '/status'
     response = requests.get(update_graph_service_url)
-    logging.getLogger().info(f'keep alive: update graph service - {str(response.status_code)}')
+    logging.getLogger().error(f'keep alive: update graph service - {str(response.status_code)}')
 
 
 def create_app(config_class=Config):
@@ -45,7 +45,7 @@ def create_app(config_class=Config):
 
     # Initial background scheduler
     scheduler = BackgroundScheduler()
-    scheduler.add_job(keep_alive, 'interval', minutes=12)
+    scheduler.add_job(keep_alive, 'interval', minutes=1)
     scheduler.start()
 
     return app
