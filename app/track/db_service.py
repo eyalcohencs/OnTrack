@@ -93,7 +93,7 @@ class Neo4jDB(GraphDB):
                 latitude:"{new_point.latitude}", 
                 altitude:"{new_point.altitude}", 
                 time:"{new_point.time}" }} )
-                MERGE (existed_point)-[:ROAD {{ track_id: '{str(relation_data['track_id'])}' }} ]->(point2)
+                MERGE (existed_point)-[:ROAD {{ track_id: '{str(relation_data['track_id'])}' }} ]->(new_point)
                 RETURN new_point''')
 
                 node = result.single()[0]
