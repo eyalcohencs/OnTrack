@@ -2,6 +2,8 @@ import os
 
 from geopy import distance
 
+from app.track.utils import all_close_points_in_border
+
 
 def are_two_points_too_close(point1, point2, gap=None):
     gap = os.environ['GAP_BETWEEN_POINTS_IN_METERS_FOR_CALCULATE_ROUTE'] if gap is None else gap
@@ -25,15 +27,8 @@ def distance_between_points(geo_point1, geo_point2):
     return distance.geodesic((geo_point1.latitude, geo_point1.longitude), (geo_point2.latitude, geo_point2.longitude))
 
 
-def is_there_already_a_close_point_in_the_graph(point_to_add, grouped_points, create_key):
-    key = create_key(point_to_add)
-    prev_section_key = str(float(key) - 0.01)[0:5]
-    next_section_key = str(float(key) + 0.01)[0:5]
-    points_to_check = grouped_points[key][:]  # shallow copy
-    if prev_section_key in grouped_points:
-        points_to_check += grouped_points[prev_section_key]
-    if next_section_key in grouped_points:
-        points_to_check += grouped_points[next_section_key]
+def is_there_already_a_close_point_in_the_graph(point_to_add, grouped_points):
+    points_to_check = all_close_points_in_border(point_to_add, grouped_points, 0.01)
     close_point = None
     for point in points_to_check:
         if are_the_same_point_by_coordinates(point_to_add, point) \
@@ -43,14 +38,14 @@ def is_there_already_a_close_point_in_the_graph(point_to_add, grouped_points, cr
     return close_point
 
 
-def get_all_points_in_graph_by_grouping_of_attribute(points_to_group, create_key, attribute='longitude'):
+def get_all_points_in_graph_by_grouping_of_attribute(points_to_group, create_key, attribute='latitude'):
     grouped_points = {}
     for point in points_to_group:
         add_point_to_group_of_points(grouped_points, point, create_key, attribute)
     return grouped_points
 
 
-def add_point_to_group_of_points(grouped_points, point_to_add, creation_key_function, attribute_to_grouped_by='longitude'):
+def add_point_to_group_of_points(grouped_points, point_to_add, creation_key_function, attribute_to_grouped_by='latitude'):
     key = creation_key_function(point_to_add, attribute_to_grouped_by)
     if key not in grouped_points:
         grouped_points[key] = []

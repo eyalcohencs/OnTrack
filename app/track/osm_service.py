@@ -18,3 +18,5 @@ def get_route_between_two_points(source_point, target_point):
     coords_list = openrouteservice.convert.decode_polyline(geometry)['coordinates']
     route = convert_coordinates_list_to_geo_point_list(coords_list)
     return route
+
+# profile='cycling-mountain' - to be more on off road routes

@@ -1,6 +1,6 @@
-import os
+from itertools import chain
 
-from app.track.graph_logic import are_the_same_point_by_coordinates, are_two_points_too_close
+import numpy as np
 
 CALCULATED_ROAD = 'CALCULATED_ROAD'
 
@@ -50,27 +50,6 @@ class GeoRoad:
         return f'{self.uuid} | {self.track_id}'
 
 
-# todo - check if the function is in the right file, maybe graph_logic
-def reduce_points_in_track_based_on_distance(geo_points):
-    gap_between_points_in_meters_for_reduction = os.environ['GAP_BETWEEN_POINTS_IN_METERS_FOR_REDUCTION']
-    anchor_index = 0
-    index = 1
-    reduced_points = [geo_points[anchor_index]]
-    final_index = len(geo_points) - 2
-    while index <= final_index:
-        anchor_point = geo_points[anchor_index]
-        checked_point = geo_points[index]
-        # Check if they are same is little faster than calculate distance
-        if not are_the_same_point_by_coordinates(anchor_point, checked_point) \
-                and not are_two_points_too_close(
-                anchor_point, checked_point, int(gap_between_points_in_meters_for_reduction)):
-            reduced_points.append(checked_point)
-            anchor_index = index
-        index = index + 1
-
-    return reduced_points
-
-
 def convert_coordinates_list_to_geo_point_list(coords_list):
     return [GeoPoint(coord[0], coord[1]) for coord in coords_list]
 
@@ -99,6 +78,20 @@ def get_file_extension(file_name):
         return None
 
 
-def create_key_for_point_grouping(element, attribute='longitude'):
+def create_key_for_point_grouping(element, attribute='latitude'):
     """ function that is given for grouping points """
     return str(getattr(element, attribute))[0:5]
+
+
+def create_range_of_keys_for_points_grouping(element, attribute='latitude', border=0.01):
+    element_key = create_key_for_point_grouping(element, attribute)
+    min_border = float(element_key)-border
+    max_border = float(element_key)+border
+    return [str(key)[0:5] for key in np.arange(min_border, max_border, 0.01)]
+
+
+def all_close_points_in_border(source_point, grouped_points, attribute='latitude', border=0.01):
+    grouping_keys = create_range_of_keys_for_points_grouping(source_point, attribute, border)
+    close_points = list(chain.from_iterable(
+        map(lambda key: grouped_points[key] if key in grouped_points else [], grouping_keys)))
+    return close_points

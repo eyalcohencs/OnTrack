@@ -1,5 +1,8 @@
+import os
+
 import app.track.osm_service as osm_service
-from app.track.graph_logic import get_all_points_in_graph_by_grouping_of_attribute
+from app.track.graph_logic import get_all_points_in_graph_by_grouping_of_attribute, are_the_same_point_by_coordinates, \
+    are_two_points_too_close
 
 from app.track.utils import GeoPoint, convert_geo_point_list_to_geo_road_list, create_key_for_point_grouping
 
@@ -32,6 +35,26 @@ def add_track_to_graph(file_loader):
                 grouping_creation_key=create_key_for_point_grouping)
         prev_point = new_point
         point_counter += 1  # debug
+
+
+def reduce_points_in_track_based_on_distance(geo_points):
+    gap_between_points_in_meters_for_reduction = os.environ['GAP_BETWEEN_POINTS_IN_METERS_FOR_REDUCTION']
+    anchor_index = 0
+    index = 1
+    reduced_points = [geo_points[anchor_index]]
+    final_index = len(geo_points) - 2
+    while index <= final_index:
+        anchor_point = geo_points[anchor_index]
+        checked_point = geo_points[index]
+        # Check if they are same is little faster than calculate distance
+        if not are_the_same_point_by_coordinates(anchor_point, checked_point) \
+                and not are_two_points_too_close(
+                anchor_point, checked_point, int(gap_between_points_in_meters_for_reduction)):
+            reduced_points.append(checked_point)
+            anchor_index = index
+        index = index + 1
+
+    return reduced_points
 
 
 # TODO - change naming of variables and functions - too long

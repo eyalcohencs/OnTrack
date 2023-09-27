@@ -157,6 +157,8 @@ class Neo4jDB(GraphDB):
 
     def _convert_neo4j_gds_result_to_geo_point_list(self, result):
         gds_result = result.single()
+        if gds_result is None:
+            return [], []
         nodes_on_path = gds_result['nodes_on_path']
         relationships_on_path = gds_result['relationships_on_path']
         geo_points_on_path = [
@@ -165,7 +167,6 @@ class Neo4jDB(GraphDB):
         # todo - create 'Road' object and return it
         geo_roads = self._convert_neo4j_relations_to_geo_roads(relationships_on_path)
         return geo_points_on_path, geo_roads
-    # todo - break cache - cache the all points from db unless add or delete were made, especially for path creation
 
     @staticmethod
     def _convert_neo4j_relations_to_geo_roads(relations):
