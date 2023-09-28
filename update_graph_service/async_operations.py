@@ -166,7 +166,7 @@ def create_file_loader_from_files_old(files_list, s3, is_locale_file, parallel_w
     return file_loaders
 
 
-def create_file_loader_from_files(files_list, s3, is_locale_file, parallel_workers=10,):
+def create_file_loader_from_files(files_list, s3, is_locale_file, parallel_workers=10):
     file_loaders = []
     for file_name in files_list:
         print(f'create file loader for: {file_name}')
@@ -176,8 +176,10 @@ def create_file_loader_from_files(files_list, s3, is_locale_file, parallel_worke
 
 
 def update_graph_db(app_context, load_tracks_from_bucket=True):
+    # load_tracks_from_bucket = False  # todo - remove this - debug purpose
     try:
         with app_context:
+        # with app.app_context():
             start_time = time.time()
             logging.info('Start update graph process...')
 
@@ -203,11 +205,13 @@ def update_graph_db(app_context, load_tracks_from_bucket=True):
                 file_number += 1
             end_time = time.time()
             elapsed_time = end_time - start_time
+            # recipient = get_current_user_details().email  # todo - pass user data from the client
             send_mail(subject='Update graph was finished',
                       sender='ontrackguide@gmail.com',
-                      recipients=['eyalspider@gmail.com'],
+                      recipients=['eyalspider@gmail.com'],  # todo - pass user data from the client  to fill this
+                      # recipients=[recipient],
                       message=f'{len(valid_files_loaders)} tracks were loaded successfully, '
-                              f'it took {elapsed_time / 60} min')
+                              f'it took {elapsed_time / 60} min for load {file_number} track files')
             logging.info('update-graph: mail was sent')
             logging.info(f'Finish update graph process!, it took {elapsed_time / 60} min')
     except Exception as e:
