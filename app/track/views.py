@@ -1,12 +1,14 @@
+import threading
+from flask import request, make_response, jsonify, current_app
 from flask_jwt_extended import jwt_required
 from flask_login import login_required
 
 from app.track import bp
-from flask import request, make_response, jsonify, current_app
-
+from app.track.async_operations import update_graph_db
 from app.track.graph_service import get_all_points_in_the_graph, get_all_relations_in_the_graph
 from app.track.logic import calculate_route
 from app.track.utils import jsonify_geo_points_list, jsonify_geo_roads_list
+from app.user.logic import get_current_user_details
 
 
 @bp.route('/get_route', methods=['GET'])
@@ -45,5 +47,15 @@ def get_all_relations():
         current_app.logger.error('EXCEPTION get_all_relations ' + str(e))
 
         return make_response(jsonify(e), 405)
+
+
+@bp.route('/start_update_graph_db', methods=['POST'])
+@jwt_required()
+def start_update_graph_db():
+    current_user = get_current_user_details()
+    thread = threading.Thread(target=update_graph_db, args=(current_app.app_context(), current_user, True))
+    thread.start()
+
+    return make_response(jsonify('good'), 200)
 
 

@@ -1,4 +1,3 @@
-# from update_graph_service import cache as update_graph_cache
 from app import cache
 from app.track.db_service import Neo4jDB
 from app.track.graph_logic import is_there_already_a_close_point_in_the_graph, distance_between_points, \
@@ -8,6 +7,7 @@ from app.track.utils import all_close_points_in_border
 graph_db = Neo4jDB()
 
 
+# TODO - a good improvement is to break down the monolithic app to microservices and Track service should be one of them
 def add_point_to_graph(point_to_add, grouped_points, grouped_key_function):
     collided_point = is_there_already_a_close_point_in_the_graph(point_to_add, grouped_points)
     if collided_point:
@@ -56,7 +56,6 @@ def find_shortest_path(source_point, target_point):
     return graph_db.find_shortest_path(source_point, target_point)
 
 
-# todo - create a view in the monolithic app and use API to get all the points
 @cache.cached(timeout=600, key_prefix='get_all_points_in_the_graph')
 def get_all_points_in_the_graph():
     return graph_db.get_all_points_from_db()
@@ -70,14 +69,3 @@ def get_all_relations_in_the_graph():
 
 def clear_cache_of_all_points_and_relations():
     cache.delete_many('get_all_points_in_the_graph', 'get_all_relations_in_the_graph')
-
-
-# # TODO - move the graph_service to be a microservice, so he can serve the monolitic app and the update_graph_service
-# @update_graph_cache.cached(timeout=600, key_prefix='get_all_points_in_the_graph')
-# def update_graph_get_all_points_in_the_graph():
-#     return graph_db.get_all_points_from_db()
-#
-#
-# @update_graph_cache.cached(timeout=600, key_prefix='get_all_relations_in_the_graph')
-# def update_graph_get_all_relations_in_the_graph():
-#     return graph_db.get_all_relations_from_db()
