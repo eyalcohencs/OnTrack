@@ -17,4 +17,6 @@ class Config:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
-    CACHE_TYPE = 'simple'
+    CACHE_TYPE = 'simple'  # 'redis'
+    CACHE_DEFAULT_TIMEOUT = 300
+    CACHE_REDIS_URL = os.environ.get('CACHE_REDIS_URL')

@@ -28,7 +28,7 @@ def distance_between_points(geo_point1, geo_point2):
 
 
 def is_there_already_a_close_point_in_the_graph(point_to_add, grouped_points):
-    points_to_check = all_close_points_in_border(point_to_add, grouped_points, 0.01)
+    points_to_check = all_close_points_in_border(point_to_add, grouped_points, 'latitude', 0.01)
     close_point = None
     for point in points_to_check:
         if are_the_same_point_by_coordinates(point_to_add, point) \

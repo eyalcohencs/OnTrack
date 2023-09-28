@@ -7,9 +7,11 @@ from update_graph_service.async_operations import update_graph_db
 from update_graph_service.main import bp
 
 
-@jwt_required()
 @bp.route('/start_update_graph_db', methods=['POST'])
+@jwt_required()
 def start_update_graph_db():
+    # current_user = get_jwt_identity()
+    # thread = threading.Thread(target=update_graph_db, args=(current_app._get_current_object(), True))
     thread = threading.Thread(target=update_graph_db, args=(current_app.app_context(), True))
     thread.start()
 

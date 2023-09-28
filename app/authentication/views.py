@@ -57,7 +57,7 @@ def login():
     access_token = create_access_token(identity=username, expires_delta=timedelta(days=1))
 
     # Mark user as logged in
-    login_user(user)
+    login_user(user)  # todo - is it necessary?
 
     # Serialize data
     serialized_data = jsonify({'username': user.username, 'token': access_token, 'user': user.to_dict()})
