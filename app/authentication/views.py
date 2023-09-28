@@ -10,15 +10,20 @@ from app.authentication import bp
 from app.models.user import User
 from app.user.logic import get_current_user_details
 
+# TODO - a good improvement is to break down the monolithic app to microservices and
+#  Authentication service should be one of them
+
 
 @bp.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
 
-    # check if user already logged in
+    # check if user already logged in # todo
     # current_user is None if not make_response(jsonify({'is_created': False}), 301)
 
     # exist_user =  # todo - check existed user
+
+    # validate input # todo
 
     validate_password = data['password']
     password = bcrypt.hashpw(validate_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')

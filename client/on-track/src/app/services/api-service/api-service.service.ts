@@ -108,7 +108,7 @@ export class ApiService {
   }
 
   public async updateTracks(): Promise<void> {
-    const url: string = this.baseUrlUpdateGraphService + '/start_update_graph_db';
+    const url: string = this.baseUrl + '/start_update_graph_db';
     const data = {};
     let response: void = await firstValueFrom(this.http.post<any>(url, data))
     return response;
