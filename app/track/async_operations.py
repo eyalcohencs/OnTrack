@@ -180,7 +180,7 @@ def update_graph_db(app_context, current_user, load_tracks_from_bucket=True):
         with app_context:
             start_time = time.time()
             logging.info('Start update graph process...')
-            logging.error('Start update graph process...')
+            logging.error('Start update graph process...')  # todo - debug remove
 
             if load_tracks_from_bucket:
                 s3 = get_s3_client()

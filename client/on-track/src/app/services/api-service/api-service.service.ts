@@ -26,38 +26,11 @@ export class ApiService {
   constructor(
     private http: HttpClient,
     private cookieService: CookieService) { }
+  
+  private baseUrl = environment.apiBaseUrl + environment.apiVersion;
+  // private baseUrlUpdateGraphService = environment.apiBaseUrlUpdateGraphService;
 
-  private baseUrl = environment.apiBaseUrl;
-  private baseUrlUpdateGraphService = environment.apiBaseUrlUpdateGraphService;
-
-  // TODO - fix any typing
-  public async getRoute(basePoint: BasePoints): Promise<GeoCalculatedRoute> {
-    const url: string = this.baseUrl + '/get_route';
-    const queryParams = {start_lat: basePoint.start_lat,
-      start_lng: basePoint.start_lng,
-      end_lat: basePoint.end_lat,
-      end_lng: basePoint.end_lng};
-    let response: any = await firstValueFrom(this.http.get<GeoCalculatedRoute>(url, {params: queryParams}));
-    return response;
-  }
-
-  public async getAllPoints(): Promise<GeoPoint[]> {
-    const url: string = this.baseUrl + '/get_all_points';
-    let response = await firstValueFrom(this.http.get<GeoPoint[]>(url))
-    return response;
-  }
-
-  // TODO - change type
-  public async getAllRelations(): Promise<any[]> {
-    try {
-      const url: string = this.baseUrl + '/get_all_relations';
-      let response = await firstValueFrom(this.http.get<any[]>(url));
-      return response;
-    } catch (error) {
-      console.error('Error' + error);
-      return null;
-    }
-  }
+  /* Authentication API */
 
   public async register(user: User): Promise<boolean> {
     const url: string = this.baseUrl + '/register';
@@ -95,6 +68,46 @@ export class ApiService {
     return response;
   }
 
+  /* Tracks API */
+
+  // TODO - fix any typing
+  public async getRoute(basePoint: BasePoints): Promise<GeoCalculatedRoute> {
+    const url: string = this.baseUrl + '/get_route';
+    const queryParams = {start_lat: basePoint.start_lat,
+      start_lng: basePoint.start_lng,
+      end_lat: basePoint.end_lat,
+      end_lng: basePoint.end_lng};
+    let response: any = await firstValueFrom(this.http.get<GeoCalculatedRoute>(url, {params: queryParams}));
+    return response;
+  }
+
+  public async getAllPoints(): Promise<GeoPoint[]> {
+    const url: string = this.baseUrl + '/get_all_points';
+    let response = await firstValueFrom(this.http.get<GeoPoint[]>(url))
+    return response;
+  }
+
+  // TODO - change type
+  public async getAllRelations(): Promise<any[]> {
+    try {
+      const url: string = this.baseUrl + '/get_all_relations';
+      let response = await firstValueFrom(this.http.get<any[]>(url));
+      return response;
+    } catch (error) {
+      console.error('Error' + error);
+      return null;
+    }
+  }
+
+  public async updateTracks(): Promise<void> {
+    const url: string = this.baseUrl + '/start_update_graph_db';
+    const data = {};
+    let response: void = await firstValueFrom(this.http.post<any>(url, data))
+    return response;
+  }
+
+  /* Users API */
+
   public async getUserDetails(): Promise<User> {
     const url: string = this.baseUrl + '/get_user_details';
     let response: any = await firstValueFrom(this.http.get<any[]>(url));
@@ -107,11 +120,13 @@ export class ApiService {
     return response;
   }
 
-  public async updateTracks(): Promise<void> {
-    const url: string = this.baseUrl + '/start_update_graph_db';
-    const data = {};
-    let response: void = await firstValueFrom(this.http.post<any>(url, data))
+  /* Health check API */
+
+  public async healthCheck(): Promise<void> {
+    const url: string = environment.apiBaseUrl  + '/status';
+    let response: any = await firstValueFrom(this.http.get<any[]>(url));
     return response;
   }
+
 
 }

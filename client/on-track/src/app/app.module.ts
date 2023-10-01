@@ -19,7 +19,8 @@ import { UsersDetailsComponent } from './users-details/users-details.component';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSquare, faSquareCheck} from '@fortawesome/free-regular-svg-icons';
 import { ManagerOperationsComponent } from './manager-page/manager-operations/manager-operations.component';
-import { PrivacyTermOfUsePageComponent } from './privacy-term-of-use-page/privacy-term-of-use-page.component'
+import { PrivacyTermOfUsePageComponent } from './privacy-term-of-use-page/privacy-term-of-use-page.component';
+import { SiteNotificationsComponent } from './widgets/site-notifications/site-notifications.component'
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { PrivacyTermOfUsePageComponent } from './privacy-term-of-use-page/privac
     LoadingSpinnerComponent,
     UsersDetailsComponent,
     ManagerOperationsComponent,
-    PrivacyTermOfUsePageComponent
+    PrivacyTermOfUsePageComponent,
+    SiteNotificationsComponent
   ],
   imports: [
     BrowserModule,

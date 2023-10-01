@@ -16,4 +16,4 @@ def index():
 @bp.route('/status')
 def status():
     current_app.logger.debug('Site status: OK')
-    return make_response('Status: OK', 200)
+    return make_response({'message': 'Status: OK'}, 200)
