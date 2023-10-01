@@ -30,7 +30,8 @@ export class TrackMapComponent {
   targetLng: number;
 
   // trackColor: string = '#234522';
-  trackColor: string = '#312249';
+  // trackColor: string = '#312249';
+  trackColor: string = '#506100';
 
   @ViewChild('osmMapComponent', { static: false }) osmMapComponent!: OsmMapComponent;
 
