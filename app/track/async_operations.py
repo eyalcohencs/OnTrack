@@ -181,7 +181,18 @@ def update_graph_db(app_context, current_user, load_tracks_from_bucket=True):
             start_time = time.time()
             logging.info('Start update graph process...')
             logging.error('Start update graph process...')  # todo - debug remove
+
             current_directory = os.getcwd()
+            contents = os.listdir(current_directory)
+
+            # Filter out directories from the list
+            directories = [item for item in contents if os.path.isdir(os.path.join(current_directory, item))]
+
+            # Print the list of directories
+            print("Directories in the current directory:")
+            for directory in directories:
+                print(directory)
+                logging.error(f'inner directory {directory}')
             print("Current Directory:", current_directory)
             logging.error(f'directory {current_directory}')  # todo - debug remove
 
