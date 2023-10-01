@@ -7,7 +7,7 @@ from flask_login import login_required
 from app.track import bp
 from app.track.async_operations import update_graph_db
 from app.track.graph_service import get_all_points_in_the_graph, get_all_relations_in_the_graph
-from app.track.logic import calculate_route
+from app.track.logic import calculate_route, TrackLoadinSource
 from app.track.utils import jsonify_geo_points_list, jsonify_geo_roads_list
 from app.user.logic import get_current_user_details
 
@@ -53,10 +53,12 @@ def get_all_relations():
 @bp.route('/start_update_graph_db', methods=['POST'])
 @jwt_required()
 def start_update_graph_db():
+    loading_source = request.get_json()['loading_source']
+    is_cloud = True if loading_source == TrackLoadinSource.CLOUD.value else False
     logging.info('Enter view of update graph process...')
     logging.error('Enter view of update graph process...')
     current_user = get_current_user_details()
-    thread = threading.Thread(target=update_graph_db, args=(current_app.app_context(), current_user, True))
+    thread = threading.Thread(target=update_graph_db, args=(current_app.app_context(), current_user, is_cloud))
     thread.start()
 
     return make_response(jsonify('good'), 200)

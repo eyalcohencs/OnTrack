@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ApiService } from 'src/app/services/api-service/api-service.service';
+import { ApiService, TrackLoadingSource } from 'src/app/services/api-service/api-service.service';
 
 @Component({
   selector: 'app-manager-operations',
@@ -8,8 +8,10 @@ import { ApiService } from 'src/app/services/api-service/api-service.service';
 })
 export class ManagerOperationsComponent {
   constructor(private apiService: ApiService) {}
+
+  TrackLoadingSource = TrackLoadingSource;
   
-  updateTracks() {
-    this.apiService.updateTracks();
+  updateTracks(trackLoadingSource: TrackLoadingSource) {
+    this.apiService.updateTracks(trackLoadingSource);
   }
 }

@@ -10,11 +10,13 @@
 OnTrack.code-workspace
 client/on-track/dist/on-road/
 node_modules/
-/data/tracks/
+/data/tracks/example
+/data/tracks/eyal
+/data/tracks/temp
+/data/tracks/maslul
 app/.env
 /venv
 instance/
 __pycache__/
 app/app.log
 /update_graph_service/.env
-*.gpx

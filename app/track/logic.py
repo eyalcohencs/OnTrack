@@ -1,4 +1,5 @@
 import os
+from enum import Enum
 
 import app.track.osm_service as osm_service
 from app.track.graph_logic import get_all_points_in_graph_by_grouping_of_attribute, are_the_same_point_by_coordinates, \
@@ -10,11 +11,15 @@ from app.track.graph_service import add_point_to_graph, find_nearest_point, find
     get_all_points_in_the_graph, add_point_and_relation_to_exist_point_to_graph
 
 
+class TrackLoadinSource(Enum):
+    CLOUD = 'cloud'
+    SERVER = 'server'
+
+
 def add_track_to_graph(file_loader):
     points = file_loader.get_geo_points_from_file()
     print(f'original number of points of the file: {len(points)}')  # debug
-
-    reduced_points = points  # reduced_points = reduce_points_in_track_based_on_distance(points)
+    reduced_points = reduce_points_in_track_based_on_distance(points)  # reduced_points = points  #
     print(f'after reduction number of points: {len(reduced_points)}')  # debug
 
     all_points = get_all_points_in_the_graph()

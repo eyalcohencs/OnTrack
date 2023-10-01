@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environment';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { BasePoints, GeoCalculatedRoute, GeoPoint } from '../geopoint-service/geopoint.service';
 import { CookieService } from 'ngx-cookie-service';
 import { User } from '../user-enum';
@@ -15,6 +15,11 @@ export interface UserSession {
   username: string,
   token: string,
   user: User
+}
+
+export enum TrackLoadingSource {
+  SERVER = 'server',
+  CLOUD = 'cloud'
 }
 
 
@@ -99,9 +104,9 @@ export class ApiService {
     }
   }
 
-  public async updateTracks(): Promise<void> {
+  public async updateTracks(trackLoadingSource: TrackLoadingSource): Promise<void> {
     const url: string = this.baseUrl + '/start_update_graph_db';
-    const data = {};
+    const data = {'loading_source': trackLoadingSource};
     let response: void = await firstValueFrom(this.http.post<any>(url, data))
     return response;
   }
