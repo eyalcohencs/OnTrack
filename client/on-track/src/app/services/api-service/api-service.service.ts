@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subscription, firstValueFrom } from 'rxjs';
 import { environment } from 'src/environment';
 import { HttpClient} from '@angular/common/http';
-import { BasePoints, GeoCalculatedRoute, GeoPoint } from '../geopoint-service/geopoint.service';
+import { BasePoints, GeoCalculatedRoute, GeoPoint, GeoRoad } from '../geopoint-service/geopoint.service';
 import { CookieService } from 'ngx-cookie-service';
 import { User } from '../user-enum';
 
@@ -100,11 +100,10 @@ export class ApiService {
     return response;
   }
 
-  // TODO - change type
-  public async getAllRelations(): Promise<any[]> {
+  public async getAllRelations(): Promise<GeoRoad[]> {
     try {
       const url: string = this.baseUrl + '/get_all_relations';
-      let response = await firstValueFrom(this.http.get<any[]>(url));
+      let response: GeoRoad[] = await firstValueFrom(this.http.get<any[]>(url));
       return response;
     } catch (error) {
       console.error('Error' + error);

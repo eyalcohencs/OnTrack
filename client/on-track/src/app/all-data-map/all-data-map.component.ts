@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { LatLng} from 'leaflet';
 import { ApiService } from '../services/api-service/api-service.service';
 import { OsmMapComponent } from '../osm-map/osm-map.component';
-import { GeoPoint, GeopointService } from '../services/geopoint-service/geopoint.service';
+import { GeoPoint, GeoRoad, GeopointService } from '../services/geopoint-service/geopoint.service';
 import { LoadingSpinnerService } from '../services/loading-spinner-service/loading-spinner.service';
 
 // TODO - change name to manager-map
@@ -27,8 +27,7 @@ export class AllDataMapComponent {
   private async initMap(): Promise<void> {
     try {
       this.loadingSpinnerService.show();
-      // TODO - add type
-      const roads: any[] = await this.apiService.getAllRelations();
+      const roads: GeoRoad[] = await this.apiService.getAllRelations();
       roads.forEach(road => {
         const segment = [road['source_geo_point'], road['target_geo_point']]
         const latLngSegment: LatLng[] = this.geopointService.convertGeoPointsToLatLng(segment);
@@ -49,9 +48,9 @@ export class AllDataMapComponent {
     }
   }
 
-  private deterministicHexColor(base_number: number): string {
+  private deterministicHexColor(base_number: string): string {
     // const hexColor = '#' + (number / 13).toString().replace('.', '').slice(0, 6)
-    const hexColor = '#' + (base_number).toString().slice(0, 6)
+    const hexColor = '#' + (base_number).slice(0, 6)
     return hexColor;
   }
 
