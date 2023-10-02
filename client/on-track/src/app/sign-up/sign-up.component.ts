@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ApiService } from '../services/api-service/api-service.service';
+import { ApiService, AuthenticationResponseCode } from '../services/api-service/api-service.service';
 import { User } from '../services/user-enum';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -28,6 +28,7 @@ export class SignUpComponent {
     }
   
   registerFailedWarning: boolean = false;
+  registrationFailedWarningText: string = null;
 
   registrationForm: FormGroup;
   
@@ -39,18 +40,53 @@ export class SignUpComponent {
     password: null
   };
 
-  async register() {
-    try {
-      const result: any = await this.apiService.register(this.user);
-      this.router.navigate(['/login'])
-    } catch(e) {
-      console.log(e)
-      this.registerFailedWarning = true;
-    }
+  register() {
+    this.setRegistrationWarningText(null);
+
+    this.apiService.register(this.user).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.redirectToLoginPage();
+      },
+      error: (error) => {
+        console.log(error);
+        this.registerFailedWarning = true;
+        this.setRegistrationWarningText(error.error['auth_response_code']);
+      }
+     });
   }
 
   redirectToLoginPage() {
     this.router.navigate(['/login']);
+  }
+
+  private setRegistrationWarningText(responseCode: AuthenticationResponseCode) {
+    switch(responseCode) {
+      case AuthenticationResponseCode.EMAIL_ALREADY_EXIST:
+        this.registrationFailedWarningText = 'email already exists!';
+        break;
+      case AuthenticationResponseCode.FIRST_LAST_NAME_TOO_SHORT:
+        this.registrationFailedWarningText = 'first name or last name are too short'!;
+        break;
+      case AuthenticationResponseCode.PASSWORD_INVALID:
+        this.registrationFailedWarningText = 'invalid password!'
+        break;
+      case AuthenticationResponseCode.EMAIL_INVALID:
+        this.registrationFailedWarningText = 'invalid email!'
+        break;
+      case AuthenticationResponseCode.USERNAME_ALREADY_EXIST:
+        this.registrationFailedWarningText = 'username already exists!'
+        break;
+      case AuthenticationResponseCode.USERNAME_INVALID:
+        this.registrationFailedWarningText = 'invalid username!'
+        break;
+      case AuthenticationResponseCode.UNKNOWN:
+        this.registrationFailedWarningText = 'Oops... there was a problem with the registration, please try again'
+        break;
+      default:
+        this.registrationFailedWarningText = null;
+    }
+
   }
 
 }

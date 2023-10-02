@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { Observable, Subscription, firstValueFrom } from 'rxjs';
 import { environment } from 'src/environment';
 import { HttpClient} from '@angular/common/http';
 import { BasePoints, GeoCalculatedRoute, GeoPoint } from '../geopoint-service/geopoint.service';
@@ -22,6 +22,23 @@ export enum TrackLoadingSource {
   CLOUD = 'cloud'
 }
 
+export enum AuthenticationResponseCode {
+  SUCCEED = 'succeed',
+  USERNAME_ALREADY_EXIST = 'username_already_exists',
+  USERNAME_INVALID = 'invalid_username',
+  PASSWORD_INVALID = 'invalid_password',
+  EMAIL_ALREADY_EXIST = 'email_already_exist',
+  EMAIL_INVALID = 'invalid_email',
+  FIRST_LAST_NAME_TOO_SHORT = 'first_last_name_too_short',
+  UNKNOWN = 'unknown'
+}
+
+export interface AuthenticationResponse {
+  is_created: boolean,
+  auth_response_code: AuthenticationResponseCode,
+  error: null | string
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -37,24 +54,17 @@ export class ApiService {
 
   /* Authentication API */
 
-  public async register(user: User): Promise<boolean> {
+  public register(user: User): Observable<AuthenticationResponse> {
     const url: string = this.baseUrl + '/register';
-    try {
-      const data =  {
-        username: user.username,
-        password: user.password,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email
-      };
-      const result: {is_created: boolean} = await firstValueFrom(this.http.post<any>(url, data));
-      // TODO - change the way to know that 201 user was created - passing dict doesn't seems to be the right way
-      console.log('register api' + result);
-      return result['is_created'];
-    } catch(e) {
-      console.log(e);
-      return false;
-    }
+    const data =  {
+      username: user.username,
+      password: user.password,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email
+    };
+    
+    return this.http.post<any>(url, data)
     
   }
   

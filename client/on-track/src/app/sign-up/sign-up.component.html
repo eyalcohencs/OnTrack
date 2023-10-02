@@ -5,12 +5,12 @@
       <div class="sign-up-form">
         <h1>Sign up</h1>
           <form [formGroup]="registrationForm" (ngSubmit)="register()">
-              <input type="text" placeholder="First name" name='first_name' formControlName="first_name" maxlength="16">
-              <input type="text" placeholder="Last name" name='last_name' formControlName="last_name" maxlength="16">
-              <input type="email" placeholder="Email" name='email' formControlName="email">
-              <input type="username" placeholder="Username" name='username' formControlName="username" maxlength="32">
-              <input type="password" placeholder="Password" name='password' formControlName="password" maxlength="16">
-              <div class= "sign-up-failed-warning" *ngIf="registerFailedWarning">"Oops... there was a problem with the registration, please try again."</div>
+              <input type="text" placeholder="First name" name='first_name' formControlName="first_name" [(ngModel)]="user.first_name" maxlength="16">
+              <input type="text" placeholder="Last name" name='last_name' formControlName="last_name" [(ngModel)]="user.last_name" maxlength="16">
+              <input type="email" placeholder="Email" name='email' formControlName="email" [(ngModel)]="user.email">
+              <input type="username" placeholder="Username" name='username' formControlName="username" [(ngModel)]="user.username" maxlength="32">
+              <input type="password" placeholder="Password" name='password' formControlName="password" [(ngModel)]="user.password" maxlength="16">
+              <div class= "sign-up-failed-warning" *ngIf="registerFailedWarning">{{registrationFailedWarningText}}</div>
               <button type="submit" [disabled]="registrationForm.invalid">Sign up</button>
               <a href="privacy-and-terms-of-use" class="redirect-to-terms-of-use">By register and using this website, you agree to the following terms and conditions</a>
               <div class="or-sign"> OR </div>
