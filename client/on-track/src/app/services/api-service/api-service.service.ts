@@ -75,12 +75,10 @@ export class ApiService {
     return response;
   }
 
-  // TODO - handle typing
-  public async logout(): Promise<{is_logged_out: boolean}> {
+  public logout(): Observable<void> {
     const url: string = this.baseUrl + '/logout';
     const data = {};
-    let response: {is_logged_out: boolean} = await firstValueFrom(this.http.post<any>(url, data))
-    return response;
+    return this.http.post<void>(url, data);
   }
 
   /* Tracks API */

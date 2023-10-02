@@ -3,6 +3,7 @@ import jwt_decode, { JwtPayload } from "jwt-decode";
 import { CookieService } from 'ngx-cookie-service';
 import { ApiService, UserSession } from '../api-service/api-service.service';
 import { UserStateService } from '../user-state-service/user-state.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -40,20 +41,15 @@ export class AuthenticationService {
   }
 
   // TODO - handle errors and typing
-  async logout(): Promise<boolean> {
+  async logout(): Promise<void> {
     try {
-      const result: {is_logged_out: boolean} = await this.apiService.logout();
-      if (result.is_logged_out) {
-        this.cookieService.deleteAll();
-        this.userStateService.setUser(null);
-        return true;
-      } else {
-        return false;
-      }
+      await firstValueFrom(this.apiService.logout());
+      this.cookieService.deleteAll();
+      this.userStateService.setUser(null);
     } catch(e) {
-      return false;
+      console.log('Error while logout: ' + e);
+      throw e;
     }
-
   }
 
 }

@@ -41,19 +41,18 @@ export class SignUpComponent {
   };
 
   register() {
+    this.registerFailedWarning = false;
     this.setRegistrationWarningText(null);
 
     this.apiService.register(this.user).subscribe({
       next: (response) => {
-        console.log(response);
         this.redirectToLoginPage();
       },
       error: (error) => {
-        console.log(error);
         this.registerFailedWarning = true;
         this.setRegistrationWarningText(error.error['auth_response_code']);
       }
-     });
+     }).unsubscribe();
   }
 
   redirectToLoginPage() {

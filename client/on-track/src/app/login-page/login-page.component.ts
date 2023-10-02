@@ -32,13 +32,8 @@ export class LoginPageComponent {
   }
 
   async logout() {
-    const isLoggedOut: boolean = await this.authService.logout();
-    if (isLoggedOut) {
-      this.router.navigate(['/login'])
-    } else {
-      // TODO - handle failed login
-      console.log('Logout failed');
-    }
+    await this.authService.logout();
+    this.router.navigate(['/login'])
   }
 
   redirectToRegistration() {

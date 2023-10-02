@@ -47,7 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async logout(): Promise<void> {
-    const isLoggedOut: boolean = await this.authService.logout();
+    await this.authService.logout();
     this.router.navigate(['/login'])
   }
 
