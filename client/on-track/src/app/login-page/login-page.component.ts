@@ -20,13 +20,10 @@ export class LoginPageComponent {
   loginFailedWarning: boolean = false;
 
   async login() {
-    // TODO - Validate fields this.username and this.password
     const isLoggedIn: boolean = await this.authService.login(this.username, this.password);
     if (isLoggedIn) {
       this.router.navigate(['/track-map']);
     } else {
-      // TODO - handle failed login
-      console.log('Login failed');
       this.loginFailedWarning = true;
     }
   }

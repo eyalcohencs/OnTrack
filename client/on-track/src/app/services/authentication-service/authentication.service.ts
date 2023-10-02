@@ -26,7 +26,6 @@ export class AuthenticationService {
     return false;
   }
 
-  // TODO - handle errors and typing
   async login(username: string, password: string): Promise<boolean> {
     try {
       const userSession: UserSession = await this.apiService.login(username, password);
@@ -36,11 +35,11 @@ export class AuthenticationService {
       this.userStateService.setUser(userSession.user);
       return true;
     } catch(e) {
+      console.log('Error while login: ' + e);
       return false;
     }
   }
 
-  // TODO - handle errors and typing
   async logout(): Promise<void> {
     try {
       await firstValueFrom(this.apiService.logout());
