@@ -45,13 +45,13 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
     const tiles = tileLayer(OsmMapComponent.OPEN_STREET_MAP_TILES, {
       maxZoom: 16,
       minZoom: 7,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' // todod - check if need to be removed
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
 
     tiles.addTo(this.map);
 
     navigator.geolocation.getCurrentPosition((position) => {
-      const userMarker: Marker = this.addMarker([position.coords.latitude, position.coords.longitude], MarkerTypeUrl.CAR, null, [41, 41])
+      const userMarker: Marker = this.addMarker([position.coords.latitude, position.coords.longitude], MarkerTypeUrl.USER, null, [41, 41])
       this.map.panTo(userMarker.getLatLng());
     });
   }
@@ -60,7 +60,7 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
       this.clickOnMap.emit(event);
   }
 
-  addMarker(latlng: LatLngExpression, markerTypeUrl=MarkerTypeUrl.WHITE, label: string = null, iconSize: PointTuple=[30, 41]): Marker {
+  addMarker(latlng: LatLngExpression, markerTypeUrl=MarkerTypeUrl.CAR, label: string = null, iconSize: PointTuple=[41, 41]): Marker {
     const customIcon: Icon = new Icon({
       iconUrl: markerTypeUrl,
       iconSize: iconSize,

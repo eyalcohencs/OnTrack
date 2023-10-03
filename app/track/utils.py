@@ -31,7 +31,6 @@ class GeoRoad:
         self.uuid = (source_geo_point.uuid or 'None') + '::' + (target_geo_point.uuid or 'None')
         self.source_geo_point = source_geo_point
         self.target_geo_point = target_geo_point
-        # TODO - change color name to track_index
         self.track_id = track_id
 
     def to_dict(self):

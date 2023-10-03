@@ -176,10 +176,8 @@ def create_file_loader_from_files(files_list, s3, is_locale_file, parallel_worke
 
 
 def update_graph_db(app_context, load_tracks_from_bucket=True):
-    # load_tracks_from_bucket = False  # todo - remove this - debug purpose
     try:
         with app_context:
-        # with app.app_context():
             start_time = time.time()
             logging.info('Start update graph process...')
 
@@ -205,7 +203,6 @@ def update_graph_db(app_context, load_tracks_from_bucket=True):
                 file_number += 1
             end_time = time.time()
             elapsed_time = end_time - start_time
-            # recipient = get_current_user_details().email  # todo - pass user data from the client
             send_mail(subject='Update graph was finished',
                       sender='ontrackguide@gmail.com',
                       recipients=['eyalspider@gmail.com'],  # todo - pass user data from the client  to fill this

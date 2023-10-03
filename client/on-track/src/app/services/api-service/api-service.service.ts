@@ -83,14 +83,13 @@ export class ApiService {
 
   /* Tracks API */
 
-  // TODO - fix any typing
   public async getRoute(basePoint: BasePoints): Promise<GeoCalculatedRoute> {
     const url: string = this.baseUrl + '/get_route';
     const queryParams = {start_lat: basePoint.start_lat,
       start_lng: basePoint.start_lng,
       end_lat: basePoint.end_lat,
       end_lng: basePoint.end_lng};
-    let response: any = await firstValueFrom(this.http.get<GeoCalculatedRoute>(url, {params: queryParams}));
+    let response: GeoCalculatedRoute = await firstValueFrom(this.http.get<GeoCalculatedRoute>(url, {params: queryParams}));
     return response;
   }
 

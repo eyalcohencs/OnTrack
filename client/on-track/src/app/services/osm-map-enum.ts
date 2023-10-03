@@ -1,5 +1,5 @@
 export enum MarkerTypeUrl {
-    WHITE = 'assets/marker-blue-in-white.png',
-    BLACK = 'assets/marker-blue-in-black.png',
+    USER = 'assets/user_marker.png',
+    ROAD = 'assets/road_marker.png',
     CAR = 'assets/car_marker.png'
 }
