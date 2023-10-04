@@ -1,8 +1,15 @@
+from enum import Enum
 from itertools import chain
 
 import numpy as np
 
 CALCULATED_ROAD = 'CALCULATED_ROAD'
+
+
+class SearchPointBorder(Enum):
+    NEAR = 0.01
+    CLOSE = 0.2
+    FAR = 0.5
 
 
 class GeoPoint:
@@ -82,14 +89,14 @@ def create_key_for_point_grouping(element, attribute='latitude'):
     return str(getattr(element, attribute))[0:5]
 
 
-def create_range_of_keys_for_points_grouping(element, attribute='latitude', border=0.01):
+def create_range_of_keys_for_points_grouping(element, attribute='latitude', border=SearchPointBorder.NEAR.value):
     element_key = create_key_for_point_grouping(element, attribute)
     min_border = float(element_key)-border
     max_border = float(element_key)+border
-    return [str(key)[0:5] for key in np.arange(min_border, max_border, 0.01)]
+    return [str(key)[0:5] for key in np.arange(min_border, max_border, SearchPointBorder.NEAR.value)]
 
 
-def all_close_points_in_border(source_point, grouped_points, attribute='latitude', border=0.01):
+def all_close_points_in_border(source_point, grouped_points, attribute='latitude', border=SearchPointBorder.NEAR.value):
     grouping_keys = create_range_of_keys_for_points_grouping(source_point, attribute, border)
     close_points = list(chain.from_iterable(
         map(lambda key: grouped_points[key] if key in grouped_points else [], grouping_keys)))

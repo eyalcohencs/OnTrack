@@ -5,7 +5,8 @@ import app.track.osm_service as osm_service
 from app.track.graph_logic import get_all_points_in_graph_by_grouping_of_attribute, are_the_same_point_by_coordinates, \
     are_two_points_too_close
 
-from app.track.utils import GeoPoint, convert_geo_point_list_to_geo_road_list, create_key_for_point_grouping
+from app.track.utils import GeoPoint, convert_geo_point_list_to_geo_road_list, create_key_for_point_grouping, \
+    SearchPointBorder
 
 from app.track.graph_service import add_point_to_graph, find_nearest_point, find_shortest_path, \
     get_all_points_in_the_graph, add_point_and_relation_to_exist_point_to_graph
@@ -64,32 +65,62 @@ def reduce_points_in_track_based_on_distance(geo_points):
 
 # TODO - change naming of variables and functions - too long
 def calculate_route(start_lng, start_lat, end_lng, end_lat):
+    """
+    This function gets the user first and last position of the track
+    and the function retrieve a list of coords and routes of the track.
+    The function first try to find close point to start with, but if it fails it tries to enlarge the search area.
+    The reason for making two searches, is that the search is prity heavy, so under the assumption that most of the
+    places we could find a close point, going to search in large area will be less common.
+
+    @:param start_lng, start_lat - coordinates of the user start point
+    @:param end_lng, end_lat - coordinates of the user end point
+    @:return route - list of GeoPoint of the calculated track
+    @:return roads - list of roads of the calculated track
+    """
     all_points = get_all_points_in_the_graph()
     grouped_points = get_all_points_in_graph_by_grouping_of_attribute(all_points, create_key_for_point_grouping)
-
-    # Calculate the route from the start point to the first point on track
     start_point = GeoPoint(start_lng, start_lat)
-    first_point_on_track = find_nearest_point(start_point, grouped_points)
-    route_to_the_first_point_on_track = osm_service.get_route_between_two_points(start_point, first_point_on_track)
-
-    # Initial the route and its segments (relations)
-    route = route_to_the_first_point_on_track
-    relations = convert_geo_point_list_to_geo_road_list(route_to_the_first_point_on_track)
-
-    # Get the route from the graph service
     end_point = GeoPoint(end_lng, end_lat)
+
+    # Get the closest point on track to start point
+    first_point_on_track = find_nearest_point(start_point, grouped_points)
+    if first_point_on_track is None:  # if no close point is found, search in larger area
+        first_point_on_track = find_nearest_point(start_point, grouped_points, border=SearchPointBorder.FAR.value)
+        if first_point_on_track is None:  # if no close point is found, calculate route straight to the end point
+            try:
+                route = osm_service.get_route_between_two_points(
+                    start_point, end_point, profile=osm_service.TypeOfDrivingProfile.CYCLING_ROAD.value)
+                roads = convert_geo_point_list_to_geo_road_list(route)
+            except Exception as e:
+                route = roads = []
+            return route, roads
+
+    # Get the closest point on track to end point
     last_point_on_track = find_nearest_point(end_point, grouped_points)
+    if last_point_on_track is None:  # if no close point is found, search in larger area
+        last_point_on_track = find_nearest_point(end_point, grouped_points, border=SearchPointBorder.FAR.value)
+        if last_point_on_track is None:  # if no close point is found, calculate route straight to the end point
+            try:
+                route = osm_service.get_route_between_two_points(
+                    first_point_on_track, end_point, profile=osm_service.TypeOfDrivingProfile.CYCLING_ROAD.value)
+                roads = convert_geo_point_list_to_geo_road_list(route)
+            except Exception as e:
+                route = roads = []
+            return route, roads
 
+    # Get route from the graph service
     if first_point_on_track.uuid != last_point_on_track.uuid:
-        points_on_track, relations_on_track = find_shortest_path(first_point_on_track, last_point_on_track)
-        route = route + points_on_track
-        relations = relations + relations_on_track
+        track_route, roads_on_track = find_shortest_path(first_point_on_track, last_point_on_track)
+    else:
+        track_route = []
 
-    # Add the end point to the route and the last segments
-    route_to_the_end_point_from_last_point_on_track = osm_service.get_route_between_two_points(last_point_on_track, end_point)
-    relations_to_the_end_of_last_point_on_track = \
-        convert_geo_point_list_to_geo_road_list(route_to_the_end_point_from_last_point_on_track)
-    route = route + route_to_the_end_point_from_last_point_on_track
-    relations.extend(relations_to_the_end_of_last_point_on_track)
+    # Calculate route
+    try:
+        route_to_the_first_point_on_track = osm_service.get_route_between_two_points(start_point, first_point_on_track)
+        route_to_the_end_point_from_last_point_on_track = osm_service.get_route_between_two_points(last_point_on_track, end_point)
+    except Exception as e:
+        route_to_the_first_point_on_track = route_to_the_end_point_from_last_point_on_track = []
+    route = route_to_the_first_point_on_track + track_route + route_to_the_end_point_from_last_point_on_track
+    roads = convert_geo_point_list_to_geo_road_list(route)
 
-    return route, relations
+    return route, roads

@@ -2,7 +2,7 @@ from app import cache
 from app.track.db_service import Neo4jDB
 from app.track.graph_logic import is_there_already_a_close_point_in_the_graph, distance_between_points, \
     are_the_same_point_by_coordinates, add_point_to_group_of_points
-from app.track.utils import all_close_points_in_border
+from app.track.utils import all_close_points_in_border, SearchPointBorder
 
 graph_db = Neo4jDB()
 
@@ -38,18 +38,20 @@ def add_point_and_relation_to_exist_point_to_graph(existed_point, point_to_add, 
     return point_to_add
 
 
-def find_nearest_point(source_point, grouped_points):
-    points_to_check = all_close_points_in_border(source_point, grouped_points, attribute='latitude', border=0.2)
-
-    first_point = points_to_check.pop(0)
-    min_distance = distance_between_points(source_point, first_point)
-    nearset_point = first_point
-    for point in points_to_check:
-        distance_to_source = distance_between_points(source_point, point)
-        if distance_to_source < min_distance:
-            min_distance = distance_to_source
-            nearset_point = point
-    return nearset_point
+def find_nearest_point(source_point, grouped_points, border=SearchPointBorder.CLOSE.value):
+    points_to_check = all_close_points_in_border(source_point, grouped_points, attribute='latitude', border=border)
+    try:
+        first_point = points_to_check.pop(0)
+        min_distance = distance_between_points(source_point, first_point)
+        nearset_point = first_point
+        for point in points_to_check:
+            distance_to_source = distance_between_points(source_point, point)
+            if distance_to_source < min_distance:
+                min_distance = distance_to_source
+                nearset_point = point
+        return nearset_point
+    except Exception as e:
+        return None
 
 
 def find_shortest_path(source_point, target_point):

@@ -1,5 +1,4 @@
 import logging
-import os
 import time
 
 from app.extensions import mail
