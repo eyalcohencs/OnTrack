@@ -20,9 +20,9 @@ export class AllDataMapComponent {
   
   @ViewChild('osmAllMapComponent', { static: false }) osmMapComponent!: OsmMapComponent;
 
-  async ngAfterViewInit(): Promise<void> { 
-    await this.initMap();
-  }
+  // async ngAfterViewInit(): Promise<void> { 
+  //   await this.initMap();
+  // }
 
   private async initMap(): Promise<void> {
     try {
@@ -31,8 +31,6 @@ export class AllDataMapComponent {
       roads.forEach(road => {
         const segment = [road['source_geo_point'], road['target_geo_point']]
         const latLngSegment: LatLng[] = this.geopointService.convertGeoPointsToLatLng(segment);
-        // this.osmMapComponent.addRouteOnMap(latLngSegment, this.deterministicHexColor(road['track_id'].replace(/\D/g, '')));
-        // const colorNumber = Math.pow(road['track_id'].replace(/\D/g, '').slice(-5), 2);
         this.osmMapComponent.addRouteOnMap(latLngSegment, this.deterministicHexColor(road['track_id'].replace(/\D/g, '')), 6);
       });
 
@@ -48,8 +46,26 @@ export class AllDataMapComponent {
     }
   }
 
+  async loadAllTracks() {
+    await this.initMap();
+  }
+
+  async loadAllPoints() {
+    try {
+      this.loadingSpinnerService.show();
+      const points: GeoPoint[] = await this.apiService.getAllPoints();
+      const latLngTrack: LatLng[] = this.geopointService.convertGeoPointsToLatLng(points);
+      this.osmMapComponent.addCircularMarkers(latLngTrack);
+      this.loadingSpinnerService.hide();
+    } catch (error) {
+      this.loadingSpinnerService.hide();
+      console.log(error);
+    }
+
+
+  }
+
   private deterministicHexColor(base_number: string): string {
-    // const hexColor = '#' + (number / 13).toString().replace('.', '').slice(0, 6)
     const hexColor = '#' + (base_number).slice(0, 6)
     return hexColor;
   }
