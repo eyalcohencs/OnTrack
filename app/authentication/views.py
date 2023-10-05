@@ -3,17 +3,18 @@ from datetime import timedelta
 from enum import Enum
 
 from flask import request, jsonify, make_response
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
-from flask_login import login_user, logout_user, login_required
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 import bcrypt
 
-from app import login_manager, db
+from app import db, jwt
 from app.authentication import bp
 from app.models.user import User
 from app.user.logic import get_current_user_details
 
 # TODO - a good improvement is to break down the monolithic app to microservices and
 #  Authentication service should be one of them
+
+blacklist = set()
 
 
 class AuthenticationResponseCode(Enum):
@@ -117,23 +118,20 @@ def login():
 
 
 @bp.route("/logout", methods=['POST'])
-# @login_required
 @jwt_required()
 def logout():
-    logout_user()
+    jti = get_jwt()['jti']
+    blacklist.add(jti)
     return make_response(jsonify({'is_logged_out': True}), 200)
 
 
-@login_manager.request_loader
-def loader_request(client_request):
-    if 'username' in client_request.cookies:
-        username = client_request.cookies['username']
-        return User.query.filter_by(username=username).first()
-    return None
+@jwt.token_in_blocklist_loader
+def check_if_token_in_blacklist(jwt_header, jwt_payload):
+    jti = jwt_payload['jti']
+    return jti in blacklist
 
 
 @bp.route("/get_user_details", methods=['GET'])
-# @login_required
 @jwt_required()
 def get_user_details():
     user = get_current_user_details()

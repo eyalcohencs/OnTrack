@@ -10,6 +10,8 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PERMANENT_SESSION_LIFETIME = 36000
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
+    JWT_BLACKLIST_ENABLED = True
+    JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
     CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 465

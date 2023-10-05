@@ -69,7 +69,7 @@ def calculate_route(start_lng, start_lat, end_lng, end_lat):
     This function gets the user first and last position of the track
     and the function retrieve a list of coords and routes of the track.
     The function first try to find close point to start with, but if it fails it tries to enlarge the search area.
-    The reason for making two searches, is that the search is prity heavy, so under the assumption that most of the
+    The reason for making two searches, is that the search is pretty heavy, so under the assumption that most of the
     places we could find a close point, going to search in large area will be less common.
 
     @:param start_lng, start_lat - coordinates of the user start point
@@ -102,7 +102,7 @@ def calculate_route(start_lng, start_lat, end_lng, end_lat):
         if last_point_on_track is None:  # if no close point is found, calculate route straight to the end point
             try:
                 route = osm_service.get_route_between_two_points(
-                    first_point_on_track, end_point, profile=osm_service.TypeOfDrivingProfile.CYCLING_REGULAR.value)
+                    first_point_on_track, end_point, profile=osm_service.TypeOfDrivingProfile.CYCLING_MOUNTAIN.value)
                 roads = convert_geo_point_list_to_geo_road_list(route)
             except Exception as e:
                 route = roads = []
