@@ -89,7 +89,7 @@ def calculate_route(start_lng, start_lat, end_lng, end_lat):
         if first_point_on_track is None:  # if no close point is found, calculate route straight to the end point
             try:
                 route = osm_service.get_route_between_two_points(
-                    start_point, end_point, profile=osm_service.TypeOfDrivingProfile.CYCLING_ROAD.value)
+                    start_point, end_point, profile=osm_service.TypeOfDrivingProfile.CYCLING_MOUNTAIN.value)
                 roads = convert_geo_point_list_to_geo_road_list(route)
             except Exception as e:
                 route = roads = []
@@ -102,7 +102,7 @@ def calculate_route(start_lng, start_lat, end_lng, end_lat):
         if last_point_on_track is None:  # if no close point is found, calculate route straight to the end point
             try:
                 route = osm_service.get_route_between_two_points(
-                    first_point_on_track, end_point, profile=osm_service.TypeOfDrivingProfile.CYCLING_ROAD.value)
+                    first_point_on_track, end_point, profile=osm_service.TypeOfDrivingProfile.CYCLING_REGULAR.value)
                 roads = convert_geo_point_list_to_geo_road_list(route)
             except Exception as e:
                 route = roads = []
@@ -111,6 +111,8 @@ def calculate_route(start_lng, start_lat, end_lng, end_lat):
     # Get route from the graph service
     if first_point_on_track.uuid != last_point_on_track.uuid:
         track_route, roads_on_track = find_shortest_path(first_point_on_track, last_point_on_track)
+        if not track_route:
+            track_route = osm_service.get_route_between_two_points(first_point_on_track, last_point_on_track)
     else:
         track_route = []
 

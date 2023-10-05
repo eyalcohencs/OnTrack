@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ElementRef, Renderer2 } from '@angular/core';
-import { Map, map, tileLayer, Marker, Polyline, LatLngExpression, Icon, Layer, LatLngTuple, CircleMarkerOptions, LatLng, circleMarker, CircleMarker, divIcon, PointTuple} from 'leaflet';
+import { Map, map, tileLayer, Marker, Polyline, LatLngExpression, Icon, Layer, LatLngTuple, CircleMarkerOptions, LatLng, circleMarker, CircleMarker, PointTuple} from 'leaflet';
 
 import * as _ from "lodash";
 import { MarkerTypeUrl } from '../services/osm-map-enum';
