@@ -6,7 +6,6 @@ import dotenv
 
 
 from app.track.utils import GeoPoint, GeoRoad
-# from flask import current_app
 
 
 class GraphDB(ABC):
@@ -74,7 +73,6 @@ class Neo4jDB(GraphDB):
     def add_edge_to_db(self, point1, point2, data):
         start_uuid = point1.uuid
         end_uuid = point2.uuid
-        # print(f'adding edge {point1}-{point2}')
         with self._initial_db_client() as client:
             with client.session() as session:
                 session.run(f'''MATCH (point1:GeoPoint {{ uuid: '{start_uuid}' }}), (point2:GeoPoint {{ uuid: '{end_uuid}' }})

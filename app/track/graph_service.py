@@ -6,8 +6,9 @@ from app.track.utils import all_close_points_in_border, SearchPointBorder
 
 graph_db = Neo4jDB()
 
-
 # TODO - a good improvement is to break down the monolithic app to microservices and Track service should be one of them
+
+
 def add_point_to_graph(point_to_add, grouped_points, grouped_key_function):
     collided_point = is_there_already_a_close_point_in_the_graph(point_to_add, grouped_points)
     if collided_point:

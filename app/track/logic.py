@@ -20,7 +20,7 @@ class TrackLoadinSource(Enum):
 def add_track_to_graph(file_loader):
     points = file_loader.get_geo_points_from_file()
     print(f'original number of points of the file: {len(points)}')  # debug
-    reduced_points = reduce_points_in_track_based_on_distance(points)  # reduced_points = points  #
+    reduced_points = reduce_points_in_track_based_on_distance(points)  # reduced_points = points
     print(f'after reduction number of points: {len(reduced_points)}')  # debug
 
     all_points = get_all_points_in_the_graph()
@@ -52,7 +52,7 @@ def reduce_points_in_track_based_on_distance(geo_points):
     while index <= final_index:
         anchor_point = geo_points[anchor_index]
         checked_point = geo_points[index]
-        # Check if they are same is little faster than calculate distance
+        # Check if they are the same is little faster than calculate distance
         if not are_the_same_point_by_coordinates(anchor_point, checked_point) \
                 and not are_two_points_too_close(
                 anchor_point, checked_point, int(gap_between_points_in_meters_for_reduction)):
@@ -63,7 +63,6 @@ def reduce_points_in_track_based_on_distance(geo_points):
     return reduced_points
 
 
-# TODO - change naming of variables and functions - too long
 def calculate_route(start_lng, start_lat, end_lng, end_lat):
     """
     This function gets the user first and last position of the track

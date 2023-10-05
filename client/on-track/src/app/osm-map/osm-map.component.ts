@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ElementR
 import { Map, map, tileLayer, Marker, Polyline, LatLngExpression, Icon, Layer, LatLngTuple, CircleMarkerOptions, LatLng, circleMarker, CircleMarker, PointTuple} from 'leaflet';
 
 import * as _ from "lodash";
-import { MarkerTypeUrl } from '../services/osm-map-enum';
+import { MarkerTypeUrl, OSMTilesTemplate } from '../services/osm-map-enum';
 
 @Component({
   selector: 'app-osm-map',
@@ -12,9 +12,7 @@ import { MarkerTypeUrl } from '../services/osm-map-enum';
 export class OsmMapComponent implements OnInit, AfterViewInit {
 
   constructor(private elRef: ElementRef, private renderer: Renderer2) {}
-  // static readonly OPEN_STREET_MAP_TILES: string = 'http://IsraelHiking.OSM.org.il/OverlayTiles/{z}/{x}/{y}.png';
-  // static readonly OPEN_STREET_MAP_TILES: string = `https://israelhiking.osm.org.il/Hebrew/mtbTiles/{z}/{x}/{y}.png`;
-  static readonly OPEN_STREET_MAP_TILES: string = `https://israelhiking.osm.org.il/Hebrew/Tiles/{z}/{x}/{y}.png`;
+  static readonly OPEN_STREET_MAP_TILES: string = OSMTilesTemplate.ISRAEL_HIKING_HEBREW;
   static readonly ISRAEL_CENTER: LatLngTuple = [ 32.6000, 35.0000 ];
   static readonly MAP_ZOOM: number = 13;
   static readonly CIRCULAR_MARKER_CONFIG: CircleMarkerOptions = {radius: 4};
