@@ -39,7 +39,7 @@ class GraphDB(ABC):
         pass
 
     @abstractmethod
-    def get_all_relations_from_db(self):
+    def get_all_roads_from_db(self):
         pass
 
     @abstractmethod
@@ -50,7 +50,6 @@ class GraphDB(ABC):
 class Neo4jDB(GraphDB):
 
     def _initial_db_client(self):
-        # uri = current_app.config['NEO4J_URI']
         dotenv.load_dotenv()
         uri = os.environ['NEO4J_URI']
         username = os.environ['NEO4J_USERNAME']
@@ -59,7 +58,6 @@ class Neo4jDB(GraphDB):
         return driver
 
     def add_point_to_db(self, new_point):
-        # print(f'adding point {new_point}')
         with self._initial_db_client() as client:
             with client.session() as session:
                 result = session.run(f'''CREATE (point:GeoPoint {{ point_data: "{new_point}", 
@@ -112,7 +110,7 @@ class Neo4jDB(GraphDB):
                 converted_result = self._convert_neo4j_db_nodes_to_geo_point_list(result)
                 return converted_result
 
-    def get_all_relations_from_db(self):
+    def get_all_roads_from_db(self):
         with self._initial_db_client() as client:
             with client.session() as session:
                 result = session.run('''
@@ -164,7 +162,6 @@ class Neo4jDB(GraphDB):
         geo_points_on_path = [
             GeoPoint(point['longitude'], point['latitude'], point['altitude'], point['time'], point['uuid'])
             for point in nodes_on_path]
-        # todo - create 'Road' object and return it
         geo_roads = self._convert_neo4j_relations_to_geo_roads(relationships_on_path)
         return geo_points_on_path, geo_roads
 

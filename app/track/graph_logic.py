@@ -16,14 +16,6 @@ def are_the_same_point_by_coordinates(point1, point2):
 
 
 def distance_between_points(geo_point1, geo_point2):
-    # TODO - delete comment when you are sure that this is the best option to measure distance
-    # point1_lat = point1.latitude
-    # point1_long = point1.longitude
-    # point1_elv = point1.altitude
-    # point2_lat = point2.latitude
-    # point2_long = point2.longitude
-    # point2_elv = point2.altitude
-    # distance = gpxpy.geo.distance(point1_lat, point1_long, point1_elv, point2_lat, point2_long, point2_elv)
     return distance.geodesic((geo_point1.latitude, geo_point1.longitude), (geo_point2.latitude, geo_point2.longitude))
 
 

@@ -27,7 +27,7 @@ export class AllDataMapComponent {
   private async initMap(): Promise<void> {
     try {
       this.loadingSpinnerService.show();
-      const roads: GeoRoad[] = await this.apiService.getAllRelations();
+      const roads: GeoRoad[] = await this.apiService.getAllRoads();
       roads.forEach(road => {
         const segment = [road['source_geo_point'], road['target_geo_point']]
         const latLngSegment: LatLng[] = this.geopointService.convertGeoPointsToLatLng(segment);

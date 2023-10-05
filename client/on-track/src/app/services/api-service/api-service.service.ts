@@ -99,9 +99,9 @@ export class ApiService {
     return response;
   }
 
-  public async getAllRelations(): Promise<GeoRoad[]> {
+  public async getAllRoads(): Promise<GeoRoad[]> {
     try {
-      const url: string = this.baseUrl + '/get_all_relations';
+      const url: string = this.baseUrl + '/get_all_roads';
       let response: GeoRoad[] = await firstValueFrom(this.http.get<any[]>(url));
       return response;
     } catch (error) {

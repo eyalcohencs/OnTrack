@@ -18,7 +18,7 @@ def add_point_to_graph(point_to_add, grouped_points, grouped_key_function):
     return point_to_add
 
 
-# todo - not used for now - was partially replaced with add_point_and_relation_to_exist_point_to_graph
+# not in use for right now - this was partially replaced with add_point_and_relation_to_exist_point_to_graph
 def add_edge_to_graph(source_point, target_point, data=None):
     data = data if data is not None else {'track_id': None}
     if not are_the_same_point_by_coordinates(source_point, target_point):
@@ -63,11 +63,10 @@ def get_all_points_in_the_graph():
     return graph_db.get_all_points_from_db()
 
 
-# TODO - consider changing the terminology to roads instead of relations
-@cache.cached(timeout=600, key_prefix='get_all_relations_in_the_graph')
-def get_all_relations_in_the_graph():
-    return graph_db.get_all_relations_from_db()
+@cache.cached(timeout=600, key_prefix='get_all_roads_in_the_graph')
+def get_all_roads_in_the_graph():
+    return graph_db.get_all_roads_from_db()
 
 
-def clear_cache_of_all_points_and_relations():
-    cache.delete_many('get_all_points_in_the_graph', 'get_all_relations_in_the_graph')
+def clear_cache_of_all_points_and_roads():
+    cache.delete_many('get_all_points_in_the_graph', 'get_all_roads_in_the_graph')

@@ -2,7 +2,7 @@ import re
 from datetime import timedelta
 from enum import Enum
 
-from flask import request, jsonify, make_response
+from flask import request, jsonify, make_response, current_app
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 import bcrypt
 
@@ -106,10 +106,7 @@ def login():
         return make_response({'name': 'LOGIN_FAILED', 'message': 'Invalid username or password'}, 403)
 
     # Create session token
-    access_token = create_access_token(identity=username, expires_delta=timedelta(days=1))
-
-    # Mark user as logged in
-    # login_user(user)  # todo - is it necessary?
+    access_token = create_access_token(identity=username, expires_delta=timedelta(days=int(current_app.config['SESSION_TOKEN_EXPIRATION_IN_DAYS'])))
 
     # Serialize data
     serialized_data = jsonify({'username': user.username, 'token': access_token, 'user': user.to_dict()})

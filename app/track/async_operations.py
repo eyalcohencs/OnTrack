@@ -38,11 +38,10 @@ def update_graph_db(app_context, current_user, load_tracks_from_bucket=True):
             for file_loader in valid_files_loaders:
                 logging.info(f'load {file_number}/{len(valid_files_loaders)}: {file_loader.path_to_file}')
                 add_track_to_graph(file_loader)
-                # TODO - add here to save in table which files/tracks were loaded according to track_id
                 file_number += 1
             end_time = time.time()
             elapsed_time = end_time - start_time
-            recipient = current_user.email  # todo - pass user data from the client
+            recipient = current_user.email
             send_mail(subject='Update graph was finished',
                       sender='ontrackguide@gmail.com',
                       recipients=[recipient],

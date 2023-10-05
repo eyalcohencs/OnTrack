@@ -5,7 +5,7 @@ from flask_jwt_extended import jwt_required
 
 from app.track import bp
 from app.track.async_operations import update_graph_db
-from app.track.graph_service import get_all_points_in_the_graph, get_all_relations_in_the_graph
+from app.track.graph_service import get_all_points_in_the_graph, get_all_roads_in_the_graph
 from app.track.logic import calculate_route, TrackLoadinSource
 from app.track.utils import jsonify_geo_points_list, jsonify_geo_roads_list
 from app.user.logic import get_current_user_details
@@ -19,9 +19,9 @@ def get_route():
     end_lat = request.args.get('end_lat')
     end_lng = request.args.get('end_lng')
 
-    points, relations = calculate_route(start_lng, start_lat, end_lng, end_lat)
+    points, roads = calculate_route(start_lng, start_lat, end_lng, end_lat)
     jsonified_points = jsonify_geo_points_list(points)
-    jsonified_roads = jsonify_geo_roads_list(relations)
+    jsonified_roads = jsonify_geo_roads_list(roads)
     result = {'points': jsonified_points,
               'roads': jsonified_roads}
     return result
@@ -34,14 +34,14 @@ def get_all_points():
     return jsonify_geo_points_list(all_points)
 
 
-@bp.route('/get_all_relations', methods=['GET'])
+@bp.route('/get_all_roads', methods=['GET'])
 @jwt_required()
-def get_all_relations():
+def get_all_roads():
     try:
-        all_relations = get_all_relations_in_the_graph()
-        return make_response(jsonify_geo_roads_list(all_relations), 200)
+        all_roads = get_all_roads_in_the_graph()
+        return make_response(jsonify_geo_roads_list(all_roads), 200)
     except Exception as e:
-        current_app.logger.error('EXCEPTION get_all_relations ' + str(e))
+        current_app.logger.error('EXCEPTION get_all_roads ' + str(e))
 
         return make_response(jsonify(e), 405)
 
