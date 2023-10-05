@@ -34,7 +34,7 @@ def create_app(config_class=Config):
     # Initialize Flask extensions
     db.init_app(app)
     migrate.init_app(app, db)
-    login_manager.init_app(app)  # TODO - do I need login manager
+    # login_manager.init_app(app)  # TODO - do I need login manager
     jwt.init_app(app)
     mail.init_app(app)
     cache.init_app(app)

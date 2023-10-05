@@ -13,7 +13,7 @@ from app.user.logic import get_current_user_details
 
 
 @bp.route('/get_route', methods=['GET'])
-@login_required
+# @login_required
 @jwt_required()
 def get_route():
     start_lat = request.args.get('start_lat')
@@ -30,7 +30,7 @@ def get_route():
 
 
 @bp.route('/get_all_points', methods=['GET'])
-@login_required
+# @login_required
 @jwt_required()
 def get_all_points():
     all_points = get_all_points_in_the_graph()
@@ -38,7 +38,7 @@ def get_all_points():
 
 
 @bp.route('/get_all_relations', methods=['GET'])
-@login_required
+# @login_required
 @jwt_required()
 def get_all_relations():
     try:

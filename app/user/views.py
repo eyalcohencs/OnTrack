@@ -8,7 +8,7 @@ from app.user.logic import is_current_user_is_system_user
 
 
 @bp.route('/get_all_users', methods=['GET'])
-@login_required
+# @login_required
 @jwt_required()
 def get_all_users():
     if is_current_user_is_system_user:

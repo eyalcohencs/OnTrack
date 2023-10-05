@@ -108,7 +108,7 @@ def login():
     access_token = create_access_token(identity=username, expires_delta=timedelta(days=1))
 
     # Mark user as logged in
-    login_user(user)  # todo - is it necessary?
+    # login_user(user)  # todo - is it necessary?
 
     # Serialize data
     serialized_data = jsonify({'username': user.username, 'token': access_token, 'user': user.to_dict()})
@@ -117,7 +117,7 @@ def login():
 
 
 @bp.route("/logout", methods=['POST'])
-@login_required
+# @login_required
 @jwt_required()
 def logout():
     logout_user()
@@ -133,7 +133,7 @@ def loader_request(client_request):
 
 
 @bp.route("/get_user_details", methods=['GET'])
-@login_required
+# @login_required
 @jwt_required()
 def get_user_details():
     user = get_current_user_details()
