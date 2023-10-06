@@ -3,7 +3,7 @@ from flask_cors import CORS
 import logging
 
 from app.config import Config
-from app.extensions import db, login_manager, jwt, migrate, cache, mail
+from app.extensions import db, jwt, migrate, cache, mail
 from app.main import bp as main_bp
 from app.authentication import bp as auth_bp
 from app.track import bp as track_bp
