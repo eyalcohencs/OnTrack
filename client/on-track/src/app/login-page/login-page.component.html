@@ -7,13 +7,13 @@
       <form (ngSubmit)="login()">
         <input type="username" name='username' placeholder="Username" [(ngModel)]="username" required>
         <input type="password" name='password' placeholder="Password" [(ngModel)]="password" required>
-        <div class= "login-failed-warning" *ngIf="loginFailedWarning">"Invalid Username or Password!"</div>
+        <div class= "login-failed-warning" *ngIf="loginFailedWarning">* Invalid username or password</div>
+        <p class="redirect-to-terms-of-use">By sign in and using this website, you agree to the following <a href="privacy-and-terms-of-use">terms and conditions</a></p>
         <button type="submit" [disabled]="!username || !password">Sign in</button>
-        <a href="privacy-and-terms-of-use" class="redirect-to-terms-of-use">By sign in and using this website, you agree to the following terms and conditions</a>
         <div class="or-sign"> OR </div>
         <a href='register' class="alternate-choice">Create a new account</a>
       </form>
-      <div class="forgot-password">
+      <div class="forgot-password" *ngIf="loginFailedWarning">
         <a href="mailto:ontrackguide@gmail.com?subject=Password was has been forgotten&body=Please help me reset my password, my username is: ">Forgot password? contact support</a>
       </div>
     </div>
