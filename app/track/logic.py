@@ -9,7 +9,7 @@ from app.track.utils import GeoPoint, convert_geo_point_list_to_geo_road_list, c
     SearchPointBorder
 
 from app.track.graph_service import add_point_to_graph, find_nearest_point, find_shortest_path, \
-    get_all_points_in_the_graph, add_point_and_relation_to_exist_point_to_graph
+    get_all_points_in_the_graph, add_point_and_relation_to_exist_point_in_graph
 
 
 class TrackLoadinSource(Enum):
@@ -33,7 +33,7 @@ def add_track_to_graph(file_loader):
         if not prev_point:
             new_point = add_point_to_graph(point_to_add, grouped_points, create_key_for_point_grouping)
         else:
-            new_point = add_point_and_relation_to_exist_point_to_graph(
+            new_point = add_point_and_relation_to_exist_point_in_graph(
                 existed_point=prev_point,
                 point_to_add=point_to_add,
                 data={'track_id': str(file_loader.track_id)},

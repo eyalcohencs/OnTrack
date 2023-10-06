@@ -4,12 +4,18 @@ from app.track.graph_logic import is_there_already_a_close_point_in_the_graph, d
     are_the_same_point_by_coordinates, add_point_to_group_of_points
 from app.track.utils import all_close_points_in_border, SearchPointBorder
 
-graph_db = Neo4jDB()
-
+""" 
+This service used as facade for managing the tracks data.
+It is not depend on a specific DB implementation, and it can easily be replaced later by more appropriate service
+"""
 # TODO - a good improvement is to break down the monolithic app to microservices and Track service should be one of them
+
+graph_db = Neo4jDB()
 
 
 def add_point_to_graph(point_to_add, grouped_points, grouped_key_function):
+    # Search for close point so no new points will be created near an existing point.
+    # Allows to keep less redundant points and concatenating different tracks together - good for generating new tracks
     collided_point = is_there_already_a_close_point_in_the_graph(point_to_add, grouped_points)
     if collided_point:
         point_to_add = collided_point
@@ -26,8 +32,10 @@ def add_edge_to_graph(source_point, target_point, data=None):
         graph_db.add_edge_to_db(source_point, target_point, data)
 
 
-def add_point_and_relation_to_exist_point_to_graph(existed_point, point_to_add, data=None, grouped_all_points=None, grouping_creation_key=None):
+def add_point_and_relation_to_exist_point_in_graph(existed_point, point_to_add, data=None, grouped_all_points=None, grouping_creation_key=None):
     data = data if data is not None else {'track_id': None}
+    # Search for close point so no new points will be created near an existing point.
+    # Allows to keep less redundant points and concatenating different tracks together - good for generating new tracks
     collided_point = is_there_already_a_close_point_in_the_graph(point_to_add, grouped_points=grouped_all_points)
     if collided_point:
         point_to_add = collided_point

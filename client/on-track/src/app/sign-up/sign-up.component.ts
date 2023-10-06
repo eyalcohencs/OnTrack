@@ -4,7 +4,9 @@ import { User } from '../services/user-enum';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-
+/**
+ * The component displays the user registration page.
+ */
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -40,6 +42,9 @@ export class SignUpComponent {
     password: null
   };
 
+  /**
+   * The method register the user according to the supplied information.
+   */
   register() {
     this.registerFailedWarning = false;
     this.setRegistrationWarningText(null);
@@ -55,7 +60,7 @@ export class SignUpComponent {
      }).unsubscribe();
   }
 
-  redirectToLoginPage() {
+  private redirectToLoginPage() {
     this.router.navigate(['/login']);
   }
 
@@ -85,7 +90,6 @@ export class SignUpComponent {
       default:
         this.registrationFailedWarningText = null;
     }
-
   }
 
 }

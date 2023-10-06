@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../services/user-enum';
-import { ApiService } from '../services/api-service/api-service.service';
 
+/**
+ * The component presents manager page for system users.
+ * It show different data of the system and a "playground".
+ */
 @Component({
   selector: 'app-manager-page',
   templateUrl: './manager-page.component.html',

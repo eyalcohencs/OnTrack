@@ -5,6 +5,10 @@ import { UserStateService } from './services/user-state-service/user-state.servi
 import { User, UserType } from './services/user-enum';
 import * as _ from 'lodash';
 
+
+/**
+ * Gaurd for any pages that need logged in users.
+ */
 export const authGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
@@ -21,6 +25,9 @@ export const authGuard: CanActivateFn = (
   }
 }
 
+/**
+ * Guard for login page, if user already logged in, it redirect to the main site page.
+ */
 export const loginGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
@@ -37,6 +44,9 @@ export const loginGuard: CanActivateFn = (
   }
 }
 
+/**
+ * Guard for the manager page, in order to let only system users to enter, otherwise it redirect to the main site page.
+ */
 export const managerGuard: CanActivateFn = async (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot

@@ -9,6 +9,11 @@ from app.track.utils import GeoPoint, GeoRoad
 
 
 class GraphDB(ABC):
+    """
+    Abstract class for different DBs.
+    Implementing the basic abstract methods by the concrete subclasses (like adding a point or relation to the graph)
+    inorder for the graph_service could act as facade, and replacing DB will be fast and easy.
+    """
     @abstractmethod
     def _initial_db_client(self):
         pass
@@ -26,14 +31,6 @@ class GraphDB(ABC):
         pass
 
     @abstractmethod
-    def get_point_from_db(self, point1):
-        pass
-
-    @abstractmethod
-    def get_edge_from_db(self, point1, point2):
-        pass
-
-    @abstractmethod
     def get_all_points_from_db(self):
         pass
 
@@ -47,7 +44,9 @@ class GraphDB(ABC):
 
 
 class Neo4jDB(GraphDB):
-
+    """
+    Graph DB - Neo4j.
+    """
     def _initial_db_client(self):
         dotenv.load_dotenv()
         uri = os.environ['NEO4J_URI']
@@ -94,12 +93,6 @@ class Neo4jDB(GraphDB):
 
                 node = result.single()[0]
                 return GeoPoint(node['longitude'], node['latitude'], node['altitude'], node['time'], node['uuid'])
-            
-    def get_point_from_db(self, point1):
-        pass
-
-    def get_edge_from_db(self, point1, point2):
-        pass
 
     def get_all_points_from_db(self):
         with self._initial_db_client() as client:
@@ -119,6 +112,7 @@ class Neo4jDB(GraphDB):
                 return converted_result
 
     def find_shortest_path(self, source_point, target_point):
+        """ Using Dikstra algorithm"""
         with self._initial_db_client() as client:
             with client.session() as session:
                 result = session.run(

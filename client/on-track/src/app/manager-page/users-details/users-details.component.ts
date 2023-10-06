@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../services/api-service/api-service.service';
-import { User } from '../services/user-enum';
+import { ApiService } from '../../services/api-service/api-service.service';
+import { User } from '../../services/user-enum';
 
+/**
+ * This component displays a table with all the users in the database.
+ * This being use in manager page.
+ */
 @Component({
   selector: 'app-users-details',
   templateUrl: './users-details.component.html',

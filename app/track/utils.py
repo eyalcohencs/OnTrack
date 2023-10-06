@@ -85,7 +85,7 @@ def get_file_extension(file_name):
 
 
 def create_key_for_point_grouping(element, attribute='latitude'):
-    """ function that is given for grouping points """
+    """ The given function for grouping points """
     return str(getattr(element, attribute))[0:5]
 
 
@@ -97,6 +97,8 @@ def create_range_of_keys_for_points_grouping(element, attribute='latitude', bord
 
 
 def all_close_points_in_border(source_point, grouped_points, attribute='latitude', border=SearchPointBorder.NEAR.value):
+    """ The function grouping points together in order for making "close point" search more efficient -
+    we don't really need to check all points in the graph. """
     grouping_keys = create_range_of_keys_for_points_grouping(source_point, attribute, border)
     close_points = list(chain.from_iterable(
         map(lambda key: grouped_points[key] if key in grouped_points else [], grouping_keys)))

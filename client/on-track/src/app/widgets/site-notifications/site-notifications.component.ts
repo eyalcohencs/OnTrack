@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { interval } from 'rxjs';
 import { ApiService } from 'src/app/services/api-service/api-service.service';
 
+/**
+ * This component show messages in the top of the site for different reasons, for example if the server is down.
+ */
 @Component({
   selector: 'app-site-notifications',
   templateUrl: './site-notifications.component.html',

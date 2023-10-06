@@ -2,7 +2,6 @@ import os
 from enum import Enum
 
 import openrouteservice
-from flask import current_app
 
 from app.track.utils import convert_coordinates_list_to_geo_point_list
 

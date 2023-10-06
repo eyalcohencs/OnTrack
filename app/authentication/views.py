@@ -29,9 +29,10 @@ class AuthenticationResponseCode(Enum):
 
 @bp.route('/register', methods=['POST'])
 def register():
+    """ View for user registration """
     data = request.get_json()
 
-    # Validate username
+    # Validate username and existence
     username = data["username"]
     try:
         existed_user = User.query.filter_by(username=username).first()
@@ -90,6 +91,10 @@ def register():
 
 @bp.route('/login', methods=['POST'])
 def login():
+    """
+    View for user login
+    * JWT is used for managing session tokens
+    """
     # Get user credentials
     data = request.get_json()
     username = data.get('username')
@@ -117,6 +122,9 @@ def login():
 @bp.route("/logout", methods=['POST'])
 @jwt_required()
 def logout():
+    """
+    View for handling logout and revoking session tokens
+    """
     jti = get_jwt()['jti']
     blacklist.add(jti)
     return make_response(jsonify({'is_logged_out': True}), 200)

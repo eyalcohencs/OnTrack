@@ -14,6 +14,14 @@ def send_mail(recipients, sender, subject, message):
 
 
 def update_graph_db(app_context, current_user, load_tracks_from_bucket=True):
+    """
+    The function loads tracks files from bucket or locally and updating the DB with all the coordinates (points) and
+    roads (relations). The function is called by separate thread, there for it needs the app context.
+    :param app_context: Flask app object context
+    :param current_user: The user who run the operation
+    :param load_tracks_from_bucket: True for loading files from bucket, False for locally
+    :return: Void, but send mail to the current_user at completion with some statistics.
+    """
     try:
         with app_context:
             start_time = time.time()

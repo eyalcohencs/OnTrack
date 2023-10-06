@@ -5,6 +5,10 @@ import { OsmMapComponent } from '../osm-map/osm-map.component';
 import { GeoPoint, GeoRoad, GeopointService } from '../services/geopoint-service/geopoint.service';
 import { LoadingSpinnerService } from '../services/loading-spinner-service/loading-spinner.service';
 
+/**
+ * This component displpays all the tracks and information we have in the database.
+ */
+
 @Component({
   selector: 'app-all-data-map',
   templateUrl: './all-data-map.component.html',
@@ -21,6 +25,7 @@ export class AllDataMapComponent {
 
 
   async loadAllTracks() {
+    /* The function adds to the map all the roads in the Graph DB*/
     try {
       this.loadingSpinnerService.show();
       const roads: GeoRoad[] = await this.apiService.getAllRoads();
@@ -39,6 +44,7 @@ export class AllDataMapComponent {
   }
 
   async loadAllPoints() {
+    /* The function adds to the map all the points in the Graph DB*/
     try {
       this.loadingSpinnerService.show();
       const points: GeoPoint[] = await this.apiService.getAllPoints();
@@ -49,8 +55,6 @@ export class AllDataMapComponent {
       this.loadingSpinnerService.hide();
       console.log(error);
     }
-
-
   }
 
   private deterministicHexColor(base_number: string): string {

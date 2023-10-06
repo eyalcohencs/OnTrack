@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication-service/authentication.service';
 
+/**
+ * This components present the user loging page.
+ */
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -27,14 +30,4 @@ export class LoginPageComponent {
       this.loginFailedWarning = true;
     }
   }
-
-  async logout() {
-    await this.authService.logout();
-    this.router.navigate(['/login'])
-  }
-
-  redirectToRegistration() {
-    this.router.navigate(['/register']);
-  }
-
 }

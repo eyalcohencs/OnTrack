@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+/**
+ * The component display "page not found" for invalid URLs.
+ */
 @Component({
   selector: 'app-page-not-found',
   templateUrl: './page-not-found.component.html',
@@ -9,6 +12,7 @@ import { Router } from '@angular/router';
 
 export class PageNotFoundComponent {
   constructor(private router: Router) {}
+  
   redirectToMain() {
     this.router.navigate(['/']);
   }

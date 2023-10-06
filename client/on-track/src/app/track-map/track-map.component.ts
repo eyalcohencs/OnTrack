@@ -7,7 +7,9 @@ import { GeoCalculatedRoute, GeopointService } from '../services/geopoint-servic
 import { LoadingSpinnerService } from '../services/loading-spinner-service/loading-spinner.service';
 import { MarkerTypeUrl } from '../services/osm-map-enum';
 
-
+/**
+ * The main component of the app, it represent the user building track page.
+ */
 @Component({
   selector: 'app-track-map',
   templateUrl: './track-map.component.html',
@@ -29,8 +31,6 @@ export class TrackMapComponent {
   targetLat: number;
   targetLng: number;
 
-  // trackColor: string = '#234522';
-  // trackColor: string = '#312249';
   trackColor: string = '#EC20F2';
 
   @ViewChild('osmMapComponent', { static: false }) osmMapComponent!: OsmMapComponent;

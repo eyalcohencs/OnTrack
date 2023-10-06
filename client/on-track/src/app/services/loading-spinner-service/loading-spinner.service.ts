@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+/**
+ * The service control the displaying of loading spinner widget and its state.
+ */
 @Injectable({
   providedIn: 'root'
 })

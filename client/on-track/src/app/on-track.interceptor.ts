@@ -9,6 +9,9 @@ import {
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 
+/**
+ * Http Interceptor for adding for each request the user authentication token.
+ */
 @Injectable()
 export class OnTrackInterceptor implements HttpInterceptor {
 

@@ -3,6 +3,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiService } from '../api-service/api-service.service';
 import { User } from '../user-enum';
 
+/**
+ * The service keep the state of the current user.
+ * It serve different component that consume the user details.
+ */
 @Injectable({
   providedIn: 'root'
 })

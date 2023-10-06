@@ -1,10 +1,6 @@
-import os
-
-import requests
 from flask import Flask
 from flask_cors import CORS
 import logging
-from apscheduler.schedulers.background import BackgroundScheduler
 
 from app.config import Config
 from app.extensions import db, login_manager, jwt, migrate, cache, mail

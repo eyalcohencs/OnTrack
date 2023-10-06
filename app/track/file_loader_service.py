@@ -11,13 +11,16 @@ from app.track.utils import get_file_extension, GeoPoint
 
 
 class TrackFileLoader(ABC):
+    """
+    Abstract class for loading tracks files. In this way we are using Strategy Design Pattern,
+    according to the file that is now loaded, we can choose the right strategy to handle and load the file.
+    """
     def __init__(self, path_to_file, s3_client, file_type, is_locale_file=True):
-        print(f'Start file loader creation: {path_to_file}')
-        self.file_type = file_type
+        self.file_type = file_type  # the file extension the file loader is handling
         self.path_to_file = path_to_file
         self._validate_file_type()
-        self.content = None
-        self.track_id = None
+        self.content = None  # holds the raw track points
+        self.track_id = None  # Used for mark the created roads
         self.s3_client = s3_client
         self.is_locale_file = is_locale_file
         self._set_content()
@@ -152,6 +155,7 @@ def get_s3_client():
 
 
 def create_file_loader(file_name, s3_client, is_locale_file):
+    """ In run time it choose to build the proper file loader """
     file_extension = get_file_extension(file_name)
 
     if file_extension == GPXTrackLoader.FILE_TYPE:

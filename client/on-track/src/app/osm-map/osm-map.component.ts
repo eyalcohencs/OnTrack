@@ -4,13 +4,21 @@ import { Map, map, tileLayer, Marker, Polyline, LatLngExpression, Icon, Layer, L
 import * as _ from "lodash";
 import { MarkerTypeUrl, OSMTilesTemplate } from '../services/osm-map-enum';
 
+/**
+ * The component presents a map with layers to the user.
+ */
+
 @Component({
   selector: 'app-osm-map',
   templateUrl: './osm-map.component.html',
   styleUrls: ['./osm-map.component.less']
 })
 export class OsmMapComponent implements OnInit, AfterViewInit {
-
+  /**
+   * input mapId - the id of the tag element that the map will inital on.
+   * input mapCenter - the coords for the center of the map.
+   * input zoom  - the level of intial zoom where the map is loaded.
+   */
   constructor(private elRef: ElementRef, private renderer: Renderer2) {}
   static readonly OPEN_STREET_MAP_TILES: string = OSMTilesTemplate.ISRAEL_HIKING_HEBREW;
   static readonly ISRAEL_CENTER: LatLngTuple = [ 32.6000, 35.0000 ];
@@ -36,6 +44,7 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
   }
 
   private initMap(): void {
+    // Creating the map
     this.map = map(this.mapId, {
       center: this.mapCenter,
       zoom: this.zoom
@@ -48,6 +57,7 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
 
     tiles.addTo(this.map);
 
+    // Add marker on user location
     navigator.geolocation.getCurrentPosition((position) => {
       const userMarker: Marker = this.addMarker([position.coords.latitude, position.coords.longitude], MarkerTypeUrl.USER, null, [41, 41])
       this.map.panTo(userMarker.getLatLng());
@@ -108,6 +118,9 @@ export class OsmMapComponent implements OnInit, AfterViewInit {
   }
 
   private createDivElement(elementId: string) {
+    /**
+     * Create div element for the initalization of the map.
+     */
     const newDiv = this.renderer.createElement('div');
     this.renderer.setProperty(newDiv, 'id', elementId);
     this.renderer.appendChild(this.elRef.nativeElement.querySelector('#osm-map'), newDiv);

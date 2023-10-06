@@ -3,6 +3,9 @@ import { Polyline } from 'leaflet';
 import { GeoPoint, GeopointService } from '../geopoint-service/geopoint.service';
 import { saveAs } from 'file-saver'
 
+/**
+ * Service for creating gpx file of the user track, and download ability.
+ */
 @Injectable({
   providedIn: 'root'
 })

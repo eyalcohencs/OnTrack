@@ -2,6 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Polyline } from 'leaflet';
 import { GpxCreatorService } from '../services/gpx-creator-service/gpx-creator.service';
 
+/**
+ * The component add a tool widget for creating route on map and save it to file.
+ */
 @Component({
   selector: 'app-track-creation',
   templateUrl: './track-creation.component.html',

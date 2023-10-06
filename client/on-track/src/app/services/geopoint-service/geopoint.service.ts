@@ -28,6 +28,10 @@ export interface GeoRoad {
   uuid: string;
 }
 
+/**
+ * Service for handling GeoPoint, which is the represenation for point in the system.
+ * It provides interfaces and utils methods.
+ */
 @Injectable({
   providedIn: 'root'
 })
