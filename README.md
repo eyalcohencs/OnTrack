@@ -86,7 +86,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Acknowledgments
 
-We would like to express our gratitude to the open-source community, which has provided invaluable tools and resources that made this project possible.
+I would like to express my gratitude to the open-source community, which has provided invaluable tools and resources that made this project possible.
 
 ---
 
