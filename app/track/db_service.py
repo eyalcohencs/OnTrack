@@ -98,7 +98,7 @@ class Neo4jDB(GraphDB):
         with self._initial_db_client() as client:
             with client.session() as session:
                 result = session.run("MATCH (n:GeoPoint) RETURN n")
-                converted_result = self._convert_neo4j_db_nodes_to_geo_point_list(result)
+                converted_result = self._convert_neo4j_db_nodes_to_geo_point_list(result) # TODO - expensive operation
                 return converted_result
 
     def get_all_roads_from_db(self):

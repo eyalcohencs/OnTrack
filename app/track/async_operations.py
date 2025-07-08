@@ -59,3 +59,7 @@ def update_graph_db(app_context, current_user, load_tracks_from_bucket=True):
             logging.info(f'Finish update graph process!, it took {elapsed_time / 60} min')
     except Exception as e:
         logging.error(f'update-graph: error - {e}')
+        send_mail(subject='Update graph was failed!',
+                      sender='ontrackguide@gmail.com',
+                      recipients=[recipient],
+                      message=f'Process finish: Operation was failed due to {e}')
